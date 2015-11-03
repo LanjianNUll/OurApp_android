@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/bg">
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="252dp"
+        android:textColor="#158"
+        android:gravity="center"
+        android:text="电脑产生四个互不相同的随机数，你来猜，猜完会提示你猜的结果XAYB、x代表你猜对的数字个数，y表示你猜对数字位置的个数，你有7次机会，来吧，试试你的智商，天才和蠢材们，Let&apos;s go!go!go!go1"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="258dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+         android:background="@drawable/button"
+        android:textColor="#f00"
+        android:text="返回" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="258dp"
+        android:layout_height="wrap_content"
+         android:background="@drawable/button"
+        android:layout_gravity="center"
+        android:textColor="#f00"
+        android:layout_marginTop="5dp"
+        android:text="游戏难度" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="0.09"
+        android:gravity="center"
+        android:text="适当游戏益脑，过度游戏伤身"
+        android:textColor="#555" />
+</LinearLayout>

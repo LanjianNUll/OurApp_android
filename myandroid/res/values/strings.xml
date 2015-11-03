@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">猜数字游戏</string>
+    <string name="title">action_settings</string>
+   	<string name="action_settings">setting</string>
+    <string name="alert">请输入你猜的数字</string>
+</resources>
