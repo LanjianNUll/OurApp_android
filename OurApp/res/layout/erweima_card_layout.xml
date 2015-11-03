@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+     <RelativeLayout android:id="@+id/user_detail_top"
+	        android:layout_width="match_parent"
+	        android:layout_height="59dp">
+	        <ImageView android:id="@+id/MyErweimaComeback"
+	             android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_comeback"/>
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:text="我的二维码"
+	            android:textSize="18sp" />
+	</RelativeLayout>
+     
+	<TextView
+	    android:id="@+id/Myerweima_username"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/user_detail_top"
+	    android:layout_centerHorizontal="true"
+	    android:paddingTop="10dp"
+	    android:text="风的背后是满怀" />
+	<ImageView
+	    android:id="@+id/userPic"
+	    android:layout_width="60dp"
+	    android:layout_height="60dp"
+	    android:layout_alignTop="@id/Myerweima_username"
+	    android:layout_toLeftOf="@+id/Myerweima_username"
+	    android:src="@drawable/basketbal_image1" />
+	<ImageView
+	    android:id="@+id/MyErweima_card_pic"
+	    android:layout_width="200dp"
+	    android:layout_height="200dp"
+	    android:layout_centerHorizontal="true"
+		android:layout_below="@id/userPic"
+	    android:src="@drawable/erweim_pic" />
+	<TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignLeft="@id/Myerweima_username"
+	    android:layout_below="@id/Myerweima_username"
+	    android:layout_marginTop="5dp"
+	    android:text="扫一扫二维码，加我好友"
+	    android:textColor="#8b8989"/>
+	
+
+     
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:gravity="center_vertical"
+  	android:layout_marginTop="5dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_weight="2"
+        android:background="#fff"
+        >      
+       <TextView 
+           android:id="@+id/sport_place_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="4dp"
+           android:text="宜春学院篮球场"
+           android:textColor="#000"
+           android:textSize="15sp"/>
+        <TextView 
+           android:id="@+id/values"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:layout_below="@id/sport_place_name"
+           android:layout_marginLeft="4dp"
+           android:text="暂无评分"
+           android:textColor="#120"
+           android:textSize="10sp"/>
+
+		<TextView
+		    android:id="@+id/place_position"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBaseline="@+id/values"
+		    android:layout_alignBottom="@+id/values"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="45dp"
+		    android:text="宜春学院"
+		    android:textColor="#120"
+		    android:textSize="10sp" />
+		
+		
+		 
+		 <TextView
+		     android:id="@+id/distance"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:layout_alignBottom="@+id/values"
+		     android:layout_alignParentRight="true"
+		     android:text="100m"
+		     android:textColor="#120"
+		     android:textSize="10sp" />
+		 
+    </RelativeLayout>
+    <!-- 华丽的分割线 -->
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#affafa"></LinearLayout>
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#fff">
+
+		<com.loopj.android.image.SmartImageView
+		    android:id="@+id/sport_place_image"
+		    android:layout_width="150dp"
+		    android:layout_height="match_parent"
+		    android:src="@drawable/basketbal_image1" />
+
+		<TextView
+		    android:id="@+id/content_text"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_alignParentRight="true"
+		    android:layout_alignParentTop="true"
+		    android:layout_toRightOf="@+id/sport_place_image"
+		    android:gravity="center_vertical"
+		    android:layout_weight="1"
+		    android:text="介绍交贷款方就dfdfdsfdsfdfdfdf地方第三方点" />
+    </RelativeLayout>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="#fff"></LinearLayout>
+    
+</LinearLayout>

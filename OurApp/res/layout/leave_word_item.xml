@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+	<LinearLayout android:layout_width="match_parent"
+	    android:layout_height="10dp">
+	</LinearLayout>
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+    	android:layout_height="match_parent">
+	     <TextView
+   		    android:id="@+id/leave_content"
+   		    android:layout_width="match_parent"
+   		    android:layout_height="wrap_content"
+   		    android:layout_marginLeft="58dp"
+   		    android:text="There is a good placeThere is a good placeThere is a good placeThere is a good placeThere is a good placeThere is a good place " />
+
+   		<TextView
+   		    android:id="@+id/leave_time"
+   		    android:layout_width="wrap_content"
+   		    android:layout_height="wrap_content"
+   		    android:layout_alignParentRight="true"
+   		    android:layout_below="@+id/leave_content"
+   		    android:layout_marginRight="10dp"
+   		    android:text="2015年7月2号"
+   		    android:textSize="12sp" />
+
+	      <TextView
+	          android:id="@+id/leave_user_name"
+	          android:layout_width="wrap_content"
+	          android:layout_height="wrap_content"
+	          android:layout_alignParentLeft="true"
+	          android:layout_alignParentTop="true"
+	          android:layout_marginLeft="14dp"
+	          android:text="Tom"
+	          android:textColor="#0C0C88" />
+	</RelativeLayout>
+</LinearLayout>

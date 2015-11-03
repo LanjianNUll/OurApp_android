@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout 
+        android:layout_height="59dp"
+        android:layout_width="match_parent">
+        <ImageView
+            android:id="@+id/come_back_mainpage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_home1"/>
+        <TextView
+            android:id="@+id/sub_sort_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="子分类"
+            android:textSize="18sp" />
+        
+        
+    </RelativeLayout>
+
+     <!-- 加载的动画布局 -->
+	    <RelativeLayout
+	        android:id="@+id/loading"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent">
+
+			    <TextView
+			        android:id="@+id/jiazai_text"
+			        android:layout_width="69dp"
+			        android:layout_height="wrap_content"
+			        android:layout_centerHorizontal="true"
+			        android:layout_centerVertical="true"
+			        android:text="加载中"/>
+			
+			    <ImageView
+			        android:id="@+id/jiazai_pic"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_above="@+id/jiazai_text"
+			        android:layout_centerHorizontal="true"
+			        android:src="@drawable/jiazai00" />
+
+	 </RelativeLayout>
+    <!-- 网络异常的布局 -->
+	    <RelativeLayout
+	        android:id="@+id/errorpage"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:visibility="gone">
+
+			    <TextView
+			        android:id="@+id/jiazai_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerHorizontal="true"
+			        android:layout_centerVertical="true"
+			        android:text="网络异常，加载失败"/>
+
+	 </RelativeLayout>
+    <ListView
+        android:layout_below="@id/loading"
+        android:id="@+id/sub_sort_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="56dp" >
+    </ListView>
+
+</RelativeLayout>

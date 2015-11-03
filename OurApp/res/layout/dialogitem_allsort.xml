@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog_show"
+    android:orientation="vertical"
+    android:background="#fff" >
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+		    <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:layout_margin="15dp"
+				android:layout_gravity="center"
+		        android:orientation="horizontal"> 
+			    <TextView 
+			        android:id="@+id/all_sort_basktball_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="篮球"/>
+			     <TextView android:id="@+id/all_sort_running_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			       	android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="跑步"/>
+			     <TextView android:id="@+id/all_sort_nettennis_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			       	android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="羽毛球"/>
+		    </LinearLayout>
+		<!-- 分割线 -->
+		    <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="match_parent"
+		        android:background="#faf2f3"></LinearLayout>
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:layout_margin="15dp"
+				android:layout_gravity="center"
+		        android:orientation="horizontal">    
+			    <TextView android:id="@+id/all_sort_football_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="足球"/>
+			     <TextView android:id="@+id/all_sort_swim_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			       	android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="游泳"/>
+			     <TextView android:id="@+id/all_sort_gym_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			       	android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="健身房"/>
+		    </LinearLayout>
+		    <!-- 分割线 -->
+		    <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="match_parent"
+		        android:background="#fff"></LinearLayout>
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:layout_margin="15dp"
+				android:layout_gravity="center"
+		        android:orientation="horizontal">    
+			    <TextView android:id="@+id/all_sort_tableball_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="乒乓球"/>
+			     <TextView android:id="@+id/all_sort_part_relax_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			       	android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="公园休闲"/>
+			     <TextView android:id="@+id/all_sort_volleyball_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			       	android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="排球"/>
+		    </LinearLayout>
+	    	 <!-- 分割线 -->
+		    <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="match_parent"
+		        android:background="#fff"></LinearLayout>
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="30dp"
+		        android:layout_margin="15dp"
+				android:layout_gravity="center"
+		        android:orientation="horizontal">    
+			    <TextView android:id="@+id/all_sort_climb_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="爬山"/>
+			     <TextView android:id="@+id/all_sort_part_ride_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			       	android:gravity="center"
+			        android:layout_weight="1"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="骑行"/>
+			     <TextView android:id="@+id/all_sort_other_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:gravity="center"
+			       	android:layout_weight="1"
+			        android:textSize="20sp"
+			       	android:background="#fff"
+			        android:textColor="#000"
+			        android:text="其他"/>
+		    </LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

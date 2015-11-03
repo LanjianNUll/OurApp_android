@@ -1,0 +1,221 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+	<LinearLayout 
+	    android:id="@+id/main_activity_top_lin_layout"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:background="#fff" 
+	    android:layout_width="match_parent"
+	    android:layout_height="59dp"
+	    android:gravity="center_vertical"
+	    android:orientation="horizontal">
+	    <TextView
+	        android:id="@+id/main_activity_top_citytext"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:gravity="center"
+	            android:textSize="19dp"
+	            android:textColor="#ff9900"
+	            android:text="城市" />
+		<AutoCompleteTextView   
+		        android:id="@+id/main_activity_top_search_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="43dp"
+		        android:layout_weight="3"
+		        android:layout_marginTop="2dip"
+		        android:background="#fafafa"
+		      	android:focusable="false"
+		        android:drawableLeft="@drawable/actionbar_search_icon"
+		        android:hint="请输入城市"
+		        android:singleLine="true"
+		        android:textSize="15.0dip" />
+		<ImageView 
+		    android:id="@+id/main_activity_to_search_img"
+		    android:layout_width="30dp"
+	            android:layout_height="30dp"
+	            android:src="@drawable/actionbar_more_icon"
+	            android:layout_weight="1"/>
+	</LinearLayout>
+		
+	<RelativeLayout 
+	    android:id="@+id/say_hello"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/main_activity_top_lin_layout">
+
+		<TextView
+		    android:id="@+id/main_say_hello"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerHorizontal="true"
+		    android:layout_centerVertical="true"
+		    android:background="#fff"
+		    android:text="在这里总能找到你想要的"
+		    android:textSize="14sp" />
+ 
+	</RelativeLayout>	
+	<!--在这里设置主页的布局  -->  
+	<ScrollView
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+			android:layout_below="@id/say_hello">
+ 	 <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff" >
+            
+ 	     
+ 	     <RelativeLayout 
+ 	         android:id="@+id/body_re1"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp">
+
+ 	         <ImageView
+ 	             android:id="@+id/basketball_imgae"
+ 	             android:layout_width="wrap_content"
+ 	             android:layout_height="wrap_content"
+ 	             android:layout_alignParentLeft="true"
+ 	             android:layout_centerVertical="true"
+ 	              android:layout_marginLeft="20dp"
+ 	             android:src="@drawable/basketbal_image1" />
+
+ 	         <ImageView
+ 	             android:id="@+id/running_iamge"
+ 	             android:layout_width="wrap_content"
+ 	             android:layout_height="wrap_content"
+ 	             android:layout_alignBottom="@+id/basketball_imgae"
+ 	             android:layout_alignParentRight="true"
+ 	             android:layout_marginRight="20dp"
+ 	             android:layout_weight="0.81"
+ 	             android:src="@drawable/runing1" />
+ 	         
+ 	      </RelativeLayout>
+ 	          
+ 	          
+ 	     <RelativeLayout 
+ 	         android:id="@+id/body_re2"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp">   
+ 	        <ImageView
+ 	            android:id="@+id/badminto_iamge"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+	            android:layout_centerVertical="true"
+	            android:layout_marginLeft="20dp"
+		        android:src="@drawable/badmito1" />
+
+			<ImageView
+			    android:id="@+id/football_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginRight="20dp"
+			    android:src="@drawable/football1" />
+			
+		</RelativeLayout>
+			
+ 	     <RelativeLayout 
+ 	         android:id="@+id/body_re3"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp"> 
+			<ImageView
+			    android:id="@+id/swimming_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="20dp"
+			    android:src="@drawable/swiming1" />
+
+			<ImageView
+			    android:id="@+id/gym_imgae"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginRight="20dp"
+			    android:src="@drawable/gym1" />
+		</RelativeLayout>
+			
+ 	        
+ 	    <RelativeLayout 
+ 	         android:id="@+id/body_re4"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp">
+			<ImageView
+			    android:id="@+id/table_tennis_imgae"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="20dp"
+			    android:src="@drawable/table_tennis1" />
+
+			
+			<ImageView
+			    android:id="@+id/park_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginRight="2dp"
+			    android:src="@drawable/part1"/>
+		</RelativeLayout>
+			
+ 	         
+ 	     <RelativeLayout 
+ 	         android:id="@+id/body_re5"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp">
+			<ImageView
+			    android:id="@+id/volleyball_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="20dp"
+			    android:src="@drawable/volleyball1"/>
+
+			<ImageView
+			    android:id="@+id/climb_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			   android:layout_alignParentRight="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginRight="20dp"
+			    android:src="@drawable/climb1"/>
+
+		</RelativeLayout>
+			
+ 	    <RelativeLayout 
+ 	         android:id="@+id/body_re6"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="130dp">
+			<ImageView
+			    android:id="@+id/rideing_iamge"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentLeft="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="20dp"
+			    android:src="@drawable/riding1"/>
+		
+			<ImageView
+			    android:id="@+id/other_imgae"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginRight="20dp"
+			    android:src="@drawable/other1"/>
+		</RelativeLayout>	     			
+		</LinearLayout>
+	</ScrollView> 
+</RelativeLayout>

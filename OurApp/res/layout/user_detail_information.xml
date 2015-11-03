@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" >
+	    <RelativeLayout android:id="@+id/user_detail_top"
+	        android:layout_width="match_parent"
+	        android:layout_height="59dp">
+	        <ImageView android:id="@+id/userDetailComeback"
+	             android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_comeback"/>
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:text="账号详情"
+	            android:textSize="18sp" />
+	    </RelativeLayout>
+	    
+	    <RelativeLayout android:id="@+id/ff1"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+	        <TextView android:id="@+id/username_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="35dp"
+	            android:textSize="15sp"
+	            android:text="用户名"/>
+	        <TextView android:id="@+id/userDetailName"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="130dp"
+	            android:textSize="15sp"
+	            android:text=""/>
+	    </RelativeLayout>
+	    <RelativeLayout android:id="@+id/ff2"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+	        <TextView android:id="@+id/username_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="35dp"
+	            android:textSize="15sp"
+	            android:text="用户状态"/>
+	        <TextView android:id="@+id/userDetailState"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="130dp"
+	            android:textSize="15sp"
+	            android:text=""/>
+	    </RelativeLayout>	    
+	    <RelativeLayout android:id="@+id/ff1"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+	        <TextView android:id="@+id/username_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="35dp"
+	            android:textSize="15sp"
+	            android:text="性别"/>
+	        <TextView android:id="@+id/userDetailSex"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="130dp"
+	            android:textSize="15sp"
+	            android:text=""/>
+	    </RelativeLayout>
+	    <RelativeLayout android:id="@+id/ff1"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+	        <TextView android:id="@+id/username_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="35dp"
+	            android:textSize="15sp"
+	            android:text="最近登录地"/>
+	        <TextView android:id="@+id/userDetailNearLocation"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="130dp"
+	            android:textSize="15sp"
+	            android:text=""/>
+	    </RelativeLayout>
+	    <LinearLayout android:layout_width="match_parent"
+	        android:layout_height="1dp"
+	        android:background="#554553">
+	        
+	    </LinearLayout>
+	    <RelativeLayout android:id="@+id/ff1"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+
+	        <TextView
+	            android:id="@+id/username_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:text="留言板"
+	            android:textSize="18sp" />
+	    </RelativeLayout>	
+	    
+	      
+	    <LinearLayout
+	        android:id="@+id/loading"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical"
+	        android:gravity="center">
+	        <ImageView android:id="@+id/jiazai"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/animloading"/>
+	        <TextView android:id="@+id/errorpage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textColor="#ff4040"
+	            android:visibility="gone"
+	            android:text="网络异常，请求失败"/>
+	    </LinearLayout>
+	    <ListView android:id="@+id/userDetailListView" 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent">
+	    </ListView>	
+	</LinearLayout>
+</ScrollView>

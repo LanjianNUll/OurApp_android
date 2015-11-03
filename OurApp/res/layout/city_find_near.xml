@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout 
+	    android:id="@+id/cityfindnear_activity_top_lin_layout"
+	    android:paddingLeft="5dp"
+	    android:paddingRight="5dp"
+	    android:background="#fff" 
+	    android:layout_width="match_parent"
+	    android:layout_height="59dp"
+	    android:gravity="center_vertical"
+	    android:orientation="horizontal">
+	    <ImageView
+	        android:id="@+id/cityfindnear_activity_top_image"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:src="@drawable/ic_comeback" />
+	    <com.example.viewself.ClearEditText
+		        android:id="@+id/cityfindnear_activity_top_search_text"
+		        android:layout_width="wrap_content"
+		        android:layout_height="43dp"
+		        android:layout_weight="3"
+		        android:layout_marginTop="2dip"
+		        android:background="#fafafa"
+		        android:drawableLeft="@drawable/actionbar_search_icon"
+		      	android:focusable="true"
+		        android:hint="请输入城市"
+		        android:singleLine="true"
+		        android:textSize="15.0dip" />
+
+	</LinearLayout>	
+	
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/cityfindnear_activity_top_lin_layout" >
+
+        <ListView
+            android:id="@+id/country_lvcountry"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:divider="@null" />
+
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="50.0dip"
+            android:layout_height="50.0dip"
+            android:layout_gravity="center"
+            android:background="#fff"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="30.0dip"
+            android:visibility="invisible" />
+
+        <com.example.viewself.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="30.0dip"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right|center" />
+    </FrameLayout>  	
+</RelativeLayout>

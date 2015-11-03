@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        
+    <RelativeLayout android:id="@+id/user_detail_top"
+	        android:layout_width="match_parent"
+	        android:layout_height="59dp">
+	        <ImageView android:id="@+id/AddfriendComeback"
+	             android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:src="@drawable/ic_comeback"/>
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerHorizontal="true"
+	            android:layout_centerVertical="true"
+	            android:text="加好友"
+	            android:textSize="18sp" />
+	</RelativeLayout> 
+	<LinearLayout android:layout_width="match_parent"
+	    android:layout_height="1dp"
+	    android:layout_below="@id/user_detail_top"
+	    android:background="#cfcfcf"></LinearLayout>
+	<LinearLayout android:id="@+id/showFailInf"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center">
+	    <TextView android:id="@+id/failScanText" 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textSize="18sp"
+	        android:textColor="#ee2c2c"
+	        android:text="扫描失败"/>
+	</LinearLayout>
+	
+	<RelativeLayout 
+	    android:id="@+id/showSucesssInf"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/user_detail_top">
+			<ImageView
+		        android:id="@+id/addFriendPic"
+		        android:layout_width="60dp"
+		        android:layout_height="60dp"
+		        android:layout_marginLeft="50dp"
+		        android:src="@drawable/basketbal_image1" />
+			<TextView
+			     android:id="@+id/Addfriendsname"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:layout_alignBottom="@id/addFriendPic"
+			     android:layout_centerHorizontal="true"
+			     android:layout_marginBottom="15dp"
+			     android:text="老掉的皮革"
+			     android:textSize="18sp" /> 
+			
+			<TextView android:id="@+id/statetip"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="25dp"
+			    android:padding="8dp"
+			    android:layout_below="@id/addFriendPic"
+			    android:text="最近的状态:"/>
+			
+			<TextView android:id="@+id/AddFirendState"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="125dp"
+			    android:padding="8dp"
+			    android:layout_below="@id/addFriendPic"
+			    android:text="活跃"/>
+			
+			<TextView android:id="@+id/sextip"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="25dp"
+			    android:layout_below="@id/statetip"
+			    android:padding="8dp"
+			    android:text="性别:"/>
+			
+			<TextView android:id="@+id/AddFriendSex"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="125dp"
+			    android:layout_below="@id/statetip"
+			    android:padding="8dp"
+			    android:text="男"/>
+			
+			<TextView android:id="@+id/sigintip"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="25dp"
+			    android:layout_below="@id/sextip"
+			    android:padding="8dp"
+			    android:text="个性签名:"/>
+			
+			<TextView android:id="@+id/AddFriendSign"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="125dp"
+			    android:layout_below="@id/sextip"
+			    android:padding="8dp"
+			    android:singleLine="true"
+			    android:text="我就是我U币lksjlkdfjklsdf是否是电风扇带"/>
+			
+			<TextView android:id="@+id/locationtip"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="25dp"
+			    android:layout_below="@id/sigintip"
+			    android:padding="8dp"
+			    android:text="最近登录地:"/>
+			<TextView android:id="@+id/AddFriendLocation"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_marginLeft="125dp"
+			    android:layout_below="@id/sigintip"
+			    android:padding="8dp"
+			    android:text="宜春"/>
+		
+			<Button android:id="@+id/AddFriendBtn"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentBottom="true"
+			    android:layout_centerHorizontal="true"
+			    android:layout_marginBottom="38dp"
+			    android:background="@drawable/add_friend_boder"
+			    android:padding="12dp"
+			    android:text="加好友"
+			    android:textSize="23sp" />
+	</RelativeLayout>
+</RelativeLayout>

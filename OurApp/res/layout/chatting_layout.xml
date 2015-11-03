@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:id="@+id/chatting_top"
+        android:layout_width="match_parent"
+        android:layout_height="59dp" >
+        <TextView
+            android:id="@+id/chatting_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="小伙子"
+            android:textSize="22sp" />
+        <ImageView
+            android:id="@+id/chatting_top_comeback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_comeback" />
+         <LinearLayout android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_below="@id/chatting_top_comeback"></LinearLayout>
+	</RelativeLayout>
+	
+   
+    
+    
+    <RelativeLayout
+        android:id="@+id/chattingMsgSentRe"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:background="#000" >
+
+        <Button
+            android:id="@+id/chatting_send"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="#fff"
+            android:onClick="sendMessage"
+            android:text="发送" />
+
+        <EditText
+            android:id="@+id/chattingEdit_msg"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/chatting_send"
+            android:background="#fff"
+            android:textSize="18sp"/>
+    </RelativeLayout>
+     <ListView
+        android:id="@+id/chatting_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/chatting_top"
+        android:cacheColorHint="#0000"
+        android:layout_above="@id/chattingMsgSentRe"
+        android:background="#fff"
+        android:divider="@null"
+        android:dividerHeight="5dp"
+        android:scrollbarStyle="outsideOverlay" >
+    </ListView> 
+    
+</RelativeLayout>

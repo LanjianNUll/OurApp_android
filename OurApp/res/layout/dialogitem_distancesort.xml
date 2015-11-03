@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog_show"
+    android:orientation="vertical"
+    android:background="#fff" >
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+		    <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_margin="15dp"
+				android:gravity="center"
+		        android:orientation="vertical"> 
+			    <TextView 
+			        android:id="@+id/distance_sort_allcity_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="45dp"
+			        android:gravity="center"
+			        android:textSize="18sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="全   城"/>
+			    
+			    <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="100dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/distance_sort_500m_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="45dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="500m"/>
+	
+			      <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="100dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/distance_sort_3Km_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="45dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="3Km"/>
+			     
+			   <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="100dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/distance_sort_5Km_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="45dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="5Km"/>
+			    
+			      <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="100dp"
+		        android:background="#000">
+		    </LinearLayout>
+		    
+		    
+		    </LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

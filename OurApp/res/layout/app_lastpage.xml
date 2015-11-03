@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff" >
+     <RelativeLayout android:id="@+id/last_page_top"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:orientation="vertical"
+        android:background="#fff"
+        android:gravity="center_vertical" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+             android:layout_centerVertical="true"
+             android:gravity="center_horizontal|center_vertical"
+             android:text="我	的"
+             android:textSize="18sp" />   
+             
+         <Button android:id="@+id/go_to_login"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="去登录"
+             android:layout_alignParentRight="true"
+             android:layout_margin="10dp"
+             android:visibility="invisible"
+             android:background="@drawable/border"/>
+	</RelativeLayout>
+	<!--华丽的分割线  -->
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000">   
+        </LinearLayout>
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+        <RelativeLayout
+            android:id="@+id/my_user"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="5dp">
+
+         <ImageView
+             android:id="@+id/my_user_pic"
+             android:layout_width="60dp"
+             android:layout_height="60dp"
+             android:src="@drawable/basketball" />
+
+          <TextView
+              android:id="@+id/my_user_sign"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignLeft="@+id/my_user_name"
+              android:layout_alignBottom="@id/my_user_pic"
+              android:layout_toRightOf="@id/my_user_pic"
+              android:layout_centerVertical="true"
+              android:paddingBottom="5dp"
+              android:text="这家伙很懒，什么都没留下" />
+          <TextView
+              android:id="@+id/my_user_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_above="@+id/my_user_sign"
+              android:layout_alignTop="@id/my_user_pic"
+              android:padding="8dp"
+              android:layout_toRightOf="@+id/my_user_pic"
+              android:text="未登录" />
+        </RelativeLayout>
+  		
+        
+        <RelativeLayout 
+            android:id="@+id/my_friend"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_below="@id/my_user"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+            <TextView 
+ 				android:layout_width="wrap_content"
+              	android:layout_height="wrap_content"
+              	android:layout_centerVertical="true"
+              	android:layout_margin="5dp"
+              	android:textSize="16sp"
+              	android:text="我的好友"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/myfriend_pic" />
+
+        </RelativeLayout>
+           
+        <RelativeLayout 
+            android:id="@+id/my_setting"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_below="@id/my_friend"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp">
+            <TextView 
+ 				android:layout_width="wrap_content"
+              	android:layout_height="wrap_content"
+              	android:layout_centerVertical="true"
+              	android:layout_margin="5dp"
+              	android:textSize="16sp"
+              	android:text="设置"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/setting" />
+        </RelativeLayout>
+        <RelativeLayout 
+            android:id="@+id/myerweima_card"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_below="@id/my_setting"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp">
+            <TextView 
+ 				android:layout_width="wrap_content"
+              	android:layout_height="wrap_content"
+              	android:layout_centerVertical="true"
+              	android:layout_margin="5dp"
+              	android:textSize="16sp"
+              	android:text="二维码名片"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/erweim_pic" />
+        </RelativeLayout>
+       
+        <RelativeLayout 
+            android:id="@+id/scan_addFriend"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:layout_below="@id/myerweima_card"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp">
+            <TextView 
+ 				android:layout_width="wrap_content"
+              	android:layout_height="wrap_content"
+              	android:layout_centerVertical="true"
+              	android:layout_margin="5dp"
+              	android:textSize="16sp"
+              	android:text="扫一扫"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/erweim_pic" />
+        </RelativeLayout>
+        
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff" >
+    <LinearLayout android:id="@+id/second_page_top"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/comeback_mainpage_from_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/logo"/>
+        <TextView  
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textSize="18sp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="附近"/>
+        <ImageView
+            android:id="@+id/search_nearby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/actionbar_search_icon"/>   
+        
+    </LinearLayout>
+    <!--华丽的分割线  -->
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000">   
+        </LinearLayout>
+    
+    
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="35dp"
+	        android:background="#fff"
+	        android:orientation="horizontal">
+	        
+	        <LinearLayout 
+	            android:id="@+id/all_sort"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1">
+		        <TextView 
+		            android:id="@+id/all_sort_text"
+		            android:layout_width="match_parent"
+		      	  	android:layout_height="match_parent"
+		      	  	android:layout_weight="3"
+		      	  	android:textSize="12sp"
+		            android:gravity="center_horizontal|center_vertical"
+		      	  	android:text="所有分类"/>
+		        <ImageView 
+		           android:id="@+id/all_sort_image"
+		            android:layout_height="wrap_content"
+		            android:layout_width="30dp"
+		            android:layout_weight="1"
+		            android:src="@drawable/shouqi"/>
+	        </LinearLayout>
+	        <LinearLayout
+	            android:id="@+id/distance_sort"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1">
+		        <TextView
+		            android:id="@+id/distance_sort_text"
+		            android:layout_width="match_parent"
+		      	  	android:layout_height="match_parent"
+		      	  	android:textSize="12sp"
+		      	  	android:layout_weight="2"
+		            android:gravity="center_horizontal|center_vertical"
+		      	  	android:text="距离优先"/>
+		        <ImageView 
+		            android:id="@+id/distance_sort_iamge"
+		            android:layout_width="30dp"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:src="@drawable/shouqi"/>
+		   	</LinearLayout>
+	         <LinearLayout 
+	            android:id="@+id/people_like_sort"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1">
+		        <TextView
+		            android:id="@+id/people_like_sort_text"
+		            android:layout_width="match_parent"
+		      	  	android:layout_height="match_parent"
+		      	  	android:textSize="12sp"
+		      	  	android:layout_weight="2"
+		            android:gravity="center_horizontal|center_vertical"
+		      	  	android:text="运动风"/>
+		       <ImageView
+		          	android:id="@+id/people_like_sort_image"
+		          	android:layout_weight="1"
+		            android:layout_width="30dp"
+		            android:layout_height="wrap_content"
+		            android:src="@drawable/shouqi"/>        
+	    	</LinearLayout>      
+    </LinearLayout>
+    
+	    <!-- 加载的动画布局 -->
+	    <RelativeLayout
+	        android:id="@+id/loading"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent">
+			    <TextView
+			        android:id="@+id/jiazai_text"
+			        android:layout_width="69dp"
+			        android:layout_height="wrap_content"
+			        android:layout_centerHorizontal="true"
+			        android:layout_centerVertical="true"
+			        android:text="加载中"/>
+			
+			    <ImageView
+			        android:id="@+id/jiazai_pic"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_above="@+id/jiazai_text"
+			        android:layout_centerHorizontal="true"
+			        android:src="@drawable/jiazai00" />
+
+	 </RelativeLayout>
+	 
+	     <!-- 网络异常的界面 -->
+	    <RelativeLayout
+	        android:id="@+id/errorpage"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:visibility="gone">
+			    <TextView
+			        android:id="@+id/jiazai_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerHorizontal="true"
+			        android:layout_centerVertical="true"
+			        android:text="网络异常,加载失败"/>
+	 </RelativeLayout>
+	    
+	    
+	    
+    <ListView 
+        android:id="@+id/show_the_sort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    </ListView>
+    
+</LinearLayout>

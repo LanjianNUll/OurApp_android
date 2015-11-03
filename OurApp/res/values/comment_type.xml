@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="comment_type_array">  
+        <item>挑战书</item>  
+        <item>发现</item>          
+        <item>邀请函</item>  
+        <item>求人带</item> 
+    </string-array>
+</resources>

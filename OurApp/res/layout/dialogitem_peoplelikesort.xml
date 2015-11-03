@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog_show"
+    android:orientation="vertical"
+    android:background="#fff" >
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical">
+		    <LinearLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_margin="15dp"
+				android:gravity="center"
+		        android:orientation="vertical"> 
+			    <TextView 
+			        android:id="@+id/peoplelike_sort_hardsport_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="50dp"
+			        android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="紧张激烈"/>
+			    
+			    <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="200dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/peoplelike_sort_quitesport_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="50dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="安静闲时"/>
+	
+			      <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="200dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/peoplelike_sort_youngsport_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="50dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="年轻专属"/>
+			     
+			   <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="200dp"
+		        android:background="#000">
+		      </LinearLayout>
+		      
+			     <TextView android:id="@+id/peoplelike_sort_build_bodysport_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="50dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="强身健体"/>
+			    
+			      <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="200dp"
+		        android:background="#000">
+		    </LinearLayout>
+		    
+		  	  <TextView android:id="@+id/peoplelike_besidesort_sport_text"
+			        android:layout_width="wrap_content"
+			        android:layout_height="50dp"
+			       	android:gravity="center"
+			        android:textSize="20sp"
+			        android:background="#fff"
+			        android:textColor="#000"
+			        android:text="野外探索"/>
+			    
+			      <!-- 分割线 -->
+		  	  <LinearLayout 
+		        android:layout_height="1dp"
+		        android:layout_width="200dp"
+		        android:background="#000">
+		    </LinearLayout>
+		    
+		    
+		    </LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

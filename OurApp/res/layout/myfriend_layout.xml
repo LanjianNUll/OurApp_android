@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+     <RelativeLayout
+        android:id="@+id/myfriend_sport_top"
+        android:layout_width="match_parent"
+        android:layout_height="59dp" >
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="好友列表"
+            android:textSize="22sp" />
+        <ImageView
+            android:id="@+id/myfriend_top_comeback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_comeback" />
+
+        <TextView
+            android:id="@+id/edit_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:text="编 辑"
+            android:textSize="15sp"
+            android:background="@drawable/dianping"/>
+    </RelativeLayout>
+	<ListView android:id="@+id/myfriend_listView"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@id/myfriend_sport_top">
+	</ListView>
+	
+	<!-- 网络异常 -->
+
+  	 <RelativeLayout
+  	     android:id="@+id/mferrorpage"
+  	     android:layout_width="match_parent"
+  	     android:layout_height="match_parent"
+  	     android:layout_below="@id/myfriend_sport_top"
+  	     android:gravity="center">
+        <TextView
+	        android:id="@+id/mfjiazai_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone"
+	        android:textColor="#ee2c2c"
+	        android:text="网络异常，加载失败"/>
+   </RelativeLayout>
+	
+  	 <RelativeLayout
+  	     android:id="@+id/mfloading"
+  	     android:layout_width="match_parent"
+  	     android:layout_height="match_parent"
+  	     android:layout_below="@id/myfriend_sport_top"
+  	     android:gravity="center">
+	 <ImageView android:id="@+id/mfjiazai_image"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:background="@drawable/animloading"/>
+	
+	</RelativeLayout>
+		
+</RelativeLayout>

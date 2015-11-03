@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+      
+ 	<EditText
+        android:id="@+id/edit_find_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_margin="20dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:gravity="top"
+        android:background="#fffaf0"
+        android:hint="说点什么呢"/>
+ 	
+ 	 <Button android:id="@+id/cancle_sent_find_comment"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="38dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/edit_find_comment_content"
+        android:background="@drawable/border"
+        android:text="取	消"/>
+ 	 
+    <Button android:id="@+id/confirm_sent_find_comment"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/edit_find_comment_content"
+        android:background="@drawable/border"
+        android:text="发	送"/>
+</RelativeLayout>

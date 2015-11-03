@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8">
+	<ScrollView
+	    android:id="@+id/scrollview"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:fillViewport="true">  
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:orientation="vertical"
+	        android:background="#fff" >
+	    <RelativeLayout
+	        android:id="@+id/find_detail__top"
+        android:layout_width="match_parent"
+        android:layout_height="59dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="发现正文"
+            android:textSize="20sp" /> 
+        <ImageView
+            android:id="@+id/find_detail_top_comeback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_comeback" />
+    </RelativeLayout>
+
+	    
+	  <!-- 网络异常 -->
+
+  	 <RelativeLayout
+  	     android:id="@+id/errorpage"
+  	     android:layout_width="match_parent"
+  	     android:layout_height="404dp"
+  	     android:gravity="center"
+  	     android:visibility="gone">
+
+        <TextView
+	        android:id="@+id/jiazai_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="网络异常，加载失败"/>
+   </RelativeLayout>
+	    
+	    
+ 	<RelativeLayout
+           android:id="@+id/user_name_about"
+           android:layout_width="match_parent"
+           android:layout_height="35dp" >
+			<ImageView 
+			    android:id="@+id/find_detail_user_define_pic"
+			    android:layout_width="20dp"
+			    android:layout_height="20dp"
+			    android:layout_centerVertical="true"
+			    android:layout_marginLeft="5dp"
+			    android:src="@drawable/ic_launcher1"/>
+
+           <TextView
+               android:id="@+id/find_detail_user_state"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="8dp"
+               android:layout_centerVertical="true"
+               android:text="我是用户的最近状态"
+               android:textSize="10sp" />
+
+           <TextView
+               android:id="@+id/find_detail_user_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_marginLeft="18dp"
+               android:layout_toRightOf="@+id/find_detail_user_define_pic"
+               android:text="我是用户名"
+               android:textSize="15sp" />
+           
+      </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/find_detail_pic_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/detail_sport_place_names" >
+        
+        <TextView
+            android:id="@+id/find_detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="很高兴认识你们，下次还来宜春学院打球。宜春学院学生的球技和球品都相当好，附图一张" />
+    
+         <ListView
+             android:id="@+id/find_detail_pic_listView"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_below="@id/find_detail_content"
+             android:background="#ffffff" >
+
+         </ListView>
+   
+    </RelativeLayout>
+    <RelativeLayout 
+        android:id="@+id/find_detail_parse_comment"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="30dp">
+
+        <TextView
+            android:id="@+id/find_detail_comment_count_de"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="30"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/find_detail_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+			android:layout_toRightOf="@id/find_detail_comment_count_de"
+            android:text="人评论"
+            android:textSize="12sp" />
+        
+        
+        <TextView
+            android:id="@+id/find_detail_parse_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+          	android:layout_toRightOf="@id/find_detail_comment"
+            android:text="15"
+            android:textSize="12sp" />
+        
+        <TextView
+            android:id="@+id/find_detail_parse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/find_detail_parse_count"
+            android:text="人赞"
+            android:textSize="12sp" />
+
+		<TextView
+		    android:id="@+id/find_detail_time"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="8dp"
+		    android:text="一天以前"
+		    android:textSize="10sp" />
+         
+    </RelativeLayout>
+    
+	   <ListView
+	 	    android:id="@+id/find_detail_comment_list_view"
+	 	    android:layout_width="match_parent"
+	 	    android:layout_height="450dp"
+	 	    android:layout_marginTop="10dp"> 
+	    </ListView> 
+	 </LinearLayout>
+	</ScrollView> 
+	
+ 
+   </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#507F7F7F"
+        android:layout_weight="1">
+    	<LinearLayout android:layout_width="match_parent"
+    	    android:layout_height="match_parent"
+    	    android:layout_weight="1"
+    	    android:layout_gravity="center"
+    	    android:orientation="horizontal">
+			<TextView android:id="@+id/commentNow"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:gravity="center"
+			    android:text="评论"/>
+		</LinearLayout>
+		<!-- 分割线 -->
+    	<LinearLayout android:layout_width="1dp"
+    	    android:layout_height="30dp"
+    	    android:layout_gravity="center"
+    	    android:background="#501A1A1A">
+    	</LinearLayout>
+    	
+		<LinearLayout android:layout_width="match_parent"
+    	    android:layout_height="match_parent"
+    	    android:layout_weight="1"
+    	    android:orientation="horizontal">
+			<TextView android:id="@+id/parseNow"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:gravity="center"
+			    android:text="赞"/>
+		</LinearLayout>
+    </LinearLayout>
+   </LinearLayout>
+</RelativeLayout>
