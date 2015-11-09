@@ -197,6 +197,7 @@ public class SportsPlaceDetail extends Activity {
 				sPC.setCommentTime(new Date());
 				sPC.setCommentComtent(editYourComment.getText().toString());
 				new sentCommentContentTask().execute();
+				//更新评论列表
 				new notififindDetailinfoTask().execute();
 				dialog.cancel();
 			}

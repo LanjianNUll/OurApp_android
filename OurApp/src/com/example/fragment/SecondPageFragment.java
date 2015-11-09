@@ -524,7 +524,10 @@ public class SecondPageFragment extends Fragment {
 					//处理网络异常的消息处理
 					if(Data == null)
 						handler.sendEmptyMessage(5);
-					else handler.sendEmptyMessage(1);
+					if(Data.get(0).getSportplace_name().equals("无数据"))
+						handler.sendEmptyMessage(5);
+					else 
+						handler.sendEmptyMessage(1);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}					

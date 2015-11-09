@@ -98,10 +98,11 @@ public class HttpGetSportPlaceJson {
 		    	//System.out.println("http分类"+Data.toString());
 		    	return Data;
 		    else {
+		    	ArrayList<SportPlace> errorData = new ArrayList<SportPlace>();
 		    	SportPlace s = new SportPlace();
 		    	s.setSportplace_name("无数据");
-		    	Data.add(s);
-		    	return Data;
+		    	errorData.add(s);
+		    	return errorData;
 		    }
 		    	
 	 }
