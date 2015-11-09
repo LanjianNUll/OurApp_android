@@ -28,9 +28,6 @@
         android:layout_below="@id/chatting_top_comeback"></LinearLayout>
 	</RelativeLayout>
 	
-   
-    
-    
     <RelativeLayout
         android:id="@+id/chattingMsgSentRe"
         android:layout_width="fill_parent"
