@@ -16,17 +16,16 @@
          android:layout_height="120dp"
          android:layout_alignParentLeft="true"
          android:layout_below="@+id/cancle_comment"
+         android:layout_margin="8dp"
          android:layout_marginTop="20dp"
          android:background="#c0c0c0"
          android:ems="10"
          android:gravity="top"
          android:hint="说点什么吧..."
          android:inputType="textMultiLine" >
-
          <requestFocus />
      </EditText>
-     
-     
+  
      <Button
          android:id="@+id/cancle_comment"
          android:layout_width="80dp"
@@ -59,4 +58,14 @@
          android:layout_centerHorizontal="true"
          android:textSize="22sp"
          android:text="言论" />
+
+     <ImageView
+         android:id="@+id/add_pic"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:layout_below="@+id/write_comment_type_spinner"
+         android:layout_marginTop="20dp"
+         android:layout_centerHorizontal="true"
+         android:src="@drawable/add_pic" />
+     
 </RelativeLayout>

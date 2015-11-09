@@ -52,11 +52,19 @@
   	     android:layout_height="404dp"
   	     android:gravity="center"
   	     android:visibility="gone">
-
+		<ImageView android:id="@+id/errorTip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/error_tip"/>
         <TextView
 	        android:id="@+id/jiazai_text"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_below="@id/errorTip"
+	        android:layout_centerHorizontal="true"
+			android:textColor="#ff0000"
 	        android:text="网络异常，加载失败"/>
    </RelativeLayout>
 	    
@@ -71,7 +79,7 @@
 			    android:layout_height="20dp"
 			    android:layout_centerVertical="true"
 			    android:layout_marginLeft="5dp"
-			    android:src="@drawable/ic_launcher1"/>
+			    android:src="@drawable/ic_launcher"/>
 
            <TextView
                android:id="@+id/find_detail_user_state"

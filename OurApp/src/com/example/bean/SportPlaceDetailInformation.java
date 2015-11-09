@@ -3,24 +3,24 @@ package com.example.bean;
 public class SportPlaceDetailInformation {
 
 	//sportplace_typeId
-	private static int type_紧张激烈 = 1001;
-	private static int type_安静闲适 = 1002;
-	private static int type_年轻专属 = 1003;
-	private static int type_强身健体 = 1004;
-	private static int type_野外探索 = 1005;
+	public static int type_紧张激烈 = 1001;
+	public static int type_安静闲适 = 1002;
+	public static int type_年轻专属 = 1003;
+	public static int type_强身健体 = 1004;
+	public static int type_野外探索 = 1005;
 	//sportplace_sort
-	private static int sort_篮球 = 101;
-	private static int sort_跑步 = 102;
-	private static int sort_羽毛球 = 103;
-	private static int sort_足球 = 104;
-	private static int sort_游泳 = 105;
-	private static int sort_健身房 = 106;
-	private static int sort_乒乓球 = 107;
-	private static int sort_公园 = 108;
-	private static int sort_排球 = 109;
-	private static int sort_爬山 = 110;
-	private static int sort_骑行 = 111;
-	private static int sort_其他 = 112;
+	public static int sort_篮球 = 101;
+	public static int sort_跑步 = 102;
+	public static int sort_羽毛球 = 103;
+	public static int sort_足球 = 104;
+	public static int sort_游泳 = 105;
+	public static int sort_健身房 = 106;
+	public static int sort_乒乓球 = 107;
+	public static int sort_公园 = 108;
+	public static int sort_排球 = 109;
+	public static int sort_爬山 = 110;
+	public static int sort_骑行 = 111;
+	public static int sort_其他 = 112;
 	
 	//场地id
 	private int sportplaceId;

@@ -71,11 +71,9 @@ public class SubsSortActivity extends Activity {
 		TextView addMoreView = (TextView) footView.findViewById(R.id.addMoreView);
 		
 		addMoreView.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				addMoreData();
-					
 			}
 		});
 		
@@ -107,8 +105,6 @@ public class SubsSortActivity extends Activity {
 		sort_id = bundle.getInt("sort");	
 		sub_sort_name.setText(sort_title);
 		
-		Log.v("test this title", sort_title);
-		
 		handler = new Handler(){
 			int i = 0 ;
 			public void handleMessage(Message msg){
@@ -131,6 +127,7 @@ public class SubsSortActivity extends Activity {
 						i=0;
 					break;
 				case 3 :
+					loading.setVisibility(View.GONE);
 					adapter.notifyDataSetChanged();
 					sub_sort_listview.setSelection(addMoreCount+1);
 					addMoreCount = addMoreCount+10;
@@ -188,7 +185,7 @@ public class SubsSortActivity extends Activity {
 				bundle.putInt("SportPlaceId", SportPlaceId);
 				intent.putExtras(bundle);
 				SubsSortActivity.this.startActivity(intent);
-			//	SubsSortActivity.this.finish();	
+				SubsSortActivity.this.finish();	
 			}
 		});
 	}

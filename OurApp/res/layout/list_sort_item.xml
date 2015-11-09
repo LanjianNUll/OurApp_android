@@ -21,13 +21,25 @@
            android:textColor="#000"
            android:textSize="15sp"/>
         <TextView 
-           android:id="@+id/values"
+           android:id="@+id/valuesTip"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginTop="8dp"
            android:layout_below="@id/sport_place_name"
            android:layout_marginLeft="4dp"
-           android:text="暂无评分"
+           android:text="评分 "
+           android:textColor="#120"
+           android:textSize="10sp"/>
+        
+         <TextView 
+           android:id="@+id/values"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:layout_below="@id/sport_place_name"
+           android:layout_toRightOf="@id/valuesTip"
+           android:layout_marginLeft="5dp"
+           android:text="9.8"
            android:textColor="#120"
            android:textSize="10sp"/>
 
@@ -51,6 +63,7 @@
 		     android:layout_height="wrap_content"
 		     android:layout_alignBottom="@+id/values"
 		     android:layout_alignParentRight="true"
+		     android:layout_marginRight="8dp"
 		     android:text="100m"
 		     android:textColor="#120"
 		     android:textSize="10sp" />

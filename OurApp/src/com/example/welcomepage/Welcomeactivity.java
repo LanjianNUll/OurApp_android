@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.baidu.android.pushservice.PushConstants;
@@ -30,7 +31,6 @@ public class Welcomeactivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
 		setContentView(R.layout.welcomepage);
 		//启动在sharedpreferrnces中拿对象，如果有就拿 没有就如下取值,
 		//注 由于sharedpreferrnces中不能存取对象，转换成json字符串

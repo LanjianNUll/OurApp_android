@@ -161,7 +161,7 @@ public class MainPageFragment extends Fragment {
 				Log.v("here ","i am here ");
 				Intent intent = new Intent(getActivity(), CityFindnear.class);
 				startActivity(intent);
-				//getActivity().finish();
+				getActivity().finish();
 				break;
 			case R.id.main_activity_top_citytext:
 				//¶¨Î»

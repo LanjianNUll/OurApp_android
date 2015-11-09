@@ -41,6 +41,7 @@ import com.example.activity.SportsPlaceDetail;
 import com.example.activity.SubsSortActivity;
 import com.example.adapter.ListViewAdapter;
 import com.example.bean.SportPlace;
+import com.example.bean.SportPlaceDetailInformation;
 import com.example.httpunit.HttpGetSportPlaceJson;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
@@ -238,7 +239,7 @@ public class SecondPageFragment extends Fragment {
 				bundle.putInt("SportPlaceId",SportPlaceId);
 				intent.putExtras(bundle);
 				startActivity(intent);
-				//getActivity().finish();
+				getActivity().finish();
 			}
 		});
 	}
@@ -488,24 +489,24 @@ public class SecondPageFragment extends Fragment {
 
 			switch (v.getId()) {
 			case R.id.peoplelike_sort_hardsport_text:
-				sportstyleId = 201;
-				senttitle("紧张激烈", -1, -1, 201);
+				sportstyleId = SportPlaceDetailInformation.type_紧张激烈;
+				senttitle("紧张激烈", -1, -1, sportstyleId);
 				break;
 			case R.id.peoplelike_sort_quitesport_text:
-				sportstyleId = 202;
-				senttitle("安静闲时", -1, -1, 202);
+				sportstyleId = SportPlaceDetailInformation.type_安静闲适;
+				senttitle("安静闲时", -1, -1, sportstyleId);
 				break;
 			case R.id.peoplelike_sort_youngsport_text:
-				sportstyleId = 203;
-				senttitle("年轻专属", -1, -1, 203);
+				sportstyleId = SportPlaceDetailInformation.type_年轻专属;
+				senttitle("年轻专属", -1, -1, sportstyleId);
 				break;
 			case R.id.peoplelike_sort_build_bodysport_text:
-				sportstyleId = 204;
-				senttitle("强身健体", -1, -1, 204);
+				sportstyleId = SportPlaceDetailInformation.type_强身健体;
+				senttitle("强身健体", -1, -1, sportstyleId);
 				break;
 			case R.id.peoplelike_besidesort_sport_text:
-				sportstyleId = 205;
-				senttitle("野外探索", -1, -1, 205);	
+				sportstyleId = SportPlaceDetailInformation.type_野外探索;
+				senttitle("野外探索", -1, -1, sportstyleId);	
 				break;
 			}
 		}

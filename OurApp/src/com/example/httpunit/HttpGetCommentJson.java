@@ -28,8 +28,8 @@ import com.google.gson.reflect.TypeToken;
 
 public class HttpGetCommentJson {
 	
-	private static final int REQUEST_TIMEOUT = 5*1000;//设置请求超时10秒钟  
-	private static final int SO_TIMEOUT = 5*1000;  //设置等待数据超时时间10秒钟 
+	private static final int REQUEST_TIMEOUT = 5*1000;//设置请求超时5秒钟  
+	private static final int SO_TIMEOUT = 5*1000;  //设置等待数据超时时间5秒钟 
 	private ArrayList<Comment> Data = new ArrayList<Comment>();
 	
 	//设置httpCilent   
@@ -41,49 +41,54 @@ public class HttpGetCommentJson {
 		    return client;  
 	}  
 	public HttpGetCommentJson(){}
+	
 	//302 为最新的调用//301 为最热的调用
 	public ArrayList<Comment> getNewData(int j) {
 		//获取最新评论和最热评论的地址
-		String url = "http://10.0.2.2:8080/Ourapp/CommentNewAndHotMsg?onwhichPage="+j;
+		//String url = "http://10.0.2.2:8080/Ourapp/CommentNewAndHotMsg?onwhichPage="+j;
+		
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/getCommentDetail?onwhichPage="+j
+							+"&addMoreCount=" +10;
 		String JsonStr = getHttpJsonString(url);
 		Gson gson = new Gson();
 		Data = gson.fromJson(JsonStr,  new TypeToken<ArrayList<Comment>>() {}.getType());	
 		//比较排序
 		//按时间先后排序
-		Comparator<Comment> comparator = new Comparator<Comment>(){
-			@Override
-			public int compare(Comment arg0, Comment arg1) {
-				arg0.getComment_from_time().getTime();
-				if(arg0.getComment_from_time().getTime()>arg1.getComment_from_time().getTime()){
-					return 1;
-				}
-				return -1;
-			}
-		};
-		if(Data != null)
-			Collections.sort(Data,comparator);
+//		Comparator<Comment> comparator = new Comparator<Comment>(){
+//			@Override
+//			public int compare(Comment arg0, Comment arg1) {
+//				arg0.getComment_from_time().getTime();
+//				if(arg0.getComment_from_time().getTime()<arg1.getComment_from_time().getTime()){
+//					return 1;
+//				}
+//				return -1;
+//			}
+//		};
+//		if(Data != null)
+//			Collections.sort(Data,comparator);
 		return Data;
 	}
 	//最热的数据调用
 	public ArrayList<Comment> getHotData(int j) {
 		//获取最新评论和最热评论的地址
-		String url = "http://10.0.2.2:8080/Ourapp/CommentNewAndHotMsg?onwhichPage="+j;
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/getCommentDetail?onwhichPage="+j
+				+"&addMoreCount=" +10;
 		String JsonStr = getHttpJsonString(url);
 		Gson gson = new Gson();
 		Data = gson.fromJson(JsonStr,  new TypeToken<ArrayList<Comment>>() {}.getType());	
 		//比较排序
 		//按评论数从大到小排序
-		Comparator<Comment> comparator = new Comparator<Comment>(){
-			@Override
-			public int compare(Comment arg0, Comment arg1) {
-				if(arg0.getHow_many_people_comment()<arg1.getHow_many_people_comment()){
-					return 1;
-				}
-				return -1;
-			}
-		};
-		if(Data != null)
-			Collections.sort(Data,comparator);
+//		Comparator<Comment> comparator = new Comparator<Comment>(){
+//			@Override
+//			public int compare(Comment arg0, Comment arg1) {
+//				if(arg0.getHow_many_people_comment()<arg1.getHow_many_people_comment()){
+//					return 1;
+//				}
+//				return -1;
+//			}
+//		};
+//		if(Data != null)
+//			Collections.sort(Data,comparator);
 		return Data;
 	}
 	
@@ -104,7 +109,8 @@ public class HttpGetCommentJson {
 	public CommentDetailInformation getCommentDetalInfoData(int commentId) {				
 		//参数   commentId	
 		//获取评论详细的地址
-		String url = "http://10.0.2.2:8080/Ourapp/CommentDetailMsg?commentId="+commentId;
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/getCommentDetailInfo?commentId="
+		+commentId;
 		String JsonStr = getHttpJsonString(url);
 		CommentDetailInformation CDInfo= new CommentDetailInformation();
 		Gson gson = new Gson();
@@ -133,7 +139,8 @@ public class HttpGetCommentJson {
 		//参数     commentId
 	    //	   onwhichAddOne
 		//加一的地址
-		String url = "http://10.0.2.2:8080/Ourapp/ParseAndCommentAddOne?commentId"+commentId+"&onwhichAddOne"+i;
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/addPraise?commentId="+commentId
+				;
 		HttpResponse httpResponse = null;
 		HttpGet httpRequest = new HttpGet(url); 
 		HttpClient httpClient = getHttpClient();
@@ -196,10 +203,4 @@ public class HttpGetCommentJson {
 		}
 		return strResult;
 	}
-	
-	
-	
-	
-	
-	
 }

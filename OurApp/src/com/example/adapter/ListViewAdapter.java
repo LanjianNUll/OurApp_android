@@ -63,11 +63,12 @@ public class ListViewAdapter extends BaseAdapter {
 			
 			//ÍøÂçÍ¼Æ¬
 			Log.v( "ÍøÂçÍ¼Æ¬µØÖ·", ""+list.get(position).getSportplace_imageUrl());
-			holder.sport_place_image.setImageUrl(list.get(position).getSportplace_imageUrl());
+			String url = "http://xiafucheng.6655.la:20128/webAdroid/image/";
+			holder.sport_place_image.setImageUrl(url+list.get(position).getSportplace_imageUrl());
 			holder.sport_place_name.setText(list.get(position).getSportplace_name());
 			holder.values.setText(list.get(position).getSportplace_value());
 			holder.place_position.setText(list.get(position).getSportplace_location());
-			holder.distance.setText(list.get(position).getSportplace_distance());
+			holder.distance.setText(list.get(position).getSportplace_distance()+"m");
 			holder.content_text.setText(list.get(position).getSportplace_discrb());
 			return convertView;
 		}

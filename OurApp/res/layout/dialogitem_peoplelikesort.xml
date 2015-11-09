@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dialog_show"
     android:orientation="vertical"
-    android:background="#fff" >
+    android:background="@drawable/dialog_bg" >
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,9 +25,9 @@
 			        android:layout_height="50dp"
 			        android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="紧张激烈"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="紧 张 激 烈"/>
 			    
 			    <!-- 分割线 -->
 		  	  <LinearLayout 
@@ -41,9 +41,9 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="安静闲时"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="安	静 闲 时"/>
 	
 			      <!-- 分割线 -->
 		  	  <LinearLayout 
@@ -57,9 +57,9 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="年轻专属"/>
+			         android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="年 轻 专 属"/>
 			     
 			   <!-- 分割线 -->
 		  	  <LinearLayout 
@@ -73,9 +73,9 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="强身健体"/>
+			         android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="强 身 健 体"/>
 			    
 			      <!-- 分割线 -->
 		  	  <LinearLayout 
@@ -89,9 +89,9 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="野外探索"/>
+			         android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="野 外 探 索"/>
 			    
 			      <!-- 分割线 -->
 		  	  <LinearLayout 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.activity.FindDetailsActivity;
 import com.example.bean.OtherPeopleComment;
+import com.example.bean.User;
 import com.example.ourapp.R;
 
 public class FindDetaiListViewAdapter extends BaseAdapter {
@@ -54,6 +55,7 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 					holder.other_people_say = (TextView) convertView.findViewById(R.id.other_people_say);
 					holder.other_people_head_pic = (ImageView) convertView.findViewById(R.id.other_people_head_pic);
 					holder.other_people_ctime = (TextView) convertView.findViewById(R.id.other_people_ctime);
+					holder.other_people_state = (TextView) convertView.findViewById(R.id.other_people_state);
 					convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
@@ -61,6 +63,23 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 			holder.other_people_name.setText(otherPeopleComments[arg0].getUserName());
 			holder.other_people_say.setText(otherPeopleComments[arg0].getCommentComtent());
 			holder.other_people_ctime.setText(formatTime(otherPeopleComments[arg0].getCommentTime()));
+			String stateStr = null;
+			if(otherPeopleComments[arg0].getUserState() == User.state_运动达人)
+				stateStr  = "运动达人";
+			if(otherPeopleComments[arg0].getUserState()  == User.state_运动挚友)
+				stateStr = "运动挚友";
+			if(otherPeopleComments[arg0].getUserState()  == User.state_运动狂)
+				stateStr = "运动狂";
+			if(otherPeopleComments[arg0].getUserState()  == User.state_冒泡)
+				stateStr = "冒泡";
+			if(otherPeopleComments[arg0].getUserState()  == User.state_宅客)
+				stateStr = "宅客";
+			if(otherPeopleComments[arg0].getUserState()  == User.state_活跃)
+				stateStr = "活跃";
+			if(stateStr == null)
+				holder.other_people_state.setText("无状态");
+			else
+				holder.other_people_state.setText(stateStr);
 		return convertView;
 	}
 
@@ -91,7 +110,7 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 
 
 	final class ViewHolder {
-		TextView other_people_name, other_people_say, other_people_ctime;
+		TextView other_people_name, other_people_say, other_people_ctime, other_people_state;
 		ImageView other_people_head_pic;
 		
 	}

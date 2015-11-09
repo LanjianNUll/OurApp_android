@@ -125,7 +125,7 @@ public class ThirdPageFragment extends Fragment {
 					//处理耗时网络加载json和json解析
 					//模拟耗时
 					sleep(3000);
-					if(onHotPage){
+					if(!onHotPage){
 						//最热言论数据调用
 						//302 为最新的调用//301 为最热的调用
 						Data = httpgetcommentjson.getHotData(301);
@@ -273,7 +273,7 @@ public class ThirdPageFragment extends Fragment {
 			addMoreCount = 10;
 			switch (v.getId()) {
 			case R.id.find_sort_hotest:
-				onHotPage = true;
+				onHotPage = false;
 				find_sort_newest.setBackgroundColor(Color.WHITE);
 				find_sort_newest_text.setTextColor(Color.BLACK);
 				find_sort_hotest.setBackgroundColor(Color.BLACK);
@@ -283,7 +283,7 @@ public class ThirdPageFragment extends Fragment {
 				new GetHotCommentTask().execute();
 				break;
 			case R.id.find_sort_newest:
-				onHotPage = false;
+				onHotPage = true;
 				find_sort_newest.setBackgroundColor(Color.BLACK);
 				find_sort_newest_text.setTextColor(Color.WHITE);
 				find_sort_hotest.setBackgroundColor(Color.WHITE);
@@ -321,7 +321,10 @@ public class ThirdPageFragment extends Fragment {
 			if(result == 1){
 				loading.setVisibility(View.GONE);
 				refreshView.setVisibility(View.VISIBLE);
-				adapter.notifyDataSetChanged();
+				find_sort_listView.setAdapter(adapter = 
+						new FindSortListViewAdapter(getActivity(), Data));
+				//adapter.notifyDataSetChanged();
+				
 			}else{
 				loading.setVisibility(View.GONE);
 				errorpage.setVisibility(View.VISIBLE);
@@ -350,13 +353,14 @@ public class ThirdPageFragment extends Fragment {
 			else
 				return 1;
 		}
-
 		@Override
 		protected void onPostExecute(Integer result) {
 			if(result == 1){
 				loading.setVisibility(View.GONE);
 				refreshView.setVisibility(View.VISIBLE);
-				adapter.notifyDataSetChanged();
+				//adapter.notifyDataSetChanged();
+				find_sort_listView.setAdapter(adapter = 
+						new FindSortListViewAdapter(getActivity(), Data));
 			}else{
 				loading.setVisibility(View.GONE);
 				errorpage.setVisibility(View.VISIBLE);
@@ -364,7 +368,6 @@ public class ThirdPageFragment extends Fragment {
 			super.onPostExecute(result);
 		}		
 	}
-
 	class seeCommentDetilAddOneTask extends AsyncTask<Integer, Integer, String>{
 
 		@Override

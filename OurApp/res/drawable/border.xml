@@ -8,5 +8,5 @@
     <corners android:radius="5dp"/>
     
     <!-- 填充颜色 -->
-    <solid android:color="#fff" />
+    <solid android:color="#50ffffff" />
 </shape>

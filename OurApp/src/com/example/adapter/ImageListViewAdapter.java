@@ -53,7 +53,8 @@ public class ImageListViewAdapter extends BaseAdapter {
 		}else{
 			 holder = (ViewHolder) convertView.getTag();
 		}
-		holder.pic_listview_item.setImageUrl(picData[position]);
+		String Url = "http://xiafucheng.6655.la:20128/webAdroid/image/";
+		holder.pic_listview_item.setImageUrl(Url+picData[position]);
 		
 		return convertView;
 	}

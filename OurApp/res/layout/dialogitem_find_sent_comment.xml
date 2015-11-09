@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/diglog_sent_comment" >
       
  	<EditText
         android:id="@+id/edit_find_comment_content"
@@ -11,7 +12,7 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:gravity="top"
-        android:background="#fffaf0"
+        android:background="#80fffaf0"
         android:hint="说点什么呢"/>
  	
  	 <Button android:id="@+id/cancle_sent_find_comment"

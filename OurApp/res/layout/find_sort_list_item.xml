@@ -21,7 +21,7 @@
 			    android:id="@+id/user_define_pic"
 			    android:layout_width="20dp"
 			    android:layout_height="20dp"
-			    android:src="@drawable/ic_launcher1"/>
+			    android:src="@drawable/ic_launcher"/>
 
            <TextView
                android:id="@+id/user_state"
@@ -29,6 +29,7 @@
                android:layout_height="wrap_content"
                android:layout_alignParentRight="true"
                android:layout_centerVertical="true"
+               android:layout_marginRight="15dp"
                android:text="我是用户的最近状态"
                android:textSize="10sp" />
 

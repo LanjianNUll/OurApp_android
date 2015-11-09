@@ -1,5 +1,6 @@
 package com.example.activity;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import android.app.Activity;
@@ -196,6 +197,7 @@ public class SportsPlaceDetail extends Activity {
 				sPC.setCommentTime(new Date());
 				sPC.setCommentComtent(editYourComment.getText().toString());
 				new sentCommentContentTask().execute();
+				new notififindDetailinfoTask().execute();
 				dialog.cancel();
 			}
 		});
@@ -210,9 +212,10 @@ public class SportsPlaceDetail extends Activity {
 	}
 
 	protected void filldatatoview() {
-		detail_sport_place_pic_one.setImageUrl("http://xiafucheng.6655.la:10162/webAdroid/"+spd.getMoreImageUrl()[0]);
-		detail_sport_place_pic_two.setImageUrl("http://xiafucheng.6655.la:10162/webAdroid/"+spd.getMoreImageUrl()[1]);
-		detail_sport_place_pic_three.setImageUrl("http://xiafucheng.6655.la:10162/webAdroid/"+spd.getMoreImageUrl()[2]);
+		
+		detail_sport_place_pic_one.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[0]);
+		detail_sport_place_pic_two.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[1]);
+		detail_sport_place_pic_three.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[2]);
 		
 		detail_sport_place_name.setText(spd.getSportplace_name());
 		detail_sport_value.setText(spd.getSportplace_value());
@@ -229,21 +232,23 @@ public class SportsPlaceDetail extends Activity {
 		shoptwo.setText(spd.getSurrondingShop()[1]);
 		shopthree.setText(spd.getSurrondingShop()[2]);
 		//加载完将scrollview置于页面开始状态
-		scrollview.scrollTo(0, 0);
+		scrollview.scrollTo(0, 0);  
+		scrollview.smoothScrollTo(0, 0);  
 	}
 	
 	public class sentCommentContentTask extends AsyncTask<Void, Integer, String >{
 
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(SportsPlaceDetail.this, "发送中...", 1000).show();			super.onPreExecute();
+			Toast.makeText(SportsPlaceDetail.this, "发送中...", 1000).show();			
+			super.onPreExecute();
 		}
 
 		@Override
 		protected String doInBackground(Void... arg0) {
 			
 			httpgetdata = new HttpGetSportPlaceJson();
-			httpgetdata.sentHttpSportPlaceComment(sPC);
+			httpgetdata.sentHttpSportPlaceComment(sPC);  
 			return null;
 		}
 		@Override
@@ -276,7 +281,8 @@ public class SportsPlaceDetail extends Activity {
 			if(result == 1){
 				jiazai.setVisibility(View.GONE);
 				scrollview.setVisibility(View.VISIBLE);
-				dianping_for_sport_place.setAdapter(adapter = new SPCommentListAdapter(SportsPlaceDetail.this,spd.getSPcomment()));
+				dianping_for_sport_place.setAdapter(adapter = 
+						new SPCommentListAdapter(SportsPlaceDetail.this,spd.getSPcomment()));
 				setListViewHeight(dianping_for_sport_place);
 				filldatatoview();
 			}else{
@@ -292,6 +298,23 @@ public class SportsPlaceDetail extends Activity {
 			super.onProgressUpdate(values);
 			Log.v("pnProgress","iamhere");
 		}	
+	}
+	//点评后更新详情界面评论页面
+	public class notififindDetailinfoTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			httpgetdata = new HttpGetSportPlaceJson();
+			spd = httpgetdata.getSportPlaceDetali(SportPlaceId);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			dianping_for_sport_place.setAdapter(adapter = 
+					new SPCommentListAdapter(SportsPlaceDetail.this,spd.getSPcomment()));
+			super.onPostExecute(result);
+		}
 	}
 
     /**  

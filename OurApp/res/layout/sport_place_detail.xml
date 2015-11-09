@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="详情"
+            android:text="详  情"
             android:textSize="22sp" />
         <ImageView
             android:id="@+id/detail_sport_top_comeback"
@@ -36,24 +36,19 @@
             android:background="@drawable/dianping"/>
 
     </RelativeLayout>
-    
-    
-    
+
 <ScrollView  
     android:id="@+id/scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/detail_sport_top">
-    
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#fff">
     
-
-   
     <RelativeLayout
         android:id="@+id/detail_sport_place_names"
         android:layout_width="match_parent"
@@ -71,8 +66,6 @@
             android:text="sportPlace name"
             android:textSize="18sp" />
 
-       
-
         <TextView
             android:id="@+id/detail_sport_location"
             android:layout_width="wrap_content"
@@ -82,9 +75,7 @@
             android:layout_marginRight="53dp"
             android:text="location"
             android:textSize="12sp" />
-        
-        
-        
+          
          <TextView
             android:id="@+id/detail_sport_value"
             android:layout_width="wrap_content"
@@ -125,11 +116,13 @@
         
         <TextView
             android:id="@+id/detail_sport_place_messagetext"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="10dp"
             android:text="1、挑战地心引力，引爆篮球魅力！2、动感篮球，快乐我秀3、逢投必进,精彩我秀,可艺篮球,魅力无限4、勇往直前,球球必进5、以篮球之名,投盐都风采6、球球俱进,分分必得,不畏强暴,所向7、三分线外,手起足落,完美弧线,得分容易" />   
     </RelativeLayout>
       
@@ -164,7 +157,6 @@
 	        </LinearLayout>
     </RelativeLayout>
     
-   
     <RelativeLayout
         android:id="@+id/detail_sport_place_route"
         android:layout_width="match_parent"
@@ -212,7 +204,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/hee"
-            android:text="全天" />
+            android:text="全天"/>
     </RelativeLayout>
     <RelativeLayout android:id="@+id/someTips_suitPeople"
         android:layout_width="match_parent"
@@ -338,9 +330,7 @@
             android:layout_centerHorizontal="true"
              android:textSize="18sp"
             android:text="点     评"/>
-    </RelativeLayout>
-    
-     
+    </RelativeLayout>   
        	<ListView
          android:id="@+id/dianping_for_sport_place"
          android:layout_width="match_parent"
@@ -379,12 +369,20 @@
        android:layout_height="match_parent"
        android:layout_below="@id/detail_sport_top"
        android:visibility="gone">
+       <ImageView android:id="@+id/errorTip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:src="@drawable/error_tip"/>
+       
        <TextView
            android:id="@+id/sssd"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_centerHorizontal="true"
-           android:layout_centerVertical="true"
+           android:layout_below="@id/errorTip"
+	       android:layout_centerHorizontal="true"
+           android:textColor="#ff0000"
            android:text="网络异常，加载失败" />
        
    </RelativeLayout>

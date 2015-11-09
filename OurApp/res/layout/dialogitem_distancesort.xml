@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dialog_show"
     android:orientation="vertical"
-    android:background="#fff" >
+    android:background="@drawable/dialog_bg" >
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,8 +25,8 @@
 			        android:layout_height="45dp"
 			        android:gravity="center"
 			        android:textSize="18sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="全   城"/>
 			    
 			    <!-- 分割线 -->
@@ -41,8 +41,8 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="500m"/>
 	
 			      <!-- 分割线 -->
@@ -57,8 +57,8 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			         android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="3Km"/>
 			     
 			   <!-- 分割线 -->
@@ -73,8 +73,8 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="5Km"/>
 			    
 			      <!-- 分割线 -->

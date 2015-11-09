@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dianpingdialogbg"
+    android:background="@drawable/diglog_sent_comment"
     android:orientation="vertical" >
 	<ScrollView android:layout_width="match_parent"
 	    android:layout_height="match_parent">
@@ -17,7 +17,8 @@
 			        android:inputType="textMultiLine"
 			        android:ems="10"
 			        android:gravity="top"
-			        android:background="#60000000"
+			        android:background="#ffffff"
+			        android:alpha="0.5"
 			        android:hint="说点什么吧"/>			
 			    <TextView
 			        android:id="@+id/textView1"
@@ -46,6 +47,7 @@
 			            android:layout_height="wrap_content"
 			            android:layout_margin="20dp"
 			            android:layout_weight="1"
+			            android:background="@drawable/border"
 			            android:text="取消"/>
 			
 			        <Button
@@ -54,7 +56,8 @@
 			            android:layout_height="wrap_content"
 			            android:layout_margin="20dp"
 			            android:layout_weight="1"
-			            android:text="发送" />
+			            android:text="发送"
+			            android:background="@drawable/border"/>
 			    </LinearLayout>
 		</LinearLayout>
 	</ScrollView>

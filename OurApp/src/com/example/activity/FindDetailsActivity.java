@@ -269,7 +269,10 @@ public class FindDetailsActivity extends Activity {
 			stateStr = "宅客";
 		if(CDInfoData.getUser_state() == User.state_活跃)
 			stateStr = "活跃";
-		find_detail_user_state.setText(stateStr);
+		if(stateStr == null)
+			find_detail_user_state.setText("无状态");
+		else
+			find_detail_user_state.setText(stateStr);
 		find_detail_content.setText(CDInfoData.getComment_content());
 		find_detail_time.setText(formatTime(CDInfoData.getComment_from_time()));
 		Log.v("dfsdfds",CDInfoData.getHow_many_people_comment()+"");

@@ -37,14 +37,7 @@ public class HttpGetSportPlaceJson {
 	 private String city = "yichun";
 	 private SportPlace sportpalce;
 	 private List<SportPlace> sportpalce_list;
-	 
-	//模拟的一些数据,可定义接口吧 
-	 private String[] sport_place_name = {"宜春学院篮球场","宜春学院田径场","阳光健身房","游泳馆"};
-	 private String[] sport_place_value = {" 9.7 " , " 9.5 ","8.8","6.4","5.2"};
-	 private String[] sport_place_position = {"宜春学院","宜春学院","袁州区","袁州区"};
-	 private String[] sport_place_distance = {"300m","350m","1km",">5km"};
-	 private String[] content_text = {"全塑胶场地，场地在学院内，全天开放","全塑胶场地，环境好，人文气息浓厚","设备齐全，专业教练，人气旺","游泳馆位于宜春市中心，场地分内露天和室内，水质好"};
-	//设置httpCilent   
+	//设置httpCilent 
 	 public HttpClient getHttpClient(){  
 		    BasicHttpParams httpParams = new BasicHttpParams();  
 		    HttpConnectionParams.setConnectionTimeout(httpParams, REQUEST_TIMEOUT);  
@@ -83,11 +76,11 @@ public class HttpGetSportPlaceJson {
 		  * 骑行111
 		  * 其他112*/
 		 
-		 /*紧张激烈 201
-		  * 安静闲时 202 
-		  * 年轻专属 203
-		  * 强身健体 204
-		  * 野外探索 205*/
+		 /*紧张激烈 1001
+		  * 安静闲时 1002 
+		  * 年轻专属 1003
+		  * 强身健体 1004
+		  * 野外探索 1005*/
 		 
 		 /*全城11
 		  * 500m 12
@@ -102,19 +95,22 @@ public class HttpGetSportPlaceJson {
 		    //根据url获取的json解析出对象数组
 		    Data = getObjectFromJson(strResult);
 		    if(Data != null)
-		    	System.out.println("http分类"+Data.toString());
-			return Data;	
+		    	//System.out.println("http分类"+Data.toString());
+		    	return Data;
+		    else {
+		    	SportPlace s = new SportPlace();
+		    	s.setSportplace_name("无数据");
+		    	Data.add(s);
+		    	return Data;
+		    }
+		    	
 	 }
 	 //获取具体的详情
 	 public SportPlaceDetailInformation getSportPlaceDetali(int sportplace_id){
 		 //参数  sportPlaceId
 		 SportPlaceDetailInformation sp = new SportPlaceDetailInformation();
 		 String strResult = null;
-		 String url = "http://xiafucheng.6655.la:10162/webAdroid/server/servlet02?sportPlaceId=1";
-		 //String url ="http://10.3.75.11:8080/Ourapp/SportsplaceID";
-		 //String url ="http://10.0.2.2:8080/Ourapp/SportsplaceID";
-		  //String url ="http://10.3.68.236:8080/webAdroid/servlet/servlet01?city_id=1";
-		 	//String url = "http://10.0.2.2:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+"&sort_id="+sort_id+"&distance_id="+distance_id+"&sport_style_id="+sport_style_id;
+		 String url = "http://xiafucheng.6655.la:20128/webAdroid/server/servlet02?sportPlaceId="+sportplace_id;
 	        HttpGet httpRequest = new HttpGet(url);
 	       
 	        HttpClient httpClient = getHttpClient();
@@ -137,12 +133,13 @@ public class HttpGetSportPlaceJson {
 		    sp = gson.fromJson(strResult, SportPlaceDetailInformation.class);
 		return sp;		 
 	 }
-	 
+	 //发送场地点评到服务器
 	 public void sentHttpSportPlaceComment(SportPlaceComment spc){
 		 
 		 Gson gson = new Gson();
 		 String gson_sent = gson.toJson(spc);
-		 String url ="http://10.0.2.2:8080/Ourapp/SportPlaceComment";
+		 //String url ="http://10.0.2.2:8080/Ourapp/SportPlaceComment";
+		 String url = "http://xiafucheng.6655.la:20128/webAdroid/server/addSPComment";
 		 HttpClient httpClient = getHttpClient();
 		 HttpPost httpPost = new HttpPost(url);
 	        try {
@@ -152,9 +149,7 @@ public class HttpGetSportPlaceJson {
 	            System.out.println(gson_sent);
 	            httpClient.execute(httpPost);
 	        }catch(Exception e){
-	        	
 	        }
-	        
 	 }
 	 
 	 //加载更多请求
@@ -162,13 +157,12 @@ public class HttpGetSportPlaceJson {
 			int distance_id, int sport_style_id, int addMoreCount) {
 
 		 String strResult = null;
-		// String url ="http://10.3.75.11:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+"&sort_id="+sort_id+"&distance_id="+distance_id+"&sport_style_id="+sport_style_id;;
-//		  String url ="http://10.3.68.236:8080/webAdroid/servlet/servlet01?"+
-//		"city_id"+city_id+
-//		"&sort_id=" +sort_id+
-//		"&distance_id="+distance_id+
-//		"&sport_style_id="+sport_style_id;
-		 	 String url = "http://10.0.2.2:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+"&sort_id="+sort_id+"&distance_id="+distance_id+"&sport_style_id="+sport_style_id+"&addMoreCount="+addMoreCount;
+		
+		 	 String url = "http://10.0.2.2:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+
+		 			 "&sort_id="+sort_id
+				 	 +"&distance_id="+distance_id
+				 	 +"&sport_style_id="+sport_style_id
+				 	 +"&addMoreCount="+addMoreCount;
 	        HttpGet httpRequest = new HttpGet(url); 
 	        HttpClient httpClient = getHttpClient();
 	        HttpResponse httpResponse = null;
@@ -202,34 +196,33 @@ public class HttpGetSportPlaceJson {
 		 }
 		 return null;
 	}
-	 
-	 
+	  
 	/*从网络获取数据，根据提供的参数，如果没有就为-1*/
 	 private String getJsonFromHttp(int city_id, int sort_id , int distance_id,  int sport_style_id){
 		 
-		 String strResult = null;
-		// String url ="http://10.3.75.11:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+"&sort_id="+sort_id+"&distance_id="+distance_id+"&sport_style_id="+sport_style_id;;
-//		  String url ="http://10.3.68.236:8080/webAdroid/servlet/servlet01?"+
-//		"city_id"+city_id+
-//		"&sort_id=" +sort_id+
-//		"&distance_id="+distance_id+
-//		"&sport_style_id="+sport_style_id;
-		 	String url = "http://10.0.2.2:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+"&sort_id="+sort_id+"&distance_id="+distance_id+"&sport_style_id="+sport_style_id;
-	        HttpGet httpRequest = new HttpGet(url); 
-	        HttpClient httpClient = getHttpClient();
-	        HttpResponse httpResponse = null;
-			try {
-				httpResponse = httpClient.execute(httpRequest);
+		String strResult = null;
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/servlet01?" +
+				"city_id="+1
+				+"&sort_id="+sort_id
+				+"&distance_id="+distance_id
+				+"&sport_style_id="+sport_style_id
+				+"&addMoreCount=10";
+		
+        HttpGet httpRequest = new HttpGet(url); 
+        HttpClient httpClient = getHttpClient();
+        HttpResponse httpResponse = null;
+		try {
+			httpResponse = httpClient.execute(httpRequest);
+			
+			if(httpResponse.getStatusLine().getStatusCode() == 200){
 				
-				if(httpResponse.getStatusLine().getStatusCode() == 200){
-					
-	                strResult = EntityUtils.toString(httpResponse.getEntity());
-	            }else{
-	            	System.out.println("打印你麻痹啊"+httpResponse.getStatusLine().getStatusCode()+strResult);
-	            }
-	            } catch (Exception e) {
-				e.printStackTrace();
-			}
-			return strResult;
+                strResult = EntityUtils.toString(httpResponse.getEntity());
+            }else{
+            	System.out.println("打印你麻痹啊"+httpResponse.getStatusLine().getStatusCode()+strResult);
+            }
+            } catch (Exception e) {
+			e.printStackTrace();
+		}
+		return strResult;
 	 }
 }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dialog_show"
     android:orientation="vertical"
-    android:background="#fff" >
+    android:background="@drawable/dialog_bg" >
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,26 +27,26 @@
 			        android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="篮球"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="篮 球"/>
 			     <TextView android:id="@+id/all_sort_running_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			       	android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="跑步"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="跑 步"/>
 			     <TextView android:id="@+id/all_sort_nettennis_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:gravity="center"
 			       	android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			       	android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="羽毛球"/>
 		    </LinearLayout>
 		<!-- 分割线 -->
@@ -66,26 +66,26 @@
 			        android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="足球"/>
+					android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="足 球"/>
 			     <TextView android:id="@+id/all_sort_swim_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			       	android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="游泳"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="游 泳"/>
 			     <TextView android:id="@+id/all_sort_gym_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:gravity="center"
 			       	android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="健身房"/>
 		    </LinearLayout>
 		    <!-- 分割线 -->
@@ -105,8 +105,8 @@
 			        android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="乒乓球"/>
 			     <TextView android:id="@+id/all_sort_part_relax_text"
 			        android:layout_width="wrap_content"
@@ -114,8 +114,8 @@
 			       	android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
+			        android:background="#60000000"
+			        android:textColor="#fff500"
 			        android:text="公园休闲"/>
 			     <TextView android:id="@+id/all_sort_volleyball_text"
 			        android:layout_width="wrap_content"
@@ -123,9 +123,9 @@
 			        android:gravity="center"
 			       	android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="排球"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="排 球"/>
 		    </LinearLayout>
 	    	 <!-- 分割线 -->
 		    <LinearLayout 
@@ -144,27 +144,27 @@
 			        android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="爬山"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="爬 山"/>
 			     <TextView android:id="@+id/all_sort_part_ride_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			       	android:gravity="center"
 			        android:layout_weight="1"
 			        android:textSize="20sp"
-			        android:background="#fff"
-			        android:textColor="#000"
-			        android:text="骑行"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="骑 行"/>
 			     <TextView android:id="@+id/all_sort_other_text"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:gravity="center"
 			       	android:layout_weight="1"
 			        android:textSize="20sp"
-			       	android:background="#fff"
-			        android:textColor="#000"
-			        android:text="其他"/>
+			        android:background="#60000000"
+			        android:textColor="#fff500"
+			        android:text="其 他"/>
 		    </LinearLayout>
 		</LinearLayout>
 	</ScrollView>
