@@ -8,8 +8,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/write_comment_comment"
-        android:entries="@array/comment_type_array" />
-
+        android:layout_marginLeft="15dp"
+        android:padding="15dp"
+        android:entries="@array/comment_type_array"
+        android:background="@drawable/border"/>
+	
+    <CheckBox android:id="@+id/pullToOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/write_comment_comment"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/write_comment_type_spinner"
+        android:layout_marginRight="15dp"
+        android:checked="true"/> 
+    
      <EditText
          android:id="@+id/write_comment_comment"
          android:layout_width="match_parent"
@@ -18,7 +30,8 @@
          android:layout_below="@+id/cancle_comment"
          android:layout_margin="8dp"
          android:layout_marginTop="20dp"
-         android:background="#c0c0c0"
+         android:padding="5dp"
+         android:background="@drawable/border"
          android:ems="10"
          android:gravity="top"
          android:hint="说点什么吧..."
@@ -67,5 +80,13 @@
          android:layout_marginTop="20dp"
          android:layout_centerHorizontal="true"
          android:src="@drawable/add_pic" />
+
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBaseline="@id/pullToOther"
+         android:layout_alignBottom="@id/pullToOther"
+         android:layout_toLeftOf="@id/pullToOther"
+         android:text="发送给周围的人" />
      
 </RelativeLayout>

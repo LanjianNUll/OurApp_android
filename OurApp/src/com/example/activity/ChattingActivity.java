@@ -94,6 +94,11 @@ public class ChattingActivity extends Activity implements onNewMessageListener {
 				Intent intent = new Intent(ChattingActivity.this, MyfirendActivity.class);
 				ChattingActivity.this.startActivity(intent);
 				ChattingActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
+				//界面跳转的动画
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 		//发送消息
@@ -135,6 +140,8 @@ public class ChattingActivity extends Activity implements onNewMessageListener {
 			
 			ChattingActivity.this.startActivity(intent);
 			ChattingActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

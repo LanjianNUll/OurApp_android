@@ -2,6 +2,7 @@ package com.example.adapter;
 
 import java.util.List;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +15,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.CircleImageView.CircleImageView;
+import com.example.Data.defaultPacage;
 import com.example.adapter.FindDetaiListViewAdapter.ViewHolder;
 import com.example.bean.ChatMessage;
 import com.example.bean.User;
@@ -63,10 +66,12 @@ public class MyFriendLisViewAdapter extends BaseAdapter {
 			holder.friendName = (TextView) arg1.findViewById(R.id.friendName);
 			holder.friendSignature = (TextView) arg1.findViewById(R.id.friendSignature);
 			holder.deteleFriend = (Button) arg1.findViewById(R.id.deteleFriend);
+			holder.firendHeadPic = (CircleImageView) arg1.findViewById(R.id.firendHeadPic);
 			arg1.setTag(holder);
 		}else{
 			holder = (Holder) arg1.getTag();
 		}
+		holder.firendHeadPic.setImageResource(defaultPacage.headpic[15]);
 		holder.friendName.setText(myFriendGroup.get(arg0).getUsername());
 		holder.friendSignature.setText(myFriendGroup.get(arg0).getMy_user_sign());
 		if(isOnDeteleMode == 1){
@@ -74,7 +79,6 @@ public class MyFriendLisViewAdapter extends BaseAdapter {
 			holder.friendSignature.setVisibility(View.INVISIBLE);
 			holder.deteleFriend.setVisibility(View.VISIBLE);
 			holder.deteleFriend.setOnClickListener(new OnClickListener() {
-				
 				@Override
 				public void onClick(View v) {//这里要做一个对话框，防止用户误删除
 					myFriendGroup.remove(arg0);
@@ -107,20 +111,16 @@ public class MyFriendLisViewAdapter extends BaseAdapter {
 			holder.deteleFriend.setVisibility(View.GONE);
 			holder.friendSignature.setVisibility(View.VISIBLE);
 		}
-			
-		
 		return arg1;
 	}
 	
 	final class Holder{
 		TextView friendName, friendSignature;
 		Button deteleFriend;
+		CircleImageView firendHeadPic;
 	}
 
 	public void setisOnDeteleMode(int i) {
 		isOnDeteleMode = i;
 	}
-	
-	
-	
 }

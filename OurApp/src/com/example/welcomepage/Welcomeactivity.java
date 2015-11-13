@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.baidu.android.pushservice.PushConstants;
@@ -47,10 +46,8 @@ public class Welcomeactivity extends Activity {
 			user.setUserId(-1);
 			user.setSexId(-1);
 			user.setMy_user_sign("这个家伙很懒什么都没留下");
-			user.setLocation_lasetime_login("定位中...");
 		}
 		String userJson_to = gson.toJson(user);
-		
 		SharedPreferences preferences1=getSharedPreferences("user",Context.MODE_PRIVATE);
 		Editor editor=preferences.edit();
 		editor.putString("userJson", userJson_to);
@@ -68,9 +65,12 @@ public class Welcomeactivity extends Activity {
 				//bundle.putSerializable("user", user);
 				intents.putExtras(bundle);
 				Welcomeactivity.this.startActivity(intents);
-				Welcomeactivity.this.finish();				
+				Welcomeactivity.this.finish();
+				//界面跳转的动画
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out); 
 			}	
-		});	
+		});
 		//消息推送
 		PushManager.startWork(Welcomeactivity.this,
 	                PushConstants.LOGIN_TYPE_API_KEY,

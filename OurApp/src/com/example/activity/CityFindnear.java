@@ -103,7 +103,7 @@ public class CityFindnear extends Activity {
 				item_cityname = (TextView) v.findViewById(R.id.item_cityname);
 				String city_item = item_cityname.getText().toString();
 				
-				Toast.makeText(CityFindnear.this, city_item.toString(), 1000).show();
+				//Toast.makeText(CityFindnear.this, city_item.toString(), 1000).show();
 				/**修改User对象中的定位地址*/
 				//获取用户对象
 				SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -133,7 +133,9 @@ public class CityFindnear extends Activity {
 				bundle.putString("city_name", city_item);
 				intent.putExtras(bundle);
 				CityFindnear.this.startActivity(intent);
-				CityFindnear.this.finish();				
+				CityFindnear.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 	});
 		CityList = filledData(getResources().getStringArray(R.array.city));
@@ -175,6 +177,8 @@ public class CityFindnear extends Activity {
 				intent.putExtras(bundle);
 				CityFindnear.this.startActivity(intent);
 				CityFindnear.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});	
 	}
@@ -235,6 +239,8 @@ public class CityFindnear extends Activity {
 			intent.putExtras(bundle);
 			CityFindnear.this.startActivity(intent);
 			CityFindnear.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

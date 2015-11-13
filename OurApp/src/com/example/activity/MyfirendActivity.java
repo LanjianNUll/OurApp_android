@@ -87,6 +87,8 @@ public class MyfirendActivity extends Activity {
 				intent.putExtras(bundle);
 				MyfirendActivity.this.startActivity(intent);
 				MyfirendActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 		
@@ -119,6 +121,8 @@ public class MyfirendActivity extends Activity {
 				intent.putExtras(bundle);
 				MyfirendActivity.this.startActivity(intent);
 				MyfirendActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 	}
@@ -201,6 +205,8 @@ public class MyfirendActivity extends Activity {
 			intent.putExtras(bundle);
 			MyfirendActivity.this.startActivity(intent);
 			MyfirendActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

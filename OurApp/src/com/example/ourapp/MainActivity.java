@@ -103,9 +103,8 @@ public class MainActivity extends FragmentActivity {
 		Bundle bundle = MainActivity.this.getIntent().getExtras();
 		int currentItem = bundle.getInt("CurrentItem");
 		if(currentItem==1){
-			
 			String city_name = bundle.getString("city_name");
-			Toast.makeText(this, "城市名"+city_name, 1000).show();
+			//Toast.makeText(this, "城市名"+city_name, 1000).show();
 			viewPager.setCurrentItem(1,true);
 			//首页的滑块去颜色
 			clearcolor();
@@ -248,12 +247,12 @@ public class MainActivity extends FragmentActivity {
                     Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
-        	//程序退出是将定位的布尔值改为true
-			SharedPreferences startloaction = getSharedPreferences("loaction_start", Context.MODE_PRIVATE);
-			Editor editor=startloaction.edit();
-			editor.putBoolean("isstartloaction", true);
-			editor.commit();
-            finish();
+//        	//程序退出是将定位的布尔值改为true
+//			SharedPreferences startloaction = getSharedPreferences("loaction_start", Context.MODE_PRIVATE);
+//			Editor editor=startloaction.edit();
+//			editor.putBoolean("isstartloaction", true);
+//			editor.commit();
+//            MainActivity.this.finish();
             System.exit(0);
         }
             return false;

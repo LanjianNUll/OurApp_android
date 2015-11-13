@@ -3,14 +3,23 @@ package com.example.adapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.example.CircleImageView.CircleImageView;
+import com.example.Data.defaultPacage;
+import com.example.activity.UserDetailInfoActivity;
 import com.example.bean.Comment;
 import com.example.bean.User;
+import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -23,7 +32,7 @@ public class FindSortListViewAdapter extends BaseAdapter {
 	private static final long ONE_MINUTE = 60 * 1000;
 	private static final long ONE_HOUR = 60 * ONE_MINUTE;
 	private static final long ONE_DAY = 24 * ONE_HOUR;
-	private String stateStr;
+	private String stateStr = "冒泡";
 	public FindSortListViewAdapter(FragmentActivity activity,
 			ArrayList<Comment> find_list) {
 			this.context = activity;
@@ -46,7 +55,7 @@ public class FindSortListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int positon, View convertView, ViewGroup parent) {
+	public View getView(final int positon, View convertView, ViewGroup parent) {
 		 ViewHolder holder = null; 
 			if (convertView == null) {
 				holder = new ViewHolder();
@@ -57,6 +66,7 @@ public class FindSortListViewAdapter extends BaseAdapter {
 				holder.user_advice = (TextView) convertView.findViewById(R.id.user_advice);
 				holder.advic_counts = (TextView) convertView.findViewById(R.id.advic_counts);
 				holder.view_counts = (TextView) convertView.findViewById(R.id.view_counts);
+				holder.user_define_pic = (CircleImageView) convertView.findViewById(R.id.user_define_pic);
 				holder.comment_from_time = (TextView) convertView.findViewById(R.id.comment_from_time);
 				convertView.setTag(holder);
 			} else {
@@ -81,7 +91,26 @@ public class FindSortListViewAdapter extends BaseAdapter {
 			holder.advic_counts.setText(find_list.get(positon).getHow_many_people_comment()+"");
 			holder.view_counts.setText(find_list.get(positon).getHow_many_people_see()+"");
 			holder.comment_from_time.setText(formatTime(find_list.get(positon).getComment_from_time()));
-			
+			//用户的头像
+			holder.user_define_pic.setImageResource(defaultPacage.headpic[positon%22]);
+			//点击用户头像
+			holder.user_define_pic.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					
+					Intent intent = new Intent(context, UserDetailInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("userId", find_list.get(positon)
+							.getComment_from_user_id());
+					bundle.putString("fromwhere", "findSortListView");
+					intent.putExtras(bundle);
+					context.startActivity(intent);
+					((Activity) context).finish();
+					((Activity) context).overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+				}
+			});
 			if(find_list.get(positon).getComment_type()==0)
 				holder.sport_place_pic.setImageResource(R.drawable.comment_type0);
 			if(find_list.get(positon).getComment_type()==1)
@@ -92,10 +121,9 @@ public class FindSortListViewAdapter extends BaseAdapter {
 				holder.sport_place_pic.setImageResource(R.drawable.comment_type3);	
 			return convertView;
 		}
-
-
 		private final class ViewHolder {
 			ImageView sport_place_pic;
+			CircleImageView user_define_pic;
 			TextView user_name, user_state, user_advice, advic_counts, view_counts, comment_from_time;
 			
 			

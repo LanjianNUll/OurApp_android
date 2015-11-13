@@ -26,7 +26,7 @@
 	    android:layout_centerHorizontal="true"
 	    android:paddingTop="10dp"
 	    android:text="风的背后是满怀" />
-	<ImageView
+	<com.example.CircleImageView.CircleImageView
 	    android:id="@+id/userPic"
 	    android:layout_width="60dp"
 	    android:layout_height="60dp"

@@ -3,6 +3,8 @@ package com.example.activity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.CircleImageView.CircleImageView;
+import com.example.Data.defaultPacage;
 import com.example.adapter.FindDetaiListViewAdapter;
 import com.example.adapter.ImageListViewAdapter;
 import com.example.bean.CommentDetailInformation;
@@ -52,7 +54,7 @@ public class FindDetailsActivity extends Activity {
 	private ImageView find_detail_top_comeback;
 	//用户相关
 	private TextView find_detail_user_name, find_detail_user_state;
-	private ImageView find_detail_user_define_pic;
+	private CircleImageView find_detail_user_define_pic;
 	//评论正文
 	private TextView find_detail_content;
 	//评论正文的图片组
@@ -82,6 +84,10 @@ public class FindDetailsActivity extends Activity {
 	private User user;
 	//网络异常
 	private RelativeLayout errorpage;
+	//布局
+	private RelativeLayout user_name_about, find_detail_pic_layout, 
+					find_detail_parse_comment;
+	private LinearLayout commentabout;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,7 +108,7 @@ public class FindDetailsActivity extends Activity {
 		find_detail_top_comeback = (ImageView) findViewById(R.id.find_detail_top_comeback);
 		find_detail_user_name = (TextView) findViewById(R.id.find_detail_user_name);
 		find_detail_user_state = (TextView) findViewById(R.id.find_detail_user_state);
-		find_detail_user_define_pic = (ImageView) findViewById(R.id.find_detail_user_define_pic);
+		find_detail_user_define_pic = (CircleImageView) findViewById(R.id.find_detail_user_define_pic);
 		find_detail_content = (TextView) findViewById(R.id.find_detail_content);
 		find_detail_pic_listView = (ListView) findViewById(R.id.find_detail_pic_listView);
 		commentNow = (TextView) findViewById(R.id.commentNow);
@@ -112,6 +118,13 @@ public class FindDetailsActivity extends Activity {
 		find_detail_time = (TextView) findViewById(R.id.find_detail_time);
 		find_detail_comment_list_view = (ListView) findViewById(R.id.find_detail_comment_list_view);
 		scrollview = (ScrollView) findViewById(R.id.scrollview);
+		
+		user_name_about = (RelativeLayout) findViewById(R.id.user_name_about);
+		find_detail_pic_layout = (RelativeLayout) 
+				findViewById(R.id.find_detail_pic_layout);
+		find_detail_parse_comment = (RelativeLayout) 
+				findViewById(R.id.find_detail_parse_comment);
+		commentabout = (LinearLayout) findViewById(R.id.commentabout);
 		//网络异常
 		errorpage = (RelativeLayout) findViewById(R.id.errorpage);
 		//返回发现页面
@@ -125,6 +138,8 @@ public class FindDetailsActivity extends Activity {
 				intent1.putExtras(bundle_comeback);
 				FindDetailsActivity.this.startActivity(intent1);
 				FindDetailsActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 //		//屏蔽在find_detail_pic_listView中的scrollview的点击事件
@@ -158,6 +173,8 @@ public class FindDetailsActivity extends Activity {
 							Intent intent = new Intent(FindDetailsActivity.this, UserLoginActivity.class);
 							FindDetailsActivity.this.startActivity(intent);
 							FindDetailsActivity.this.finish();
+							overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
 						}
 					});
 					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -248,13 +265,21 @@ public class FindDetailsActivity extends Activity {
 	public void afterDo() {
 		//各个listview的一波操作
 		//显示多图的find_detail_pic_listView的处理
-		find_detail_pic_listView.setAdapter(picAdapter = new ImageListViewAdapter(FindDetailsActivity.this, CDInfoData.getImageUrl()));
+		if(CDInfoData.getImageUrl()[0] != "")//如果没拿到图片，就不显示
+			find_detail_pic_listView.setAdapter(picAdapter = 
+			new ImageListViewAdapter(FindDetailsActivity.this, CDInfoData.getImageUrl()));
+		else{
+			find_detail_pic_listView.setVisibility(View.GONE);
+		}
 		setListViewHeight(find_detail_pic_listView, picAdapter);
 		
-		//显示用户评论find_detail_comment_list_view的处理
+		//显示用户评论find_detail_comment_list_view的处理\
 		find_detail_comment_list_view.setAdapter(otherPCadapter = new FindDetaiListViewAdapter(FindDetailsActivity.this, CDInfoData.getOtherPc()));
 		//setListViewHeight(find_detail_comment_list_view, otherPCadapter);
-		
+		//显示用户头像
+		//Random 随机数
+		int x=1+(int)(Math.random()*21);
+		find_detail_user_define_pic.setImageResource(defaultPacage.headpic[x]);
 		find_detail_user_name.setText(CDInfoData.getComment_from_user_name());
 		String stateStr = null;
 		if(CDInfoData.getUser_state() == User.state_运动达人)
@@ -345,6 +370,10 @@ public class FindDetailsActivity extends Activity {
 				afterDo();
 			else{
 				errorpage.setVisibility(View.VISIBLE);
+				user_name_about.setVisibility(View.GONE);
+				find_detail_pic_layout.setVisibility(View.GONE); 
+				find_detail_parse_comment.setVisibility(View.GONE);
+				commentabout.setVisibility(View.GONE);
 			}
 			super.onPostExecute(result);
 		}	
@@ -381,6 +410,8 @@ public class FindDetailsActivity extends Activity {
 			intent1.putExtras(bundle_comeback);
 			FindDetailsActivity.this.startActivity(intent1);
 			FindDetailsActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

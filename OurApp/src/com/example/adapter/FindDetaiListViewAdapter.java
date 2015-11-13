@@ -3,15 +3,22 @@ package com.example.adapter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.CircleImageView.CircleImageView;
+import com.example.Data.defaultPacage;
 import com.example.activity.FindDetailsActivity;
+import com.example.activity.UserDetailInfoActivity;
 import com.example.bean.OtherPeopleComment;
 import com.example.bean.User;
 import com.example.ourapp.R;
@@ -46,20 +53,55 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int arg0, View convertView, ViewGroup parent) {
+	public View getView(final int arg0, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
 			if(convertView == null ){
 					holder = new ViewHolder();
 					convertView = LayoutInflater.from(context).inflate(R.layout.find_detail_list_item, parent,false);
 					holder.other_people_name = (TextView) convertView.findViewById(R.id.other_people_name);
 					holder.other_people_say = (TextView) convertView.findViewById(R.id.other_people_say);
-					holder.other_people_head_pic = (ImageView) convertView.findViewById(R.id.other_people_head_pic);
+					holder.other_people_head_pic = (CircleImageView) convertView.findViewById(R.id.other_people_head_pic);
 					holder.other_people_ctime = (TextView) convertView.findViewById(R.id.other_people_ctime);
 					holder.other_people_state = (TextView) convertView.findViewById(R.id.other_people_state);
 					convertView.setTag(holder);
 			}else{
 				holder = (ViewHolder) convertView.getTag();
 			}
+			// HeadPic
+			holder.other_people_head_pic.setImageResource(defaultPacage.headpic[arg0%22]);
+			//点击头像事件
+			holder.other_people_head_pic.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(context, UserDetailInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("userId", otherPeopleComments[arg0].getUserId());
+					bundle.putString("fromwhere", "findDetailListView");
+					intent.putExtras(bundle);
+					context.startActivity(intent);
+					((Activity) context).finish();
+					((Activity) context).overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+					
+				}
+			});
+			//点击用户名事件
+			holder.other_people_name.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(context, UserDetailInfoActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("userId", otherPeopleComments[arg0].getUserId());
+					bundle.putString("fromwhere", "findDetailListView");
+					intent.putExtras(bundle);
+					context.startActivity(intent);
+					((Activity) context).finish();
+					((Activity) context).overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+				}
+			});
 			holder.other_people_name.setText(otherPeopleComments[arg0].getUserName());
 			holder.other_people_say.setText(otherPeopleComments[arg0].getCommentComtent());
 			holder.other_people_ctime.setText(formatTime(otherPeopleComments[arg0].getCommentTime()));
@@ -111,8 +153,7 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 
 	final class ViewHolder {
 		TextView other_people_name, other_people_say, other_people_ctime, other_people_state;
-		ImageView other_people_head_pic;
+		CircleImageView other_people_head_pic;
 		
 	}
-	
 }

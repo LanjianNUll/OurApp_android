@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class CommentDetailInformation {
 		//comment type
-		private static int comment_type_挑战书 = 0;
-		private static int comment_type_发现  = 1;
-		private static int comment_type_邀请函 = 2;
-		private static int comment_type_求人带= 3;
+		public static int comment_type_挑战书 = 0;
+		public static int comment_type_发现  = 1;
+		public static int comment_type_邀请函 = 2;
+		public static int comment_type_求人带= 3;
 		//评论ID
 		private int comment_id;
 		//评论发起者

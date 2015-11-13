@@ -2,12 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+    <com.example.CircleImageView.CircleImageView
+        android:id="@+id/firendHeadPic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_launcher"/>
    <TextView android:id="@+id/friendName"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_marginTop="8dp"
        android:textSize="20sp"
        android:layout_marginLeft="15dp"
+       android:layout_toRightOf="@id/firendHeadPic"
        android:text="friednname"/>
    <TextView android:id="@+id/friendSignature"
        android:layout_width="wrap_content"

@@ -49,7 +49,7 @@
   	 <RelativeLayout
   	     android:id="@+id/errorpage"
   	     android:layout_width="match_parent"
-  	     android:layout_height="404dp"
+  	     android:layout_height="match_parent"
   	     android:gravity="center"
   	     android:visibility="gone">
 		<ImageView android:id="@+id/errorTip"
@@ -72,11 +72,11 @@
  	<RelativeLayout
            android:id="@+id/user_name_about"
            android:layout_width="match_parent"
-           android:layout_height="35dp" >
-			<ImageView 
+           android:layout_height="50dp" >
+			<com.example.CircleImageView.CircleImageView
 			    android:id="@+id/find_detail_user_define_pic"
-			    android:layout_width="20dp"
-			    android:layout_height="20dp"
+			    android:layout_width="50dp"
+			    android:layout_height="50dp"
 			    android:layout_centerVertical="true"
 			    android:layout_marginLeft="5dp"
 			    android:src="@drawable/ic_launcher"/>
@@ -195,6 +195,7 @@
  
    </LinearLayout>
     <LinearLayout
+        android:id="@+id/commentabout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="45dp"

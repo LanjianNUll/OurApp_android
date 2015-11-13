@@ -1,6 +1,7 @@
 package com.example.adapter;
 
 import com.example.activity.FindDetailsActivity;
+import com.example.httpunit.HttpGetSportPlaceJson;
 import com.example.ourapp.R;
 import com.loopj.android.image.SmartImageView;
 
@@ -53,7 +54,7 @@ public class ImageListViewAdapter extends BaseAdapter {
 		}else{
 			 holder = (ViewHolder) convertView.getTag();
 		}
-		String Url = "http://xiafucheng.6655.la:20128/webAdroid/image/";
+		String Url = HttpGetSportPlaceJson.RootURL;
 		holder.pic_listview_item.setImageUrl(Url+picData[position]);
 		
 		return convertView;

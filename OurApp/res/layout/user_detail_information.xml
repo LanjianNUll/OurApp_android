@@ -24,11 +24,27 @@
 	            android:text="账号详情"
 	            android:textSize="18sp" />
 	    </RelativeLayout>
-	    
+		<RelativeLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="60dp">
+
+		     <com.example.CircleImageView.CircleImageView
+		         android:id="@+id/defaultheadCircle"
+		         android:layout_width="60dp"
+		         android:layout_height="60dp"
+		         android:layout_alignParentTop="true"
+		         android:layout_centerHorizontal="true"
+		         android:src="@drawable/aaa" />
+	        
+		</RelativeLayout>
+	   
 	    <RelativeLayout android:id="@+id/ff1"
 	        android:layout_width="match_parent"
 	        android:layout_height="45dp"
 	        android:padding="5dp">
+	        
+	       
+	        
 	        <TextView android:id="@+id/username_tip"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -93,14 +109,28 @@
 	            android:textSize="15sp"
 	            android:text=""/>
 	    </RelativeLayout>
-	    <LinearLayout android:layout_width="match_parent"
-	        android:layout_height="1dp"
-	        android:background="#554553">
-	        
-	    </LinearLayout>
+	    <RelativeLayout android:id="@+id/ff3"
+	        android:layout_width="match_parent"
+	        android:layout_height="45dp"
+	        android:padding="5dp">
+	        <TextView android:id="@+id/usersign_tip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="35dp"
+	            android:textSize="15sp"
+	            android:text="个性签名"/>
+	        <TextView android:id="@+id/usersignDetail"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="130dp"
+	            android:textSize="15sp"
+	            android:text="wojishi "/>
+	    </RelativeLayout>
+	    <!-- 下面的都被干掉了 -->
 	    <RelativeLayout android:id="@+id/ff1"
 	        android:layout_width="match_parent"
 	        android:layout_height="45dp"
+	        android:visibility="gone"
 	        android:padding="5dp">
 
 	        <TextView
@@ -112,13 +142,12 @@
 	            android:text="留言板"
 	            android:textSize="18sp" />
 	    </RelativeLayout>	
-	    
-	      
 	    <LinearLayout
 	        android:id="@+id/loading"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:orientation="vertical"
+	        android:visibility="gone"
 	        android:gravity="center">
 	        <ImageView android:id="@+id/jiazai"
 	            android:layout_width="wrap_content"
@@ -133,7 +162,8 @@
 	    </LinearLayout>
 	    <ListView android:id="@+id/userDetailListView" 
 	        android:layout_width="match_parent"
-	        android:layout_height="match_parent">
+	        android:layout_height="match_parent"
+	        android:visibility="gone">
 	    </ListView>	
 	</LinearLayout>
 </ScrollView>

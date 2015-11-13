@@ -2,11 +2,11 @@ package com.example.Application;
 
 import com.baidu.frontia.FrontiaApplication;
 import com.example.PushServer.BaiduPush;
+import com.example.ourapp.R;
 
 
 
 public class Application extends FrontiaApplication {
-	
 
 	/**
 	 * API_KEY

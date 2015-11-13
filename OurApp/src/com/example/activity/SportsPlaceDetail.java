@@ -49,7 +49,8 @@ public class SportsPlaceDetail extends Activity {
 			detail_sport_place_messagetext, detail_sport_place_recommend_route;
 	private int SportPlaceId = -1;
 	private String sort_title;
-
+	//所属分类的id
+	private int sort_id = -1;
 	private HttpGetSportPlaceJson httpgetdata;
 	private SportPlaceDetailInformation spd;
 
@@ -94,7 +95,7 @@ public class SportsPlaceDetail extends Activity {
 		// 从文件中取出cityID
 		SharedPreferences getCityId = getSharedPreferences("user",
 				Context.MODE_PRIVATE);
-		SportPlaceId = getCityId.getInt("city_id", -1);
+		int cityID = getCityId.getInt("city_id", -1);
 		//加载
 		jiazai_image = (ImageView) findViewById(R.id.jiazai_image);
 		jiazai = (RelativeLayout) findViewById(R.id.jiazai);
@@ -109,11 +110,12 @@ public class SportsPlaceDetail extends Activity {
 		Bundle bundle = SportsPlaceDetail.this.getIntent().getExtras();
 		sort_title = bundle.getString("name");
 		SportPlaceId = bundle.getInt("SportPlaceId");
+		sort_id = bundle.getInt("sort");
+		//异步加载数据
 		new Task().execute();
 		detail_sport_top_comeback.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
 				// 判断是从subSortActivity进来还是从nearby进入该详情的
 				if (sort_title.equals("comefromSeconPage")) {
 					Intent intent1 = new Intent(SportsPlaceDetail.this,
@@ -123,15 +125,20 @@ public class SportsPlaceDetail extends Activity {
 					intent1.putExtras(bundle_comeback);
 					SportsPlaceDetail.this.startActivity(intent1);
 					SportsPlaceDetail.this.finish();
+					overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				} else {
 					// 返回到进入详情页时的子类界面
 					Intent intent = new Intent(SportsPlaceDetail.this,
 							SubsSortActivity.class);
 					Bundle bundle_comeback = new Bundle();
+					bundle_comeback.putInt("sort", sort_id);
 					bundle_comeback.putString("name", sort_title);
 					intent.putExtras(bundle_comeback);
 					SportsPlaceDetail.this.startActivity(intent);
 					SportsPlaceDetail.this.finish();
+					overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}
 			}
 		});
@@ -214,9 +221,9 @@ public class SportsPlaceDetail extends Activity {
 
 	protected void filldatatoview() {
 		
-		detail_sport_place_pic_one.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[0]);
-		detail_sport_place_pic_two.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[1]);
-		detail_sport_place_pic_three.setImageUrl("http://xiafucheng.6655.la:20128/webAdroid/image/"+spd.getMoreImageUrl()[2]);
+		detail_sport_place_pic_one.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[0]);
+		detail_sport_place_pic_two.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[1]);
+		detail_sport_place_pic_three.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[2]);
 		
 		detail_sport_place_name.setText(spd.getSportplace_name());
 		detail_sport_value.setText(spd.getSportplace_value());
@@ -356,6 +363,8 @@ public class SportsPlaceDetail extends Activity {
 				intent1.putExtras(bundle_comeback);
 				SportsPlaceDetail.this.startActivity(intent1);
 				SportsPlaceDetail.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			} else {
 				// 返回到进入详情页时的子类界面
 				Intent intent = new Intent(SportsPlaceDetail.this,
@@ -365,6 +374,8 @@ public class SportsPlaceDetail extends Activity {
 				intent.putExtras(bundle_comeback);
 				SportsPlaceDetail.this.startActivity(intent);
 				SportsPlaceDetail.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		}
 		return super.onKeyDown(keyCode, event);

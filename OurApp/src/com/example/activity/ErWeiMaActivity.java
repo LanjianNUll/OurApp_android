@@ -1,5 +1,6 @@
 package com.example.activity;
 
+import com.example.CircleImageView.CircleImageView;
 import com.example.bean.User;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
@@ -26,6 +27,7 @@ public class ErWeiMaActivity extends Activity {
 	private TextView Myerweima_username;
 	private ImageView MyErweima_card_pic;
 	private ImageView MyErweimaComeback;
+	private CircleImageView userPic;
 	private SharedPreferences sharedpreferences;
 	private User user;
 	private int userId;
@@ -40,7 +42,8 @@ public class ErWeiMaActivity extends Activity {
 	}
 
 	private void initview() {
-
+		userPic = (CircleImageView) findViewById(R.id.userPic);
+		
 		//获取用户信息
 		sharedpreferences = getSharedPreferences("user",Context.MODE_PRIVATE);
 		String userJson=sharedpreferences.getString("userJson", null);
@@ -65,7 +68,8 @@ public class ErWeiMaActivity extends Activity {
 				intent.putExtras(bundle);
 				ErWeiMaActivity.this.startActivity(intent);
 				ErWeiMaActivity.this.finish();
-				
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 		
@@ -92,6 +96,8 @@ public class ErWeiMaActivity extends Activity {
 			intent.putExtras(bundle);
 			ErWeiMaActivity.this.startActivity(intent);
 			ErWeiMaActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

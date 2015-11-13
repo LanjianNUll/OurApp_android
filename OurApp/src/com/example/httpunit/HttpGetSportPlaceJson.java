@@ -27,10 +27,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class HttpGetSportPlaceJson {
-
+	//图片根目录
+	public static final String RootURL = "http://xiafucheng.duapp.com/webAdroid/image/";
+	
 	 private static final int REQUEST_TIMEOUT = 5*1000;//设置请求超时10秒钟  
 	 private static final int SO_TIMEOUT = 5*1000;  //设置等待数据超时时间10秒钟 
-	
 	 private ArrayList<SportPlace> Data = new ArrayList<SportPlace>();
 
 	 //根据城市定位来确定取的数据库资源
@@ -95,15 +96,8 @@ public class HttpGetSportPlaceJson {
 		    //根据url获取的json解析出对象数组
 		    Data = getObjectFromJson(strResult);
 		    if(Data != null)
-		    	//System.out.println("http分类"+Data.toString());
-		    	return Data;
-		    else {
-		    	ArrayList<SportPlace> errorData = new ArrayList<SportPlace>();
-		    	SportPlace s = new SportPlace();
-		    	s.setSportplace_name("无数据");
-		    	errorData.add(s);
-		    	return errorData;
-		    }
+		    	System.out.println("http分类"+Data.toString());
+		    return Data;
 		    	
 	 }
 	 //获取具体的详情
@@ -111,7 +105,7 @@ public class HttpGetSportPlaceJson {
 		 //参数  sportPlaceId
 		 SportPlaceDetailInformation sp = new SportPlaceDetailInformation();
 		 String strResult = null;
-		 String url = "http://xiafucheng.6655.la:20128/webAdroid/server/servlet02?sportPlaceId="+sportplace_id;
+		 String url = "http://xiafucheng.duapp.com/webAdroid/server/servlet02?sportPlaceId="+sportplace_id;
 	        HttpGet httpRequest = new HttpGet(url);
 	       
 	        HttpClient httpClient = getHttpClient();
@@ -140,7 +134,7 @@ public class HttpGetSportPlaceJson {
 		 Gson gson = new Gson();
 		 String gson_sent = gson.toJson(spc);
 		 //String url ="http://10.0.2.2:8080/Ourapp/SportPlaceComment";
-		 String url = "http://xiafucheng.6655.la:20128/webAdroid/server/addSPComment";
+		 String url = "http://xiafucheng.duapp.com/webAdroid/server/addSPComment";
 		 HttpClient httpClient = getHttpClient();
 		 HttpPost httpPost = new HttpPost(url);
 	        try {
@@ -150,38 +144,49 @@ public class HttpGetSportPlaceJson {
 	            System.out.println(gson_sent);
 	            httpClient.execute(httpPost);
 	        }catch(Exception e){
-	        }
+	      }
 	 }
 	 
 	 //加载更多请求
 	public ArrayList<SportPlace> getMoreDataData(int city_id, int sort_id,
 			int distance_id, int sport_style_id, int addMoreCount) {
-
+		 
 		 String strResult = null;
-		
-		 	 String url = "http://10.0.2.2:8080/Ourapp/Sportsplcacservlet?city_id="+city_id+
-		 			 "&sort_id="+sort_id
-				 	 +"&distance_id="+distance_id
-				 	 +"&sport_style_id="+sport_style_id
-				 	 +"&addMoreCount="+addMoreCount;
-	        HttpGet httpRequest = new HttpGet(url); 
-	        HttpClient httpClient = getHttpClient();
-	        HttpResponse httpResponse = null;
-			try {
-				httpResponse = httpClient.execute(httpRequest);
-				
-				if(httpResponse.getStatusLine().getStatusCode() == 200){
-					
-	                strResult = EntityUtils.toString(httpResponse.getEntity());
-	            }else{
-				System.out.println("打印你麻痹啊"+httpResponse.getStatusLine().getStatusCode()+strResult);
-	            }
-	            } catch (Exception e) {
-				e.printStackTrace();
-			}	
-			Data = getObjectFromJson(strResult);
+		 //这个写死1   后面要改
+		 city_id = 1 ;
+//	 	 String url = "http://xiafucheng.6655.la:20128/webAdroid/server/servlet01?city_id="+city_id+
+//			 "&sort_id="+sort_id
+//	 	 +"&distance_id="+distance_id
+//	 	 +"&sport_style_id="+sport_style_id
+//	 	 +"&addMoreCount="+addMoreCount;
+	 	 String url = "http://xiafucheng.duapp.com/webAdroid/server/servlet01?city_id="+city_id+
+	 			 "&sort_id="+sort_id
+			 	 +"&distance_id="+distance_id
+			 	 +"&sport_style_id="+sport_style_id
+			 	 +"&addMoreCount="+addMoreCount;
+        HttpGet httpRequest = new HttpGet(url); 
+        HttpClient httpClient = getHttpClient();
+        HttpResponse httpResponse = null;
+		try {
+			httpResponse = httpClient.execute(httpRequest);
 			
-		return Data;
+			if(httpResponse.getStatusLine().getStatusCode() == 200){
+                strResult = EntityUtils.toString(httpResponse.getEntity());
+            }else{
+			System.out.println("打印你麻痹啊"+httpResponse.getStatusLine().getStatusCode()+strResult);
+            }
+            } catch (Exception e) {
+			e.printStackTrace();
+		}	
+		try {
+			Data = getObjectFromJson(strResult);
+			return Data;
+		} catch (Exception e) {
+			return null;
+		}
+		
+			
+		
 	}
 	
 	 /*根据url获取的json解析出对象数组*/
@@ -202,7 +207,7 @@ public class HttpGetSportPlaceJson {
 	 private String getJsonFromHttp(int city_id, int sort_id , int distance_id,  int sport_style_id){
 		 
 		String strResult = null;
-		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/servlet01?" +
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/servlet01?" +
 				"city_id="+1
 				+"&sort_id="+sort_id
 				+"&distance_id="+distance_id

@@ -58,11 +58,20 @@
 		    android:textSize="14sp" />
  
 	</RelativeLayout>	
-	<!--在这里设置主页的布局  -->  
+	<!--在这里设置主页的布局  -->
+	<!-- 第二套布局fym -->
+	<ListView
+	    android:id="@+id/fym_listView"
+	    android:layout_width="match_parent"
+	  	android:layout_below="@id/say_hello"
+	    android:layout_height="match_parent"
+	    ></ListView>
+	<!-- 第一套布局已经被干掉了 -->
 	<ScrollView
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-			android:layout_below="@id/say_hello">
+			android:layout_below="@id/say_hello"
+			android:visibility="gone">
  	 <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

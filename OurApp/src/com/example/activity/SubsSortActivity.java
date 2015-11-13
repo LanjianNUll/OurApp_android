@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SubsSortActivity extends Activity {
     //top的view
@@ -53,7 +54,7 @@ public class SubsSortActivity extends Activity {
 	 //每次加载数目
 	 int addMoreCount = 10;
 	 private Handler handler;
-	 
+	 private View footView;
 	 //getfenlei
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +66,18 @@ public class SubsSortActivity extends Activity {
 	private void initview() {
 		SharedPreferences getCityId = getSharedPreferences("user", Context.MODE_PRIVATE);
 		cityId = getCityId.getInt("city_id", -1);
-		
+		//Toast.makeText(SubsSortActivity.this, cityId+"", 1000).show();
 		//加载更多的view
-		View footView = LayoutInflater.from(SubsSortActivity.this).inflate(R.layout.add_more_layout, null);
+		footView = LayoutInflater.from(SubsSortActivity.this).inflate(R.layout.add_more_layout, null);
 		TextView addMoreView = (TextView) footView.findViewById(R.id.addMoreView);
 		
 		addMoreView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				addMoreCount = addMoreCount + 10;
 				addMoreData();
+//				Toast.makeText(SubsSortActivity.this, addMoreCount+"", 1000).show();
+				
 			}
 		});
 		
@@ -97,6 +101,8 @@ public class SubsSortActivity extends Activity {
 				intent.putExtras(bundle);
 				SubsSortActivity.this.startActivity(intent);
 				SubsSortActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 		//获取其他Activity中传来的那一类的详情
@@ -104,7 +110,8 @@ public class SubsSortActivity extends Activity {
 		final String sort_title = bundle.getString("name");
 		sort_id = bundle.getInt("sort");	
 		sub_sort_name.setText(sort_title);
-		
+		//Toast.makeText(SubsSortActivity.this, sort_title+sort_id, 1000).show();
+
 		handler = new Handler(){
 			int i = 0 ;
 			public void handleMessage(Message msg){
@@ -129,8 +136,11 @@ public class SubsSortActivity extends Activity {
 				case 3 :
 					loading.setVisibility(View.GONE);
 					adapter.notifyDataSetChanged();
-					sub_sort_listview.setSelection(addMoreCount+1);
-					addMoreCount = addMoreCount+10;
+					sub_sort_listview.setSelection(addMoreCount-10);
+					if(Data.size()<addMoreCount){
+						Toast.makeText(SubsSortActivity.this, "亲，已经到底了~", 1000).show();
+						footView.setVisibility(View.GONE);
+					}
 					break;
 				case 4 :
 					loading.setVisibility(View.GONE);
@@ -183,9 +193,12 @@ public class SubsSortActivity extends Activity {
 				Bundle bundle = new Bundle();
 				bundle.putString("name",sort_title);
 				bundle.putInt("SportPlaceId", SportPlaceId);
+				bundle.putInt("sort", sort_id);
 				intent.putExtras(bundle);
 				SubsSortActivity.this.startActivity(intent);
-				SubsSortActivity.this.finish();	
+				SubsSortActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 	}
@@ -216,6 +229,8 @@ public class SubsSortActivity extends Activity {
 			intent.putExtras(bundle);
 			SubsSortActivity.this.startActivity(intent);
 			SubsSortActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

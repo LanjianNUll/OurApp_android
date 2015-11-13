@@ -1,6 +1,7 @@
 package com.example.fragment;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,16 +9,23 @@ import java.util.TimerTask;
 import com.example.Refresh.RefreshableView;
 import com.example.Refresh.RefreshableView.PullToRefreshListener;
 import com.example.activity.FindDetailsActivity;
+import com.example.activity.UserLoginActivity;
 import com.example.activity.WriteCommentActivity;
 import com.example.adapter.FindSortListViewAdapter;
 import com.example.bean.Comment;
+import com.example.bean.User;
 import com.example.httpunit.HttpGetCommentJson;
 import com.example.httpunit.HttpGetSportPlaceJson;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
+import com.google.gson.Gson;
 
 import android.R.layout;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +49,7 @@ import android.widget.Toast;
 
 public class ThirdPageFragment extends Fragment {
 	private View view;
+	private View footView;
 	//find sort  最新和最热的分类
 	private LinearLayout find_sort_newest,find_sort_hotest;
 	private TextView find_sort_newest_text,find_sort_hotest_text;
@@ -68,7 +77,7 @@ public class ThirdPageFragment extends Fragment {
 	//下拉刷新的View
 	private RefreshableView refreshView;
 	//加载更多listview的条数
-	private int addMoreCount = 10 ;
+	private int addMoreCount = 10;
 	private Handler handler;
 	private int commentId;
 	@Override
@@ -108,8 +117,12 @@ public class ThirdPageFragment extends Fragment {
 					break;
 				case 3 :
 					adapter.notifyDataSetChanged();
-					find_sort_listView.setSelection(addMoreCount+1);
-					addMoreCount = addMoreCount +10;
+					find_sort_listView.setSelection(addMoreCount-10);
+					if(Data.size()<addMoreCount){
+						Toast.makeText(getActivity(), "亲，已经到底了~", 1000).show();
+						footView.setVisibility(View.GONE);
+					}
+					addMoreCount = addMoreCount + 10;	
 					break;
 				case 4 :
 					loading.setVisibility(View.GONE);
@@ -129,9 +142,12 @@ public class ThirdPageFragment extends Fragment {
 						//最热言论数据调用
 						//302 为最新的调用//301 为最热的调用
 						Data = httpgetcommentjson.getHotData(301);
-					}else
-						//最新言论数据调用
+						addMoreCount=addMoreCount+10;
+					}else{
 						Data = httpgetcommentjson.getNewData(302);
+						addMoreCount=addMoreCount+10;
+					}
+						
 					//判断从网络获取的Data是否为空，
 					if(Data == null)
 						handler.sendEmptyMessage(4);
@@ -158,20 +174,21 @@ public class ThirdPageFragment extends Fragment {
 	private void initview() {
 		
 		//给ListView末尾添加一个记载更多的布局
-		View footView = LayoutInflater.from(getActivity()).inflate(R.layout.add_more_layout, null, false); 
+		footView = LayoutInflater.from(getActivity()).inflate(R.layout.add_more_layout, null, false); 
 		TextView addMoreView = (TextView) footView.findViewById(R.id.addMoreView);
 		addMoreView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if(onHotPage){//加载更多的最热数据的调用
+				if(!onHotPage){//加载更多的最热数据的调用
 					//301 为最热的调用
 					addMoreData(301, addMoreCount);
+					//Toast.makeText(getActivity(), addMoreCount+"", 1000).show();
 				}
 				else{
 					//302 为最新的调用
-					addMoreData(301, addMoreCount);
+					addMoreData(302, addMoreCount);
+					//Toast.makeText(getActivity(), addMoreCount+"", 1000).show();
 				}
-				
 			}
 		});
 		//find sort  最新和最热的分类
@@ -186,9 +203,44 @@ public class ThirdPageFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
-				getActivity().startActivity(intent);
-				getActivity().finish();
+				
+				SharedPreferences sharedpreferences = getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
+				String userJson=sharedpreferences.getString("userJson", null);
+				Gson gson = new Gson();
+				User user = gson.fromJson(userJson, User.class);
+				if(user.getUserId()==-1){//用户没登录，
+					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+					ab.setTitle("");
+					ab.setMessage("亲，你还没登录~");
+					ab.setPositiveButton("去登录", new DialogInterface.OnClickListener() {						
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+							startActivity(intent);
+							getActivity().finish();
+							//界面跳转的动画
+							getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
+						}
+					});
+					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = ab.create();
+					// show it
+					alertDialog.show();
+				}else{
+					//用户登录了并评论
+					Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
+					startActivity(intent);
+					getActivity().finish();
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+				}
 			}
 		});						
 		find_sort_hotest.setOnClickListener(new FindSortListener());
@@ -213,7 +265,10 @@ public class ThirdPageFragment extends Fragment {
 				Bundle bundle = new Bundle();
 				bundle.putInt("commentId", commentId);
 				intent.putExtras(bundle);
-				getActivity().startActivity(intent);				
+				getActivity().startActivity(intent);
+				//界面跳转的动画
+				getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 				//看过加一操作
 				new seeCommentDetilAddOneTask();
 			}
@@ -247,9 +302,7 @@ public class ThirdPageFragment extends Fragment {
 					e.printStackTrace();
 				}
 				refreshView.finishRefreshing();
-				
 			}
-			
 		},0);
 	}
 
@@ -258,10 +311,11 @@ public class ThirdPageFragment extends Fragment {
 			public void run(){
 				ArrayList<Comment> moreData = new ArrayList<Comment>();
 				moreData = httpgetcommentjson.getaddMoreData(onwhichPage , addMoreCount2);
-				if(moreData != null)
+				if(moreData != null){
 					for(int i = 0; i<moreData.size(); i++)
 						Data.add(moreData.get(i));
-				handler.sendEmptyMessage(3);
+				}
+				handler.sendEmptyMessage(3);//+10
 			};
 		}.start();
 	}
@@ -270,7 +324,9 @@ public class ThirdPageFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			addMoreCount = 10;
+			addMoreCount = 20;
+			//显示加载更多的按钮
+			footView.setVisibility(View.VISIBLE);
 			switch (v.getId()) {
 			case R.id.find_sort_hotest:
 				onHotPage = false;

@@ -215,7 +215,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 			case MotionEvent.ACTION_UP:
 			default:
 				if (currentStatus == STATUS_RELEASE_TO_REFRESH) {
-					// 松手时如果是释放立即刷新状态，就去调用正在刷新的任务
+					//松手时如果是释放立即刷新状态，就去调用正在刷新的任务
 					new RefreshingTask().execute();
 				} else if (currentStatus == STATUS_PULL_TO_REFRESH) {
 					// 松手时如果是下拉状态，就去调用隐藏下拉头的任务

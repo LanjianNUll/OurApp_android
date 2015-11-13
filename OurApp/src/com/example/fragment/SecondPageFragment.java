@@ -87,7 +87,8 @@ public class SecondPageFragment extends Fragment {
 	private ImageView jiazai_pic;
 	private RelativeLayout loading ,errorpage;
 	Handler handler;
-
+	//加载更多的
+	private View footView;
 	//加载http工具包
 	private  HttpGetSportPlaceJson httpgetjson  = new HttpGetSportPlaceJson();
 
@@ -100,7 +101,8 @@ public class SecondPageFragment extends Fragment {
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.app_secondpage, container, false);
 		//获取城市id
-		SharedPreferences city= getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+		SharedPreferences city= getActivity().getSharedPreferences("user", 
+				Context.MODE_PRIVATE);
 		cityId = city.getInt("city_id", -1);
 		jiazai_pic = (ImageView) view.findViewById(R.id.jiazai_pic);
 		jiazai_text = (TextView) view.findViewById(R.id.jiazai_text);
@@ -115,7 +117,8 @@ public class SecondPageFragment extends Fragment {
 				switch (msg.what) {
 				case 1:
 					loading.setVisibility(View.GONE);
-					list_nearby.setAdapter(adapter = new ListViewAdapter(getActivity(), Data));
+					list_nearby.setAdapter(adapter = 
+							new ListViewAdapter(getActivity(), Data));
 					break;	
 				case 2 :
 					jiazai_pic.setImageResource(R.drawable.jiazai00+i%6);
@@ -132,8 +135,11 @@ public class SecondPageFragment extends Fragment {
 				case 3:
 					loading.setVisibility(View.GONE);
 					adapter.notifyDataSetChanged();
-					list_nearby.setSelection(addMoreCount+1);
-					addMoreCount = addMoreCount+10;
+					list_nearby.setSelection(addMoreCount-10);
+					if(Data.size()<addMoreCount){
+						Toast.makeText(getActivity(), "亲，已经到底了~", 1000).show();
+						footView.setVisibility(View.GONE);
+					}
 					break;
 				case 4:
 					loading.setVisibility(View.VISIBLE);
@@ -184,12 +190,15 @@ public class SecondPageFragment extends Fragment {
 	private void inintview() {
 
 		//给ListView末尾添加一个记载更多的布局
-		View footView = LayoutInflater.from(getActivity()).inflate(R.layout.add_more_layout, null, false);  
+		footView = LayoutInflater.from(getActivity()).
+				inflate(R.layout.add_more_layout, null, false);  
 		TextView addMoreView = (TextView) footView.findViewById(R.id.addMoreView);
 		addMoreView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View fv) {
+				addMoreCount = addMoreCount + 10;
+				//Toast.makeText(getActivity(), +addMoreCount+"", 1000).show();
 				addMoreData(sortId , distanceId,sportstyleId);
 				resetID();
 			}
@@ -240,6 +249,9 @@ public class SecondPageFragment extends Fragment {
 				intent.putExtras(bundle);
 				startActivity(intent);
 				getActivity().finish();
+				//界面跳转的动画
+				getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 			}
 		});
 	}
@@ -254,7 +266,6 @@ public class SecondPageFragment extends Fragment {
 		//开一个线程进行网络数据加载
 		new Thread(){
 			public void run(){
-				
 				//定义临时容器
 				ArrayList<SportPlace> MoreData = new ArrayList<SportPlace>();
 				MoreData = httpgetjson.getMoreDataData(cityId,sortId2, distanceId2, sportstyleId2, addMoreCount);		
@@ -276,6 +287,7 @@ public class SecondPageFragment extends Fragment {
 		public void onClick(View v) {
 			//把加载更多的总条数重置为10
 			addMoreCount = 10;
+			footView.setVisibility(View.VISIBLE);
 			switch (v.getId()) {
 			case R.id.all_sort:
 				dialog_int = 0;

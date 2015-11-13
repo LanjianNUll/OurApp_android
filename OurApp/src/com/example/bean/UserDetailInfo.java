@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class UserDetailInfo {
 		//性别
-		private static int sex_man = 1;
-		private static int sex_women = 2; 
-		private static int sex_define = 0;
+		public static int sex_man = 1;
+		public static int sex_women = 2; 
+		public static int sex_define = 0;
 		//user_state
 		public static int state_运动狂 = 10;
 		public static int state_运动达人 = 11;
@@ -97,7 +97,5 @@ public class UserDetailInfo {
 		public void setPassWord(String passWord) {
 			this.passWord = passWord;
 		}
-		
-		
-		
+
 }

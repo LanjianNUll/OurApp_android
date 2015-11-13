@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.CircleImageView.CircleImageView;
+import com.example.Data.defaultPacage;
 import com.example.activity.ErWeiMaActivity;
 import com.example.activity.MyfirendActivity;
 import com.example.activity.ScanAndAddfriendActivity;
@@ -29,7 +31,7 @@ public class LastPageFragment extends Fragment {
 
 	private View view;
 	private RelativeLayout my_user;
-	private ImageView my_user_pic;
+	private CircleImageView my_user_pic;
 	private TextView my_user_sign, my_user_name;
 	private RelativeLayout my_friend, my_setting, myerweima_card, scan_addFriend;
 	//如果当前用户没有登录则显示去登录按钮
@@ -47,7 +49,7 @@ public class LastPageFragment extends Fragment {
 	private void initview() {
 		
 		my_user = (RelativeLayout) view.findViewById(R.id.my_user);
-		my_user_pic = (ImageView) view.findViewById(R.id.my_user_pic);
+		my_user_pic = (CircleImageView) view.findViewById(R.id.my_user_pic);
 		my_user_sign = (TextView) view.findViewById(R.id.my_user_sign);
 		my_user_name = (TextView) view.findViewById(R.id.my_user_name);
 		my_friend = (RelativeLayout) view.findViewById(R.id.my_friend);
@@ -55,6 +57,11 @@ public class LastPageFragment extends Fragment {
 		go_to_login = (Button) view.findViewById(R.id.go_to_login);
 		myerweima_card = (RelativeLayout) view.findViewById(R.id.myerweima_card);
 		scan_addFriend = (RelativeLayout) view.findViewById(R.id.scan_addFriend);
+		
+		//random headPic
+		//Random 随机数
+		int x=1+(int)(Math.random()*20);
+		my_user_pic.setImageResource(defaultPacage.headpic[x]);
 		
 		SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 		String userJson=preferences.getString("userJson", "defaultname");
@@ -69,6 +76,9 @@ public class LastPageFragment extends Fragment {
 					Intent intent = new Intent(getActivity(), UserLoginActivity.class);
 					startActivity(intent);
 					getActivity().finish();
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}
 			});
         }else{
@@ -80,6 +90,9 @@ public class LastPageFragment extends Fragment {
 					Intent intent = new Intent(getActivity(), UserLoginActivity.class);
 					startActivity(intent);
 					getActivity().finish();
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}
 			});
         }
@@ -88,6 +101,7 @@ public class LastPageFragment extends Fragment {
 //		user = (User) bundle.getSerializable("user");
 		
 		my_user_name.setText(user.getUsername());
+		my_user_sign.setText(user.getMy_user_sign());
 		
 		//这里跳转到用户详情页面
 		my_user.setOnClickListener(new OnClickListener() {
@@ -99,9 +113,13 @@ public class LastPageFragment extends Fragment {
 					//将用户的id传递过去
 					Bundle bundle = new Bundle();
 					bundle.putInt("userId", user.getUserId());
+					bundle.putString("fromwhere", "LastPageFrament");
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}else{
 					Toast.makeText(getActivity(), "亲，你还没有登录呢", Toast.LENGTH_LONG).show();
 				}
@@ -120,10 +138,12 @@ public class LastPageFragment extends Fragment {
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}else{
 					Toast.makeText(getActivity(), "亲，你还没有登录呢", Toast.LENGTH_LONG).show();
 				}
-				
 			}
 		});
 		//我的二维码页面
@@ -139,6 +159,9 @@ public class LastPageFragment extends Fragment {
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}else{
 					Toast.makeText(getActivity(), "亲，你还没有登录呢", Toast.LENGTH_LONG).show();
 				}
@@ -157,6 +180,9 @@ public class LastPageFragment extends Fragment {
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
 				}else{
 					Toast.makeText(getActivity(), "亲，你还没有登录呢", Toast.LENGTH_LONG).show();
 				}
@@ -168,7 +194,6 @@ public class LastPageFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		

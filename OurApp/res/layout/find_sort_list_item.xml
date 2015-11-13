@@ -16,11 +16,11 @@
        <RelativeLayout
            android:id="@+id/user_name_about"
            android:layout_width="match_parent"
-           android:layout_height="20dp" >
-			<ImageView 
+           android:layout_height="50dp" >
+			<com.example.CircleImageView.CircleImageView 
 			    android:id="@+id/user_define_pic"
-			    android:layout_width="20dp"
-			    android:layout_height="20dp"
+			    android:layout_width="50dp"
+			    android:layout_height="50dp"
 			    android:src="@drawable/ic_launcher"/>
 
            <TextView
@@ -37,11 +37,11 @@
                android:id="@+id/user_name"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_alignParentTop="true"
-               android:layout_marginLeft="14dp"
+               android:layout_centerVertical="true"
+               android:layout_margin="5dp"
                android:layout_toRightOf="@+id/user_define_pic"
                android:text="我是用户名"
-               android:textSize="15sp"/>
+               android:textSize="15sp" />
            
        </RelativeLayout>
        

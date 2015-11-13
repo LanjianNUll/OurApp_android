@@ -1,10 +1,5 @@
 package com.example.fragment;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -12,9 +7,8 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.example.activity.CityFindnear;
 import com.example.activity.SubsSortActivity;
-import com.example.bean.CityId;
+import com.example.adapter.FymMainFrammentAdapter;
 import com.example.bean.User;
-import com.example.httpunit.BaiduLocation;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
@@ -31,11 +25,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainPageFragment extends Fragment {
 
@@ -47,7 +43,6 @@ public class MainPageFragment extends Fragment {
 	 private ImageView main_activity_to_search_img;
 	 //sayhello
 	 private TextView main_say_hello;
-	 private String[] res_msg = {"在这里总能找到你想要的","运动之路亦是交友之路","也是成功之路"};
 	 //各分类的图片
 	 private ImageView basketball_imgae,running_iamge,badminto_iamge,
 	 						football_iamge,swimming_iamge,gym_imgae,
@@ -62,26 +57,31 @@ public class MainPageFragment extends Fragment {
 	//百度定位
 	 private LocationClient mLocationClient = null;
 	 private MyLocationListenner myListener = new MyLocationListenner();
-	 //判断是否首次进入，开始定位
-	 private boolean isstartloaction = true;
+	 //第二套布局
+	 private ListView fym_listView;
+	 private FymMainFrammentAdapter adapter;
+	 private String[] name = {"篮球","跑步","羽毛球","足球","游泳","健身房","乒乓球","公园休闲"
+				,"排球","爬山","骑行","其他"};
+	 private int[] Data = {R.drawable.fym_basketball, R.drawable.fym_run, R.drawable.fym_badminton,
+			 R.drawable.fym_footvall,R.drawable.fym_swimming, R.drawable.fym_gym,
+			 R.drawable.fym_table_tennis,R.drawable.fym_park, R.drawable.fym_volleyball,
+			 R.drawable.fym_climb_mountain, R.drawable.fym_ride,R.drawable.fym_baseball};
+	 
+//	 //判断是否首次进入，开始定位
+//	 private boolean isstartloaction = true;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		Bundle savedInstanceState) {
 			view = inflater.inflate(R.layout.app_mainpage, container, false);
-			SharedPreferences startloaction = getActivity().getSharedPreferences("loaction_start", Context.MODE_PRIVATE);
-			isstartloaction = startloaction.getBoolean("isstartloaction", true);	
-			if(isstartloaction){
-				isstartloaction = false;
-				Editor editor=startloaction.edit();
-				editor.putBoolean("isstartloaction", isstartloaction);
-				editor.commit();
-				//定位
-				mLocationClient = new LocationClient(getActivity());  
-				mLocationClient.registerLocationListener(myListener);
-				setLocationOption();//设定定位参数
-				mLocationClient.start();//开始定位		 
-			}
+//			SharedPreferences startloaction = getActivity().getSharedPreferences("loaction_start", Context.MODE_PRIVATE);
+//			isstartloaction = startloaction.getBoolean("isstartloaction", true);	
+//			if(isstartloaction){
+//				isstartloaction = false;
+//				Editor editor=startloaction.edit();
+//				editor.putBoolean("isstartloaction", isstartloaction);
+//				editor.commit();
+			//}
 		 initview();
 		 return view;
 	}
@@ -95,6 +95,20 @@ public class MainPageFragment extends Fragment {
 		animSet.start();		
 	}
 	private void initview() {
+		
+		//fym
+		fym_listView = (ListView) view.findViewById(R.id.fym_listView);
+		fym_listView.setAdapter(adapter = new FymMainFrammentAdapter(getActivity(), Data));
+		fym_listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				senttitle(name[arg2], 101+arg2);
+			}
+		});
+		
+		
 		//sayhello
 		main_say_hello = (TextView) view.findViewById(R.id.main_say_hello);
 		//top的view
@@ -136,11 +150,19 @@ public class MainPageFragment extends Fragment {
 		other_imgae.setOnClickListener(new mainClickListener());
 		
 		Bundle bundle = getActivity().getIntent().getExtras();
-		if(city == null)
-			main_activity_top_citytext.setText("定位中...");
 		city = bundle.getString("city_name");
-		main_activity_top_citytext.setText(city);
-		int cityID = findcity_id(city) ;
+		if(city == null){
+			main_activity_top_citytext.setText("定位中...");
+			//百度定位
+			mLocationClient = new LocationClient(getActivity());  
+			mLocationClient.registerLocationListener(myListener);
+			setLocationOption();//设定定位参数
+			mLocationClient.start();//开始定位
+		}
+		else
+			main_activity_top_citytext.setText(city);
+		//记录城市ID
+		int cityID = findcity_id(city);
 		if(cityID != -1){
 			SharedPreferences cityidsh = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 			Editor e = cityidsh.edit();
@@ -162,6 +184,9 @@ public class MainPageFragment extends Fragment {
 				Intent intent = new Intent(getActivity(), CityFindnear.class);
 				startActivity(intent);
 				getActivity().finish();
+				//界面跳转的动画
+				getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out); 
 				break;
 			case R.id.main_activity_top_citytext:
 				//定位
@@ -221,15 +246,17 @@ public class MainPageFragment extends Fragment {
 		bundle.putInt("sort", sortInt);
 		intent.putExtras(bundle);
 		startActivity(intent);
-	//	getActivity().finish();
+		getActivity().finish();
+		//界面跳转的动画
+		getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+				R.drawable.interface_jump_out);
 	}
 	
 	private void setLocationOption() {
 		LocationClientOption option = new LocationClientOption();  
         option.setLocationMode(LocationMode.Hight_Accuracy);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span=1000;
-        option.setScanSpan(0);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setScanSpan(1001);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
@@ -247,14 +274,13 @@ public class MainPageFragment extends Fragment {
 		@Override
 		public void onReceiveLocation(BDLocation arg0) {
 			if(arg0 == null){
-				
 				return;}
 			city = arg0.getCity();
 			adress = arg0.getAddrStr();
 			if(city == null){
 				main_activity_top_citytext.setText("定位中".toString());
-				Toast.makeText(getActivity(),"定位失败"+arg0.getLocType(), 1000).show();
-				Log.v("你所在的详细地址是：",adress+"2");
+				//Toast.makeText(getActivity(),"定位失败"+arg0.getLocType(), 1000).show();
+				//Log.v("你所在的详细地址是：",adress+"2");
 			}
 			else{
 				main_activity_top_citytext.setText(city);
@@ -274,11 +300,10 @@ public class MainPageFragment extends Fragment {
 				String userJson=preferences.getString("userJson", "defaultname");	
 				Gson gson = new Gson();
 				user = gson.fromJson(userJson, User.class); 
-				user.setLocation_lasetime_login(city);
-				
+				user.setLocation_lasetime_login(city2);
 				//Toast.makeText(getActivity(), city+"你在那", 1000).show();
 				Log.v("这里测试city是否写入了SharedPreferences",city+"");
-				Toast.makeText(getActivity(),"城市Id是" +city_id, 1000).show();
+				//Toast.makeText(getActivity(),"城市Id是" +city_id, 1000).show();
 				String userJson_to = gson.toJson(user);
 				SharedPreferences preferences1 = getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
 				Editor editor=preferences1.edit();

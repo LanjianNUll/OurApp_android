@@ -1,5 +1,6 @@
 package com.example.activity;
 
+import com.example.CircleImageView.CircleImageView;
 import com.example.bean.ChatMessage;
 import com.example.bean.User;
 import com.example.dao.MyFriendGroupDB;
@@ -35,6 +36,7 @@ public class ScanAndAddfriendActivity extends Activity {
 	//扫描到的好友
 	private User user;
 	private ImageView AddfriendComeback;
+	private CircleImageView addFriendPic;
 	private LinearLayout showFailInf;
 	private RelativeLayout showSucesssInf;
 	private HttpDoUserMsg httpDoUSermsg = new HttpDoUserMsg();
@@ -47,7 +49,8 @@ public class ScanAndAddfriendActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.add_friends_layout);
-		
+		//
+		addFriendPic = (CircleImageView) findViewById(R.id.addFriendPic);
 		//取到当前用户的userId
 		SharedPreferences shpf = getSharedPreferences("user", Context.MODE_PRIVATE);
 		String ugs = shpf.getString("userJson", null);
@@ -87,6 +90,8 @@ public class ScanAndAddfriendActivity extends Activity {
 				intent.putExtras(bundle);
 				ScanAndAddfriendActivity.this.startActivity(intent);
 				ScanAndAddfriendActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
 				
 			}
 		});
@@ -208,6 +213,8 @@ public class ScanAndAddfriendActivity extends Activity {
 			intent.putExtras(bundle);
 			ScanAndAddfriendActivity.this.startActivity(intent);
 			ScanAndAddfriendActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 			super.onPostExecute(result);
 		}
 	}
@@ -221,6 +228,8 @@ public class ScanAndAddfriendActivity extends Activity {
 			intent.putExtras(bundle);
 			ScanAndAddfriendActivity.this.startActivity(intent);
 			ScanAndAddfriendActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
 		}
 		return super.onKeyDown(keyCode, event);
 	}

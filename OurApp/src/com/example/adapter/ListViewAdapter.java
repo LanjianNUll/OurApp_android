@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.example.bean.SportPlace;
+import com.example.httpunit.HttpGetSportPlaceJson;
 import com.example.ourapp.R;
 import com.loopj.android.image.SmartImageView;
 
@@ -63,7 +64,8 @@ public class ListViewAdapter extends BaseAdapter {
 			
 			//ÍøÂçÍ¼Æ¬
 			Log.v( "ÍøÂçÍ¼Æ¬µØÖ·", ""+list.get(position).getSportplace_imageUrl());
-			String url = "http://xiafucheng.6655.la:20128/webAdroid/image/";
+			//Í¼Æ¬¸ùÂ·¾¶
+			String url = HttpGetSportPlaceJson.RootURL;
 			holder.sport_place_image.setImageUrl(url+list.get(position).getSportplace_imageUrl());
 			holder.sport_place_name.setText(list.get(position).getSportplace_name());
 			holder.values.setText(list.get(position).getSportplace_value());
@@ -72,7 +74,6 @@ public class ListViewAdapter extends BaseAdapter {
 			holder.content_text.setText(list.get(position).getSportplace_discrb());
 			return convertView;
 		}
-
 		private final class ViewHolder {
 			SmartImageView sport_place_image;
 			TextView sport_place_name,values,place_position,distance, content_text;

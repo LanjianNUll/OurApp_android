@@ -43,7 +43,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_below="@+id/user_detail_top">
-			<ImageView
+			<com.example.CircleImageView.CircleImageView
 		        android:id="@+id/addFriendPic"
 		        android:layout_width="60dp"
 		        android:layout_height="60dp"
