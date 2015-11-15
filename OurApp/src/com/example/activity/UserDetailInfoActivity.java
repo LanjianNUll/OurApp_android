@@ -1,20 +1,20 @@
 package com.example.activity;
 
-import java.util.Random;
 
 import com.example.CircleImageView.CircleImageView;
 import com.example.Data.defaultPacage;
 import com.example.adapter.LeaveWordListViewAdapter;
-import com.example.adapter.SPCommentListAdapter;
 import com.example.bean.User;
 import com.example.bean.UserDetailInfo;
 import com.example.httpunit.HttpDoUserMsg;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
+import com.google.gson.Gson;
 
-import android.R.integer;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,13 +24,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UserDetailInfoActivity extends Activity {
 	private ImageView userDetailComeback;
+	private Button addFriendbtn;
 	private CircleImageView defaultheadCircle;
 	//动画的加载
 	private LinearLayout loading;
@@ -44,6 +47,8 @@ public class UserDetailInfoActivity extends Activity {
 	private ListView userDetailListView; 
 	//用户的userId
 	private int userId;
+	//当前用户的id
+	private UserDetailInfo ud;
 	//用户类
 	private UserDetailInfo userDInfo;
 	//适配器
@@ -78,6 +83,31 @@ public class UserDetailInfoActivity extends Activity {
 		userDetailListView = (ListView) findViewById(R.id.userDetailListView);
 		usersignDetail = (TextView) findViewById(R.id.usersignDetail);
 		userDetailComeback = (ImageView) findViewById(R.id.userDetailComeback);
+		addFriendbtn = (Button) findViewById(R.id.addFriendbtn);
+		addFriendbtn.setVisibility(View.VISIBLE);
+		//获取当前用户的id
+		SharedPreferences sp = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String userDetailJson = sp.getString("userDetail", null);
+		Gson gson = new Gson();
+		try {
+			ud = gson.fromJson(userDetailJson, UserDetailInfo.class); 
+		} catch (Exception e) {
+			ud = new UserDetailInfo();
+		}
+		if(ud.getUserId() == -1 || ud.getUserId() == userId)
+			addFriendbtn.setVisibility(View.GONE);
+		else
+			addFriendbtn.setVisibility(View.VISIBLE);
+		
+		//添加好友的按钮监听
+		addFriendbtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				new AddFriendsTask().execute(ud.getUserId(), userId);
+				
+			}
+		});
 		//网络获取数据
 		new GetUserDInfoTask().execute(userId);
 		userDetailComeback.setOnClickListener(new OnClickListener() {
@@ -167,10 +197,9 @@ public class UserDetailInfoActivity extends Activity {
 			}
 			if(userDInfo == null)
 				return -1;
-			else 
+			else
 				return 1;
 		}
-
 		@Override
 		protected void onPostExecute(Integer result) {
 			if(result == 1){
@@ -210,6 +239,7 @@ public class UserDetailInfoActivity extends Activity {
 		if(userDInfo.getSexId() == User.sex_women)
 			sex = "女";
 		userDetailSex.setText(sex);
+		usersignDetail.setText(userDInfo.getMy_user_sign());
 		userDetailNearLocation.setText(userDInfo.getLocation_lasetime_login());
 		userDetailListView.setAdapter(adapter = new LeaveWordListViewAdapter(this, userDInfo.getLeaveword()));
 		setListViewHeight(userDetailListView);
@@ -234,4 +264,31 @@ public class UserDetailInfoActivity extends Activity {
         params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));    
         listView.setLayoutParams(params);    
     } 
+class AddFriendsTask extends AsyncTask<Integer, Integer, Integer>{
+		
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			//@params 当前用户id   添加的用户id
+			//返回码 :(添加成功 1 添加失败 0  好友已经存在-1)
+			HttpDoUserMsg httpDoUSermsg = new HttpDoUserMsg();
+			return httpDoUSermsg.addFriend(arg0[0], arg0[1]);
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				//添加成功
+				Toast.makeText(UserDetailInfoActivity.this, "添加好友成功",
+						1000).show();
+			}
+			if(result == 0){
+				Toast.makeText(UserDetailInfoActivity.this, "添加失败成功", 1000)
+				.show();
+			}
+			if(result == -1){
+				Toast.makeText(UserDetailInfoActivity.this, "该好友已经是你的好友了", 1000)
+				.show();
+			}
+			super.onPostExecute(result);
+		}
+	}
 }

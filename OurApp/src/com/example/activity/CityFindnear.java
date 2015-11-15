@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.example.adapter.SortAdapter;
 import com.example.bean.City;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 import com.example.unti.CharacterParser;
@@ -57,7 +58,7 @@ public class CityFindnear extends Activity {
 	//定位城市名
 	private String city;
 	//用户
-	private User user;
+	private UserDetailInfo user;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,24 +107,25 @@ public class CityFindnear extends Activity {
 				//Toast.makeText(CityFindnear.this, city_item.toString(), 1000).show();
 				/**修改User对象中的定位地址*/
 				//获取用户对象
-				SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-				String userJson=preferences.getString("userJson", "defaultname");
+				SharedPreferences preferences = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				String userJson=preferences.getString("userDetail", "defaultname");
 				Gson gson = new Gson();
-				user = gson.fromJson(userJson, User.class); 
+				
+				user = gson.fromJson(userJson, UserDetailInfo.class); 
 				//将修改后的值封装到对象user_to_json
 				User  user_to_json = new User();
 				user_to_json.setUserId(user.getUserId());
 				user_to_json.setUsername(user.getUsername());
 				user_to_json.setMy_user_sign(user.getMy_user_sign());
 				user_to_json.setSexId(user.getSexId());
-				user_to_json.setPassword(user.getPassword());
+				user_to_json.setPassword(user.getPassWord());
 				user_to_json.setUser_state(user.getUser_state());
 				user_to_json.setLocation_lasetime_login(city_item);
 				
 				String toJson = gson.toJson(user_to_json);
-				SharedPreferences preferences_to=getSharedPreferences("user",Context.MODE_PRIVATE);
+				SharedPreferences preferences_to=getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
 				Editor editor=preferences.edit();
-				editor.putString("userJson", toJson);
+				editor.putString("userDetail", toJson);
 				editor.commit();
 				
 				

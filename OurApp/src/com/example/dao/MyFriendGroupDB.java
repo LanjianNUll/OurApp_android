@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -34,8 +35,8 @@ public class MyFriendGroupDB extends SQLiteOpenHelper {
 	        onCreate(db);
 	}
 	/*查询好友*/
-	public User getFriend(int friendId){
-		User u = new User();
+	public UserDetailInfo getFriend(int friendId){
+		UserDetailInfo u = new UserDetailInfo();
 		SQLiteDatabase db = getReadableDatabase();
 		Cursor c = db.rawQuery("select * from friendGroup where friendId=?",
 				new String[] { friendId + "" });
@@ -49,23 +50,23 @@ public class MyFriendGroupDB extends SQLiteOpenHelper {
 		return u;
 	}
 	/*增加好友*/
-	public void AddFriend(User friend){
-		if (getFriend(friend.getUserId()) != null)
+	public void AddFriend(UserDetailInfo u){
+		if (getFriend(u.getUserId()) != null)
 		{
-			update(friend);
+			update(u);
 			return;
 		}
 		SQLiteDatabase db = getWritableDatabase();
 		db.execSQL(
 				"insert into friendGroup (friendId,friendName,friendSignal) values(?,?,?)",
-				new Object[] { friend.getUserId(), friend.getUsername(), friend.getMy_user_sign()});
+				new Object[] { u.getUserId(), u.getUsername(), u.getMy_user_sign()});
 		db.close();
 	}
 	/*增加好友列表*/
-	public void AddFriendGroup(List<User> friend){
+	public void AddFriendGroup(List<UserDetailInfo> friend){
 		
 		SQLiteDatabase db = getWritableDatabase();
-		for (User user : friend) {
+		for (UserDetailInfo user : friend) {
 			db.execSQL(
 				"insert into friendGroup (friendId,friendName,friendSignal) values(?,?,?)",
 				new Object[] { user.getUserId(), user.getUsername(), user.getMy_user_sign()});
@@ -73,22 +74,22 @@ public class MyFriendGroupDB extends SQLiteOpenHelper {
 		db.close();
 	}
 	/*更新好友*/
-	public void update(User friend) {
+	public void update(UserDetailInfo user) {
 		SQLiteDatabase db = getWritableDatabase();
 		db.execSQL(
 				"update friendGroup set friendName=?,friendSignal=? where friendId=?",
-				new Object[] { friend.getUsername(), friend.getMy_user_sign(), friend.getUserId()});
+				new Object[] { user.getUsername(), user.getMy_user_sign(), user.getUserId()});
 		db.close();	
 	}
-		
+	
 	/*获取好友列表*/
-	public ArrayList<User> getFriendGroup()
+	public ArrayList<UserDetailInfo> getFriendGroup()
 	{
 		SQLiteDatabase db = getWritableDatabase();
-		ArrayList<User> list = new ArrayList<User>();
+		ArrayList<UserDetailInfo> list = new ArrayList<UserDetailInfo>();
 		Cursor c = db.rawQuery("select * from friendGroup", null);
 		while (c.moveToNext()){
-			User u = new User();
+			UserDetailInfo u = new UserDetailInfo();
 			u.setUserId(c.getInt(c.getColumnIndex("friendId")));
 			u.setUsername(c.getString(c.getColumnIndex("friendName")));
 			u.setMy_user_sign(c.getString(c.getColumnIndex("friendSignal")));
@@ -100,7 +101,7 @@ public class MyFriendGroupDB extends SQLiteOpenHelper {
 	}
 	
 	/*删除*/
-	public void delUser(User u){
+	public void delUser(UserDetailInfo u){
 		SQLiteDatabase db = getWritableDatabase();
 		db.execSQL("delete from friendGroup where friendId=?",
 				new Object[] { u.getUserId() });

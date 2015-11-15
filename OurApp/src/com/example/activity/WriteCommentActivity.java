@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.bean.Comment;
 import com.example.bean.CommentDetailInformation;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.httpunit.HttpGetCommentJson;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
@@ -38,7 +39,7 @@ public class WriteCommentActivity extends Activity{
 	private EditText write_comment_comment;
 	private CheckBox pullToOther;
 	//user类
-	private User user;
+	private UserDetailInfo user;
 	//comment类
 	private Comment comment;
 	//评论详情类
@@ -61,10 +62,10 @@ public class WriteCommentActivity extends Activity{
 
 	private void initmsg() {
 		//获取用户对象
-		SharedPreferences preferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-		String userJson=preferences.getString("userJson", "defaultname");
+		SharedPreferences preferences = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String userJson=preferences.getString("userDetail", null);
 		Gson gson = new Gson();
-		user = gson.fromJson(userJson, User.class);
+		user = gson.fromJson(userJson, UserDetailInfo.class);
 	}
 
 	private void initview() {
@@ -103,7 +104,7 @@ public class WriteCommentActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				if(user.getUsername() == "未登录"){
+				if(user.getUserId()== -1){
 					Toast.makeText(WriteCommentActivity.this, "请登录后，才能发表哦", 1000).show();
 					Intent intent = new Intent(WriteCommentActivity.this, UserLoginActivity.class);
 					WriteCommentActivity.this.startActivity(intent);
@@ -126,6 +127,9 @@ public class WriteCommentActivity extends Activity{
 						//评论详情类
 						//后期要做图片上传等异步操作，图片地址设置等
 						commentDInfo = new CommentDetailInformation();
+						commentDInfo.setComment_from_user_id(user.getUserId());
+						commentDInfo.setComment_from_user_name(user.getUsername());
+						commentDInfo.setUser_state(user.getUser_state());
 						commentDInfo.setComment_type(comment_type);
 						commentDInfo.setComment_from_time(new Date());
 						commentDInfo.setComment_content(write_comment_comment.getText().toString().trim());
@@ -162,7 +166,7 @@ public class WriteCommentActivity extends Activity{
 		});
 		
 	}
-	class updataCommentTask extends AsyncTask<Void, Integer, Void>{
+	class updataCommentTask extends AsyncTask<Integer, Integer, Integer>{
 		//访问网络的异步
 		@Override
 		protected void onPreExecute() {
@@ -171,23 +175,29 @@ public class WriteCommentActivity extends Activity{
 			super.onPreExecute();
 		}
 		@Override
-		protected Void doInBackground(Void... arg0) {
-			httpgetcommentjson.updateComment(comment,commentDInfo);
-			return null;
+		protected Integer doInBackground(Integer... arg0) {
+			return httpgetcommentjson.updateComment(comment,commentDInfo);
 		}
 		@Override
-		protected void onPostExecute(Void result) {
-			//发送成功后的跳转
-			Intent intent = new Intent(WriteCommentActivity.this, MainActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putInt("CurrentItem", 2);
-			intent.putExtras(bundle);
-			WriteCommentActivity.this.startActivity(intent);
-			WriteCommentActivity.this.finish();
-			overridePendingTransition(R.drawable.interface_jump_in,
-					R.drawable.interface_jump_out);
-			sent_comment.setClickable(true);
-			Toast.makeText(WriteCommentActivity.this, "发送成功", 1000).show();
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				//发送成功后的跳转
+				Intent intent = new Intent(WriteCommentActivity.this, MainActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("CurrentItem", 2);
+				intent.putExtras(bundle);
+				WriteCommentActivity.this.startActivity(intent);
+				WriteCommentActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
+				sent_comment.setClickable(true);
+				Toast.makeText(WriteCommentActivity.this, "发送成功", 1000).show();
+			}
+			else{
+				Toast.makeText(WriteCommentActivity.this, "啊哦~，发送失败，请检查你的网络状况", 
+						Toast.LENGTH_LONG).show();
+			}
+			
 			super.onPostExecute(result);
 		}
 	}

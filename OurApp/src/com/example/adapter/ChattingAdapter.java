@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.example.bean.ChatMessage;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
@@ -29,10 +30,10 @@ public class ChattingAdapter extends BaseAdapter {
 	public ChattingAdapter(Context context, List<ChatMessage> chatMsgList) {
 		this.chatMsgList = chatMsgList;
 		this.context = context;
-		sh = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-		String gstr = sh.getString("userJson", null);
+		sh = context.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String gstr = sh.getString("userDetail", null);
 		Gson gson = new Gson();
-		User user = gson.fromJson(gstr, User.class);
+		UserDetailInfo user = gson.fromJson(gstr, UserDetailInfo.class);
 		myUserId = user.getUserId();		
 	}
 

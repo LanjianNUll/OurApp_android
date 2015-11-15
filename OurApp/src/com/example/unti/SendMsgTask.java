@@ -2,10 +2,8 @@ package com.example.unti;
 
 import com.example.Application.Application;
 import com.example.PushServer.BaiduPush;
-import com.example.activity.ChattingActivity;
 import com.example.bean.Comment;
 import com.example.bean.CommentDetailInformation;
-import com.example.dao.ChattMessageDB;
 import com.google.gson.Gson;
 
 import android.os.AsyncTask;

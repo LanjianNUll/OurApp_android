@@ -1,56 +1,73 @@
 package com.example.welcomepage;
 
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
 import com.example.Application.Application;
-import com.example.bean.User;
+
+import com.example.bean.UserDetailInfo;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class Welcomeactivity extends Activity {
 	
 	private Button btn;
-	private User user;
+	private UserDetailInfo user;
+	private ImageView fristWelcomeImage;
+	private ObjectAnimator fristanim;
+	private boolean isStart = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.welcomepage);
+		
+		fristWelcomeImage = (ImageView) findViewById(R.id.fristWelcomeImage);
+		
 		//启动在sharedpreferrnces中拿对象，如果有就拿 没有就如下取值,
 		//注 由于sharedpreferrnces中不能存取对象，转换成json字符串
-		SharedPreferences preferences = this.getSharedPreferences("user", Context.MODE_PRIVATE);
-		String userJson=preferences.getString("userJson", null);
+		
+		SharedPreferences userFile = getSharedPreferences("userDetailFile",
+				Context.MODE_PRIVATE);
+		String userDetailJson = userFile.getString("userDetail", null);
 		Gson gson = new Gson();
-		user = gson.fromJson(userJson, User.class); 
+		user = gson.fromJson(userDetailJson, UserDetailInfo.class); 
 		if(user == null){
-			//Log.v("这里检查user是否为空",user.toString()+"123");
-			user = new User();
-			user.setUsername("未登录");
-			user.setPassword("123");
-			user.setUser_state(-1);
+			user = new UserDetailInfo();
 			user.setUserId(-1);
-			user.setSexId(-1);
+			user.setUsername("游客1");
 			user.setMy_user_sign("这个家伙很懒什么都没留下");
 		}
 		String userJson_to = gson.toJson(user);
-		SharedPreferences preferences1=getSharedPreferences("user",Context.MODE_PRIVATE);
-		Editor editor=preferences.edit();
-		editor.putString("userJson", userJson_to);
+		Editor editor=userFile.edit();
+		editor.putString("userDetail", userJson_to);
 		editor.commit();
 		
 		btn = (Button) findViewById(R.id.welcome_btn);
@@ -58,6 +75,8 @@ public class Welcomeactivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
+				//通过按钮启动了
+				isStart = false;
 				//是页面在首页
 				Intent intents = new Intent(Welcomeactivity.this,MainActivity.class);
 				Bundle bundle = new Bundle();
@@ -75,6 +94,38 @@ public class Welcomeactivity extends Activity {
 		PushManager.startWork(Welcomeactivity.this,
 	                PushConstants.LOGIN_TYPE_API_KEY,
 	                Application.API_KEY);
-		Log.v("sfsdfjsff","dsfdsf");		
+		Log.v("sfsdfjsff","dsfdsf");
+		Timer timer = new Timer(); 
+		TimerTask task = new TimerTask() {  
+		    @Override  
+		    public void run() {   
+		    	if(isStart){
+		    		//是页面在首页
+					Intent intents = new Intent(Welcomeactivity.this,MainActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("CurrentItem", -1);
+					//bundle.putSerializable("user", user);
+					intents.putExtras(bundle);
+					Welcomeactivity.this.startActivity(intents);
+					Welcomeactivity.this.finish();
+					//界面跳转的动画
+					overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out); 
+		    	}
+		     } 
+
+		 };
+		 timer.schedule(task, 3000); //3秒后// 
+	}
+	
+	@SuppressLint("NewApi")
+	private void StartAnim() {
+		fristanim = ObjectAnimator.ofFloat(fristWelcomeImage, 
+				 "scale", 500f, 0f);
+		AnimatorSet animSet = new AnimatorSet();
+		animSet.play(fristanim);
+		animSet.setStartDelay(2000);
+		animSet.setDuration(1000);
+		animSet.start();
 	}
 }

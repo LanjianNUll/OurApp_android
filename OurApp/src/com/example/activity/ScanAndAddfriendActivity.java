@@ -3,6 +3,7 @@ package com.example.activity;
 import com.example.CircleImageView.CircleImageView;
 import com.example.bean.ChatMessage;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.dao.MyFriendGroupDB;
 import com.example.httpunit.HttpDoUserMsg;
 import com.example.ourapp.MainActivity;
@@ -34,7 +35,7 @@ public class ScanAndAddfriendActivity extends Activity {
 	private TextView failScanText;
 	private Button AddFriendBtn;
 	//扫描到的好友
-	private User user;
+	private UserDetailInfo user;
 	private ImageView AddfriendComeback;
 	private CircleImageView addFriendPic;
 	private LinearLayout showFailInf;
@@ -52,11 +53,11 @@ public class ScanAndAddfriendActivity extends Activity {
 		//
 		addFriendPic = (CircleImageView) findViewById(R.id.addFriendPic);
 		//取到当前用户的userId
-		SharedPreferences shpf = getSharedPreferences("user", Context.MODE_PRIVATE);
-		String ugs = shpf.getString("userJson", null);
+		SharedPreferences shpf = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String ugs = shpf.getString("userDetail", null);
 		Gson gso = new Gson();
-		User u = new User();
-		u = gso.fromJson(ugs, User.class);
+		UserDetailInfo u = new UserDetailInfo();
+		u = gso.fromJson(ugs, UserDetailInfo.class);
 		userId = u.getUserId();
 		
 		//加好友的按钮
@@ -101,10 +102,10 @@ public class ScanAndAddfriendActivity extends Activity {
 	private void addfriendTask() {
 		//发送添加好友的消息的操作
 		//拿到当前用户的信息
-		SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
-		String gstr = sh.getString("userJson", null);
+		SharedPreferences sh = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String gstr = sh.getString("userDetail", null);
 		Gson gson = new Gson();
-		User us = gson.fromJson(gstr, User.class);
+		UserDetailInfo us = gson.fromJson(gstr, UserDetailInfo.class);
 		int myUserId = us.getUserId();
 		String myName = us.getUsername();
 		//添加的好友信息
@@ -140,7 +141,7 @@ public class ScanAndAddfriendActivity extends Activity {
 			 String result=bundle.getString("result");
 			 if (!TextUtils.isEmpty(result)) {
 				 try{
-					 user = gson.fromJson(result, User.class);
+					 user = gson.fromJson(result, UserDetailInfo.class);
 					 } catch (Exception e) {
 						 failScanText = (TextView) findViewById(R.id.failScanText);
 						 failScanText.setText("亲，你扫描的不是我们的二维码!!!"+result);
@@ -198,23 +199,35 @@ public class ScanAndAddfriendActivity extends Activity {
 		@Override
 		protected Integer doInBackground(Integer... arg0) {
 			//@params 当前用户id   添加的用户id
-			httpDoUSermsg.addFriend(arg0[0], arg0[1]);
+			//返回码 :(添加成功 1 添加失败 0  好友已经存在-1)
+			return httpDoUSermsg.addFriend(arg0[0], arg0[1]);
 			
-			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			//添加成功
-			Toast.makeText(ScanAndAddfriendActivity.this, "添加好友成功", 1000).show();
-			Intent intent = new Intent(ScanAndAddfriendActivity.this, MainActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putInt("CurrentItem", 3);
-			intent.putExtras(bundle);
-			ScanAndAddfriendActivity.this.startActivity(intent);
-			ScanAndAddfriendActivity.this.finish();
-			overridePendingTransition(R.drawable.interface_jump_in,
-					R.drawable.interface_jump_out);
+			if(result == 1){
+				//添加成功
+				Toast.makeText(ScanAndAddfriendActivity.this, "添加好友成功",
+						1000).show();
+				Intent intent = new Intent(ScanAndAddfriendActivity.this,
+						MainActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("CurrentItem", 3);
+				intent.putExtras(bundle);
+				ScanAndAddfriendActivity.this.startActivity(intent);
+				ScanAndAddfriendActivity.this.finish();
+				overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
+			}
+			if(result == 0){
+				Toast.makeText(ScanAndAddfriendActivity.this, "添加失败成功", 1000)
+				.show();
+			}
+			if(result == -1){
+				Toast.makeText(ScanAndAddfriendActivity.this, "该好友已经是你的好友了", 1000)
+				.show();
+			}
 			super.onPostExecute(result);
 		}
 	}

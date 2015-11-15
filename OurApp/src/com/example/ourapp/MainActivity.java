@@ -8,6 +8,8 @@ import com.example.fragment.LastPageFragment;
 import com.example.fragment.MainPageFragment;
 import com.example.fragment.SecondPageFragment;
 import com.example.fragment.ThirdPageFragment;
+import com.example.fragment.ThirdPageFragment.OnUnReadMessageUpdateListener;
+import com.jauker.widget.BadgeView;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,9 +20,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -32,7 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements 
+			OnUnReadMessageUpdateListener{
 	
 	//定义底部布局
 	private LinearLayout bottom_mainPage,bottom_secondPage,bottom_thirdPage,bottom_lastPage;
@@ -52,6 +57,8 @@ public class MainActivity extends FragmentActivity {
 	private TextView main_activity_top_citytext;
 	//记录第一次点击back键的时间
 	long exitTime = 0;
+	//显示未读消息
+	private BadgeView badgeView; 
 
 	
 	@Override
@@ -102,6 +109,12 @@ public class MainActivity extends FragmentActivity {
 		//重其他界面跳过了是回到滑动的第几页
 		Bundle bundle = MainActivity.this.getIntent().getExtras();
 		int currentItem = bundle.getInt("CurrentItem");
+		
+		//显示
+		badgeView = new BadgeView(this);
+		bottom_thirdPage.addView(badgeView);
+		badgeView.setTargetView(bottom_thirdPage);
+		
 		if(currentItem==1){
 			String city_name = bundle.getString("city_name");
 			//Toast.makeText(this, "城市名"+city_name, 1000).show();
@@ -259,4 +272,17 @@ public class MainActivity extends FragmentActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+	@Override
+	public void unReadMessageUpdate(int count)
+	{
+		if (count == 0 && badgeView.getBadgeCount() == 0)
+			badgeView.setVisibility(View.GONE);
+		badgeView.setVisibility(View.VISIBLE);
+		badgeView.setBadgeCount(count);
+
+	}
+	
+	
+	
 }

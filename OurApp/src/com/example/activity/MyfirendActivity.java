@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.adapter.MyFriendLisViewAdapter;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.dao.MyFriendGroupDB;
 import com.example.httpunit.HttpDoUserMsg;
 import com.example.ourapp.MainActivity;
@@ -32,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MyfirendActivity extends Activity {
 	
@@ -40,8 +42,8 @@ public class MyfirendActivity extends Activity {
 	private ImageView mfjiazai_image, myfriend_top_comeback;
 	private TextView mfjiazai_text;
 	private ListView myfriend_listView;
-	private List<User> myFriend_Group = new ArrayList<User>();
-	private List<User> tempMyFriendGroup = new ArrayList<User>();
+	private List<UserDetailInfo> myFriend_Group = new ArrayList<UserDetailInfo>();
+	private List<UserDetailInfo> tempMyFriendGroup = new ArrayList<UserDetailInfo>();
 	private HttpDoUserMsg httpDoUserMsg;
 	private AnimationDrawable anim;
 	private MyFriendLisViewAdapter adapter;
@@ -56,10 +58,10 @@ public class MyfirendActivity extends Activity {
 	}
 	private void initview() {
 		//获取用户的userid
-		SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
-		String gstr = sh.getString("userJson", null);
+		SharedPreferences sh = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String gstr = sh.getString("userDetail", null);
 		Gson gs = new Gson();
-		User user = gs.fromJson(gstr, User.class);
+		UserDetailInfo user = gs.fromJson(gstr, UserDetailInfo.class);
 		userId = user.getUserId();
 		
 		edit_friend = (TextView) findViewById(R.id.edit_friend);
@@ -99,15 +101,20 @@ public class MyfirendActivity extends Activity {
 				if(isOnEidt){
 					if(myFriend_Group != null){
 						Log.v("删除后的好友数",""+myFriend_Group.size());
-						myfriend_listView.setAdapter(adapter = new MyFriendLisViewAdapter(MyfirendActivity.this, myFriend_Group, 1));
+						myfriend_listView.setAdapter(adapter = 
+								new MyFriendLisViewAdapter(MyfirendActivity.this, 
+										myFriend_Group, 1));
 					}
 					edit_friend.setText("完成 ");
 					isOnEidt = false;
 				}else{
-					myfriend_listView.setAdapter(adapter = new MyFriendLisViewAdapter(MyfirendActivity.this, myFriend_Group, 0));
+					if(myFriend_Group != null)
+						myfriend_listView.setAdapter(adapter =
+								new MyFriendLisViewAdapter(MyfirendActivity.this, 
+										myFriend_Group, 0));
 					edit_friend.setText("编辑");
 						isOnEidt = true;
-						new DeleteFriendTask().execute();
+					//	new DeleteFriendTask().execute();
 				}
 			}
 		});
@@ -133,9 +140,9 @@ public class MyfirendActivity extends Activity {
 			httpDoUserMsg = new HttpDoUserMsg();
 			httpDoUserMsg.afterDeteFriendGroup(myFriend_Group);
 			//更新好友列表
-			MyFriendGroupDB mdb = new MyFriendGroupDB(MyfirendActivity.this);
-			mdb.delete();
-			mdb.AddFriendGroup(myFriend_Group);
+//			MyFriendGroupDB mdb = new MyFriendGroupDB(MyfirendActivity.this);
+//			mdb.delete();
+//			mdb.AddFriendGroup(myFriend_Group);
 			return null;
 		}
 	}
@@ -153,41 +160,46 @@ public class MyfirendActivity extends Activity {
 		@Override
 		protected Integer doInBackground(Integer... arg0) {
 			httpDoUserMsg = new HttpDoUserMsg();
-			MyFriendGroupDB fDB = new MyFriendGroupDB(MyfirendActivity.this);
-			ArrayList<User> DbGroup = new ArrayList<User>();
+//			MyFriendGroupDB fDB = new MyFriendGroupDB(MyfirendActivity.this);
+			ArrayList<UserDetailInfo> DbGroup = new ArrayList<UserDetailInfo>();
 			myFriend_Group = httpDoUserMsg.getMyFriend_Group(arg0[0]);
-			DbGroup = fDB.getFriendGroup();
+			//DbGroup = fDB.getFriendGroup();
 			
 //			//用一个临时容器来来保存未做编辑即删除操作前的好友列表
 //			tempMyFriendGroup = myFriend_Group;
 			//判断是否数据库中的好友列表是否最新
-			if(myFriend_Group  != null && DbGroup.size() < myFriend_Group.size()){
+			//if(myFriend_Group  != null && DbGroup.size() < myFriend_Group.size()){
 				//存储好友列表
 				//存储在数据库中
-				fDB.AddFriendGroup(myFriend_Group);
+				//fDB.AddFriendGroup(myFriend_Group);
 //				//存储在SharePreference
 //				SharePreferenceUtil spUtil = new SharePreferenceUtil(MyfirendActivity.this, "myFriensGroup");
 //				int[] content = new int[myFriend_Group.size()];
 //				for(int i = 0; i<myFriend_Group.size();i++)
 //					content[i] = myFriend_Group.get(i).getUserId();
 //				spUtil.writeTOSharePfInt("myFriendGroupIds", content);
-				return 1;
-			}
-			else if(myFriend_Group  != null && DbGroup.size() >= myFriend_Group.size()){
-				myFriend_Group = DbGroup;
-				return 1;
-			}else{
-				return -1;
-			}
+//				
+//			}
+//			else if(myFriend_Group  != null &&
+//					DbGroup.size() >= myFriend_Group.size()){
+//				myFriend_Group = DbGroup;
+//				return 1;
+//			}
+			if(myFriend_Group == null)
+				return 0;
+			return 1;
 		}
-		@Override
 		protected void onPostExecute(Integer result) {
 			if(result == 1){
-				myfriend_listView.setAdapter(adapter = new MyFriendLisViewAdapter(MyfirendActivity.this, myFriend_Group));				
+				myfriend_listView.setAdapter(adapter =
+						new MyFriendLisViewAdapter(MyfirendActivity.this,
+								myFriend_Group));				
 				mfloading.setVisibility(View.GONE);
 				mferrorpage.setVisibility(View.GONE);
 				myfriend_listView.setVisibility(View.VISIBLE);
 			}else{
+				Toast.makeText(MyfirendActivity.this, 
+						"加载好友列表失败", 1000).show();
 				mfloading.setVisibility(View.GONE);
 				mferrorpage.setVisibility(View.VISIBLE);
 				mfjiazai_text.setText("网络异常或你还没有好友");

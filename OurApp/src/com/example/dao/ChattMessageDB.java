@@ -45,6 +45,7 @@ public class ChattMessageDB extends SQLiteOpenHelper {
 	public List<ChatMessage> getChatMessageList(int friendId){
 		List<ChatMessage>  cMsgList = new ArrayList<ChatMessage>();
 		SQLiteDatabase db = getWritableDatabase();
+		createTable(db);
 		Cursor c = db.rawQuery("select * from ChatMsg"+friendId+" where toUserId=?",
 					new String[]{friendId+""} );
 		while (c.moveToNext())
@@ -85,10 +86,12 @@ public class ChattMessageDB extends SQLiteOpenHelper {
 			return cMsgList;
 		
 	}
+	
 	//添加一个消息记录
 	public void addMsgToDB(ChatMessage cMsg){
 		//找到对应的表添加消息记录
 		SQLiteDatabase db = getWritableDatabase();
+		createTable(db);
 		db.execSQL("insert into ChatMsg"+cMsg.getToUserId()+" (toUserId," +
 				"fromUserId," +
 				"toUserName," +
@@ -105,5 +108,16 @@ public class ChattMessageDB extends SQLiteOpenHelper {
 //		db.close();	
 	}	
 		
-
+	private void createTable(SQLiteDatabase db) {
+		db.execSQL("CREATE TABLE IF NOT EXISTS ChatMsg" +friendIddb+
+				"(chatMsgContent text," +
+				"sentMsgContent long," +
+				"fromUserName text," +
+				"toUserName text," +
+				"fromUserId INTEGER NOT NULL," +
+				"toUserId INTEGER NOT NULL," +
+				"ChatMessageId INTEGER PRIMARY KEY)"
+				);
+		
+	}
 }

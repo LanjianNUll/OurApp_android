@@ -24,21 +24,24 @@
 		<AutoCompleteTextView   
 		        android:id="@+id/main_activity_top_search_text"
 		        android:layout_width="wrap_content"
-		        android:layout_height="43dp"
+		        android:layout_height="39dp"
 		        android:layout_weight="3"
 		        android:layout_marginTop="2dip"
+		        android:drawableLeft="@drawable/actionbar_search_icon"
+		        android:paddingLeft="15dp"
 		        android:background="#fafafa"
 		      	android:focusable="false"
-		        android:drawableLeft="@drawable/actionbar_search_icon"
 		        android:hint="请输入城市"
 		        android:singleLine="true"
 		        android:textSize="15.0dip" />
+		
 		<ImageView 
 		    android:id="@+id/main_activity_to_search_img"
 		    android:layout_width="30dp"
 	            android:layout_height="30dp"
 	            android:src="@drawable/actionbar_more_icon"
-	            android:layout_weight="1"/>
+	            android:layout_weight="1"
+	            android:visibility="invisible"/>
 	</LinearLayout>
 		
 	<RelativeLayout 
@@ -53,7 +56,6 @@
 		    android:layout_height="wrap_content"
 		    android:layout_centerHorizontal="true"
 		    android:layout_centerVertical="true"
-		    android:background="#fff"
 		    android:text="在这里总能找到你想要的"
 		    android:textSize="14sp" />
  
@@ -65,7 +67,10 @@
 	    android:layout_width="match_parent"
 	  	android:layout_below="@id/say_hello"
 	    android:layout_height="match_parent"
-	    ></ListView>
+	    android:paddingTop="15dp"
+	    android:background="#fff"
+	    android:divider="#00000000">
+	</ListView>
 	<!-- 第一套布局已经被干掉了 -->
 	<ScrollView
 		    android:layout_width="match_parent"

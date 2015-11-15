@@ -141,8 +141,7 @@ public class RefreshableView extends LinearLayout implements OnTouchListener {
 	 * 当前是否可以下拉，只有ListView滚动到头的时候才允许下拉
 	 */
 	private boolean ableToPull;
-	
-	
+
 	private AnimationDrawable frameAnimation;
 
 	/**

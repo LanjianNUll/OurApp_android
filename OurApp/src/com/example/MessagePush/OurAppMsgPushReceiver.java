@@ -25,6 +25,7 @@ import com.example.bean.ChatMessage;
 import com.example.bean.Comment;
 import com.example.bean.CommentDetailInformation;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.dao.ChattMessageDB;
 import com.example.dao.MyFriendGroupDB;
 import com.example.ourapp.MainActivity;
@@ -58,14 +59,11 @@ public class OurAppMsgPushReceiver extends FrontiaPushMessageReceiver{
 	public void onDelTags(Context arg0, int arg1, List<String> arg2,
 			List<String> arg3, String arg4) {
 		// TODO Auto-generated method stub
-		
 	}
-
 	@Override
 	public void onListTags(Context arg0, int arg1, List<String> arg2,
 			String arg3) {
 		// TODO Auto-generated method stub
-		
 	}
 	/**
      * 接收透传消息的函数。
@@ -80,10 +78,10 @@ public class OurAppMsgPushReceiver extends FrontiaPushMessageReceiver{
 	@Override
 	public void onMessage(Context context, String message, String customContentString) {
 		//获取用户的userid
-		SharedPreferences sh = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-		String gstr = sh.getString("userJson", null);
+		SharedPreferences sh = context.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+		String gstr = sh.getString("userDetail", null);
 		Gson gs = new Gson();
-		User user = gs.fromJson(gstr, User.class);
+		UserDetailInfo user = gs.fromJson(gstr, UserDetailInfo.class);
 		int myUserId = user.getUserId();
 		Log.e("msg服务端的消息", message);
 		//对消息解读
@@ -106,7 +104,7 @@ public class OurAppMsgPushReceiver extends FrontiaPushMessageReceiver{
 				MyFriendGroupDB myFdb = new MyFriendGroupDB(context);
 				//判断是否发给自己的加好友消息
 				if(CM.getToUserId() == myUserId){//取到第三个字符串
-					User u = new User();
+					UserDetailInfo u = new UserDetailInfo();
 					u.setUserId(CM.getFromUserId());
 					u.setUsername(CM.getFromUserName());
 					u.setMy_user_sign("这里需要从服务器更新");
@@ -134,8 +132,8 @@ public class OurAppMsgPushReceiver extends FrontiaPushMessageReceiver{
 							msgListeners.get(i).onNewMessage(CM);
 					}
 					//将好友消息放入数据库
-					ChattMessageDB cdb = new ChattMessageDB(context, CM.getFromUserId());
-					cdb.addMsgToDB(CM);
+					//ChattMessageDB cdb = new ChattMessageDB(context, CM.getFromUserId());
+					//cdb.addMsgToDB(CM);
 				}else 
 					Log.e("不是你好友",CM.getChatMsgContent());
 				

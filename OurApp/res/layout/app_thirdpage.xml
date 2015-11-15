@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="#fff">
+    android:background="#fff" xmlns:app="http://schemas.android.com/apk/res/com.example.ourapp">
  	<RelativeLayout android:id="@+id/third_page_top"
         android:layout_width="match_parent"
         android:layout_height="59dp"
@@ -75,58 +75,161 @@
 		      	  	android:text="最热"/>       
 	    	</LinearLayout>      
     </LinearLayout>
+ 		<RelativeLayout
+		        android:id="@+id/refreshloading"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content">
 
-	     <com.example.Refresh.RefreshableView 
-            android:id="@+id/refreshView"
-            android:layout_width="match_parent"
+				    <ImageView
+				        android:id="@+id/refreshing_pic"
+				        android:layout_width="40dp"
+				        android:layout_height="40dp"
+				        android:layout_alignParentTop="true"
+				        android:layout_centerHorizontal="true"
+				        android:src="@drawable/jiazai00" />
+				    <TextView
+				        android:id="@+id/refresh_text"
+				        android:layout_width="69dp"
+				        android:layout_height="wrap_content"
+				        android:layout_below="@+id/refreshing_pic"
+				        android:layout_centerHorizontal="true"
+				        android:text="正在刷新..." />
+
+		      </RelativeLayout>
+	    <RelativeLayout 
+	        android:layout_width="match_parent"
 	        android:layout_height="match_parent">
-            
+	         
+	        <TextView android:id="@+id/refreshTip"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_centerInParent="true"
+	            android:visibility="gone"
+	            android:text="刷新的提示"/>
              <ListView 
-	            android:id="@+id/find_sort_listView"
+	            android:id="@+id/find_sort_listViewT"
 	            android:layout_width="match_parent"
-	            android:layout_height="match_parent">
+	            android:layout_height="match_parent" >
       		  </ListView>
-   		</com.example.Refresh.RefreshableView> 
-   		
-	     <!-- 加载的动画布局 -->
-      <RelativeLayout
-	        android:id="@+id/loading"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent">
-			    <TextView
-			        android:id="@+id/jiazai_text"
-			        android:layout_width="69dp"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true"
-			        android:text="加载中"/>	
-			    <ImageView
-			        android:id="@+id/jiazai_pic"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_above="@+id/jiazai_text"
-			        android:layout_centerHorizontal="true"
-			        android:src="@drawable/jiazai00" />
-	      </RelativeLayout>
-	       <!-- 网络异常的界面 -->
-	       <RelativeLayout
-	        android:id="@+id/errorpage"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:visibility="gone">
-			     <ImageView android:id="@+id/errorTip"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_centerHorizontal="true"
-			        android:layout_centerVertical="true"
-			        android:src="@drawable/error_tip"/>
-			    <TextView
-			        android:id="@+id/jiazai_text"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_below="@id/errorTip"
-			        android:layout_centerHorizontal="true"
-			        android:textColor="#ff0000"
-			        android:text="网络异常，加载失败"/>	
-	      </RelativeLayout>
+      		  
+   			<!-- 浮动按钮 -->
+	          <LinearLayout
+	                android:id="@+id/floatRefreshLin"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:orientation="vertical"
+		    	    android:layout_alignParentBottom="true"
+		    	    android:layout_alignParentRight="true"
+		    	    android:layout_marginBottom="25dp"
+		    	    android:layout_marginRight="60dp">
+		        
+	              <com.example.CircleImageView.CircleImageView
+	                  android:layout_width="40dp"
+	                  android:layout_height="40dp"
+	                  android:src="@drawable/float_refresh"/>
+	              <TextView android:layout_width="wrap_content"
+	                  android:layout_height="wrap_content"
+	                  android:layout_gravity="center"
+	                  android:textSize="12sp"
+	                  android:text="刷新"/>
+		        </LinearLayout>
+	         
+	         <LinearLayout
+	                android:id="@+id/floatSignalLin"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:orientation="vertical"
+		    	    android:layout_alignParentBottom="true"
+		    	    android:layout_alignParentRight="true"
+		    	    android:layout_marginBottom="25dp"
+		    	    android:layout_marginRight="110dp">
+		        
+	              <com.example.CircleImageView.CircleImageView
+	                  android:layout_width="40dp"
+	                  android:layout_height="40dp"
+	                  android:src="@drawable/float_sigal"/>
+	              <TextView android:layout_width="wrap_content"
+	                  android:layout_height="wrap_content"
+	                  android:layout_gravity="center"
+	                  android:textSize="12sp"
+	                  android:text="签到"/>
+		        </LinearLayout>
+		         <LinearLayout
+	                android:id="@+id/FloatWordLin"
+		    	    android:layout_width="wrap_content"
+		    	    android:layout_height="wrap_content"
+		    	    android:orientation="vertical"
+		    	    android:layout_alignParentBottom="true"
+		    	    android:layout_alignParentRight="true"
+		    	    android:layout_marginBottom="25dp"
+		    	    android:layout_marginRight="160dp">
+		        
+	              <com.example.CircleImageView.CircleImageView
+	                   android:layout_width="40dp"
+	                  android:layout_height="40dp"
+	                  android:src="@drawable/float_word"/>
+	              <TextView android:layout_width="wrap_content"
+	                  android:layout_height="wrap_content"
+	                  android:layout_gravity="center"
+	                  android:textSize="12sp"
+	                  android:text="文字"/>
+		        </LinearLayout>
+		        
+		          <com.example.CircleImageView.CircleImageView 
+		    	    android:id="@+id/refresh_pic"
+		    	    android:layout_width="50dp"
+		    	    android:layout_height="50dp"
+		    	    android:layout_alignParentBottom="true"
+		    	    android:layout_alignParentRight="true"
+		    	    android:padding="2dp"
+		    	    android:layout_marginBottom="35dp"
+		    	    android:layout_marginRight="5dp"
+		    	    android:src="@drawable/float_add"/>
+		         
+	          
+		     <!-- 加载的动画布局 -->
+	     	 <RelativeLayout
+		        android:id="@+id/loading"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_below="@id/find_sort_listViewT">
+				    <TextView
+				        android:id="@+id/jiazai_text"
+				        android:layout_width="69dp"
+				        android:layout_height="wrap_content"
+				        android:layout_centerHorizontal="true"
+				        android:layout_centerVertical="true"
+				        android:text="加载中"/>	
+				    <ImageView
+				        android:id="@+id/jiazai_pic"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_above="@+id/jiazai_text"
+				        android:layout_centerHorizontal="true"
+				        android:src="@drawable/jiazai00" />
+		      </RelativeLayout>
+		       <!-- 网络异常的界面 -->
+		       <RelativeLayout
+		        android:id="@+id/errorpage"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_below="@id/loading"
+		        android:visibility="gone">
+				     <ImageView android:id="@+id/errorTip"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_centerHorizontal="true"
+				        android:layout_centerVertical="true"
+				        android:src="@drawable/error_tip"/>
+				    <TextView
+				        android:id="@+id/jiazai_text"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_below="@id/errorTip"
+				        android:layout_centerHorizontal="true"
+				        android:textColor="#ff0000"
+				        android:text="网络异常，加载失败"/>	
+		      </RelativeLayout>
+		      
+	       </RelativeLayout>
 </LinearLayout>

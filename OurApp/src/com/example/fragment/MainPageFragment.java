@@ -9,6 +9,7 @@ import com.example.activity.CityFindnear;
 import com.example.activity.SubsSortActivity;
 import com.example.adapter.FymMainFrammentAdapter;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
@@ -32,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainPageFragment extends Fragment {
 
@@ -49,7 +51,7 @@ public class MainPageFragment extends Fragment {
 	 						table_tennis_imgae,park_iamge,volleyball_iamge,
 	 						climb_iamge,rideing_iamge,other_imgae;
 	 //用户类
-	 private User user;
+	 private UserDetailInfo user;
 	 //定位城市
 	 private int city_id = -1;//默认为-1,即宜春
 	 private String city;
@@ -164,7 +166,7 @@ public class MainPageFragment extends Fragment {
 		//记录城市ID
 		int cityID = findcity_id(city);
 		if(cityID != -1){
-			SharedPreferences cityidsh = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
+			SharedPreferences cityidsh = getActivity().getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
 			Editor e = cityidsh.edit();
 			int cid = findcity_id(city);
 			e.putInt("city_id", cid);
@@ -286,6 +288,8 @@ public class MainPageFragment extends Fragment {
 				main_activity_top_citytext.setText(city);
 				city_id = findcity_id(city);
 				putCityinShard(city,city_id);
+				//把详细地点写到文件中
+				writeLocationDetailToFile(arg0);
 				mLocationClient.stop();
 			}
 		}
@@ -296,20 +300,44 @@ public class MainPageFragment extends Fragment {
 
 	public void putCityinShard(String city2, int city_Id) {
 		//用sharedpreferences来存储数据
-				SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-				String userJson=preferences.getString("userJson", "defaultname");	
+				SharedPreferences preferences = getActivity().getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				String userJson=preferences.getString("userDetail", null);	
 				Gson gson = new Gson();
-				user = gson.fromJson(userJson, User.class); 
+				user = gson.fromJson(userJson, UserDetailInfo.class); 
 				user.setLocation_lasetime_login(city2);
 				//Toast.makeText(getActivity(), city+"你在那", 1000).show();
 				Log.v("这里测试city是否写入了SharedPreferences",city+"");
 				//Toast.makeText(getActivity(),"城市Id是" +city_id, 1000).show();
 				String userJson_to = gson.toJson(user);
-				SharedPreferences preferences1 = getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
+				SharedPreferences preferences1 = getActivity().getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
 				Editor editor=preferences1.edit();
-				editor.putString("userJson", userJson_to);
+				editor.putString("userDetail", userJson_to);
 				editor.putInt("city_id", city_Id);
 				editor.commit();	
+	}
+	//把详细地点写到文件中
+	public void writeLocationDetailToFile(BDLocation arg0) {
+		String LocationDetail = arg0.getCity()//城市
+				+arg0.getDistrict()//县区
+				+arg0.getStreet();//街道号
+				
+		if(arg0.getBuildingID()!= null)
+			LocationDetail = LocationDetail+arg0.getBuildingID();//获取楼层信息，
+//		Toast.makeText(getActivity(),
+//				(float) arg0.getLatitude()+"%%"
+//				+(float) arg0.getLongitude(), 1000).show();
+//		Toast.makeText(getActivity(), LocationDetail, 1000).show();
+		SharedPreferences LocationDetailSharePf = 
+				getActivity().getSharedPreferences("userDetailFile",
+						Context.MODE_PRIVATE);
+		Editor ed = LocationDetailSharePf.edit();
+		ed.putString("LocationDetail", LocationDetail);
+		//获取经纬度
+		ed.putFloat("Latitude", (float) arg0.getLatitude());//获取纬度坐标
+		ed.putFloat("Latitude", (float) arg0.getLongitude());//getLongitude()
+		ed.commit();
+		
+		
 	}
 	public int findcity_id(String city_name) {
 		

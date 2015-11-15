@@ -71,7 +71,7 @@
               android:layout_alignTop="@id/my_user_pic"
               android:padding="8dp"
               android:layout_toRightOf="@+id/my_user_pic"
-              android:text="未登录" />
+              android:text="" />
         </RelativeLayout>
   		
         

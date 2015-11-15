@@ -194,7 +194,8 @@ public class HttpGetSportPlaceJson {
 		 Gson gson = new Gson();
 		 ArrayList<SportPlace> Data = new ArrayList<SportPlace>();
 		 //这里这样的写法有毛病啊   直接等于Data就好了  不过这里我就懒得改了  为了 以后避免而做一个提醒
-		 ArrayList<SportPlace> sportpalce_list = gson.fromJson(strResult, new TypeToken<ArrayList<SportPlace>>() {}.getType());  
+		 ArrayList<SportPlace> sportpalce_list = gson.fromJson(strResult, 
+				 new TypeToken<ArrayList<SportPlace>>() {}.getType());  
 		 if(sportpalce_list != null){
 			for(int i = 0;i < sportpalce_list.size(); i++)
 		        Data.add(sportpalce_list.get(i));

@@ -94,22 +94,28 @@ public class UserLoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+					boolean isallowLogin = true;
 					userName = user_name.getText().toString();
 					passWord= password.getText().toString();
-					if(passWord.equals(""))
+					if(passWord.equals("")){
 						passwordError.setText("请输入密码");
-					if(userName.equals(""))
+						isallowLogin = false;
+					}
+					if(userName.equals("")){
 						userNameError.setText("用户名不能为空");
+						isallowLogin = false;
+					}
 					if(!userName.equals("")&& passWord.equals("")){
 						userNameError.setText("");
 						passwordError.setText("请输入密码");
+						isallowLogin = false;
 					}
 					if(userName.equals("")&& !passWord.equals("")){
 						userNameError.setText("用户名不能为空");
 						passwordError.setText("");
+						isallowLogin = false;
 					}
-						
-					if(!passWord.equals("")&&!userName.equals("")){
+					if(!passWord.equals("")&&!userName.equals("")&&isallowLogin){
 						//验证用户名登录结果
 						new CheckUserIsRight().execute(userName,passWord);
 						passwordError.setText("");
@@ -138,7 +144,7 @@ public class UserLoginActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			Toast.makeText(UserLoginActivity.this, "正在登录...",2000).show();
+			Toast.makeText(UserLoginActivity.this, "正在登录...",1000).show();
 			super.onPreExecute();
 		}
 
@@ -149,36 +155,20 @@ public class UserLoginActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			if(result == 1){
-				//登录成功的用户信息放在了SharedPreferences
-				user = new User();
-				user.setUsername(userName);
-				user.setPassword(passWord);
-				user.setUser_state(15);
-				//用一个随机数
-				user.setUserId((int) Math.round(Math.random()*100));
-				user.setSexId(1);
-				user.setMy_user_sign("我就是我，颜色不一样的烟火");
-				user.setLocation_lasetime_login("宜春");
-				
-				Gson gson = new Gson();
-				String userJson = gson.toJson(user);
-				
-				SharedPreferences preferences=getSharedPreferences("user",Context.MODE_PRIVATE);
-				Editor editor=preferences.edit();
-				editor.putString("userJson", userJson);
-				editor.commit();
+			if(result != 0 && result != -1 && result != -2){
 				
 				Intent intent = new Intent(UserLoginActivity.this, MainActivity.class);
 				Bundle bundle = new Bundle();
 				bundle.putInt("CurrentItem",3 );
+				bundle.putInt("userId", result);
+				bundle.putInt("fromLogin", 1);
 				intent.putExtras(bundle);
 				UserLoginActivity.this.startActivity(intent);
 				UserLoginActivity.this.finish();
 				overridePendingTransition(R.drawable.interface_jump_in,
 						R.drawable.interface_jump_out);
 				//登录成功的处理
-				//Toast.makeText(UserLoginActivity.this,"登录成功", 1000).show();
+				Toast.makeText(UserLoginActivity.this,"登录成功", 1000).show();
 			}else if(result == 0)
 				//登录失败的处理
 				Toast.makeText(UserLoginActivity.this,"登录失败", 1000).show();

@@ -51,7 +51,14 @@ public class HttpGetCommentJson {
 				+"&addMoreCount=" +10;
 		String JsonStr = getHttpJsonString(url);
 		Gson gson = new Gson();
-		Data = gson.fromJson(JsonStr,  new TypeToken<ArrayList<Comment>>() {}.getType());	
+		try {
+			Data = gson.fromJson(JsonStr, 
+					new TypeToken<ArrayList<Comment>>() {}.getType());
+			return Data;
+		} catch (Exception e) {
+			return null;
+		}
+		
 		//比较排序
 		//按时间先后排序
 //		Comparator<Comment> comparator = new Comparator<Comment>(){
@@ -66,17 +73,22 @@ public class HttpGetCommentJson {
 //		};
 //		if(Data != null)
 //			Collections.sort(Data,comparator);
-		return Data;
 	}
 	//最热的数据调用
 	public ArrayList<Comment> getHotData(int j) {
 		//获取最新评论和最热评论的地址
-
 		String url = "http://xiafucheng.duapp.com/webAdroid/server/getCommentDetail?onwhichPage="+j
 				+"&addMoreCount=" +10;
 		String JsonStr = getHttpJsonString(url);
 		Gson gson = new Gson();
-		Data = gson.fromJson(JsonStr,  new TypeToken<ArrayList<Comment>>() {}.getType());	
+		try {
+			Data = gson.fromJson(JsonStr,  
+					new TypeToken<ArrayList<Comment>>() {}.getType());	
+			return Data;
+		} catch (Exception e) {
+			return null;
+		}
+		
 		//比较排序
 		//按评论数从大到小排序
 //		Comparator<Comment> comparator = new Comparator<Comment>(){
@@ -90,7 +102,6 @@ public class HttpGetCommentJson {
 //		};
 //		if(Data != null)
 //			Collections.sort(Data,comparator);
-		return Data;
 	}
 	
 	//获取更多数据
@@ -128,29 +139,29 @@ public class HttpGetCommentJson {
 	}
 	//用户点赞
 	//在commentId这个评论详情点赞加一的网络请求
-	public void sentParseAddOne(int commentId) {
+	public int sentParseAddOne(int commentId) {
 		// 参数    commentId  
 		//     onwhichAddOne= 1    点赞加一 
-		parseAndCommentAddOne(commentId,1);
+		return parseAndCommentAddOne(commentId,1);
 	}
 	//看过的加一
 	//在commentId这个评论详情看过加一的网络请求
-	public void seeCommentCountAddOne(int commentId) {
+	public int seeCommentCountAddOne(int commentId) {
 		//参数     commentId
 		//	   onwhichAddOne= 2  看过加一
-		parseAndCommentAddOne(commentId,2);
+		return parseAndCommentAddOne(commentId,2);
 	}
 	/*加一的网络请求
 	 * 点赞加一      1  
 	 * 评论加一       2
 	 * */
-	private void parseAndCommentAddOne(int commentId, int i) {
+	private int parseAndCommentAddOne(int commentId, int i) {
 		//参数     commentId
 	    //	   onwhichAddOne
 		//加一的地址
 		//String url = "http://xiafucheng.duapp.com/webAdroid/server/addPraise?commentId="+commentId;
 		
-		String url = "http://xiafucheng.duapp.com/webAdroid/server/getCommentDetailInfo?commentId="
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/addPraise?commentId="
 				+commentId
 				+"&onwhichAddOne="+commentId;
 		HttpResponse httpResponse = null;
@@ -160,35 +171,43 @@ public class HttpGetCommentJson {
 			httpResponse = httpClient.execute(httpRequest);
 			if(httpResponse.getStatusLine().getStatusCode() == 200){
 				System.out.println("操作成功");
+				return 1;
             }else{
             	System.out.println("操作失败");
+            	return 0;
             }
             } catch (Exception e) {
             	e.printStackTrace();
+            	return 0;
 		}
 	}
 	//sent OtherPeopleComment 到服务器
-	public void sentOPCToInternet(OtherPeopleComment otherPeopleComment) {
+	public int sentOPCToInternet(OtherPeopleComment otherPeopleComment) {
 		// 参数  otherPeopleCommentJson
+		// 1 发送成功
+		// 0 发送失败
 		 Gson gson = new Gson();
 		 String gson_sent = gson.toJson(otherPeopleComment);
 		 //String url ="http://10.0.2.2:8080/Ourapp/SportPlaceComment";
-		 String url = "http://xiafucheng.duapp.com/webAdroid/server/otherPeopleCommentJson";
+		 String url = "http://xiafucheng.duapp.com/webAdroid/server/addOtherComment";
 		 HttpClient httpClient = getHttpClient();
+		 
 		 HttpPost httpPost = new HttpPost(url);
 	        try {
 	            List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 	            nameValuePair.add(new BasicNameValuePair("otherPeopleCommentJson", gson_sent));
 	            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair,HTTP.UTF_8));
 	            System.out.println(gson_sent);
-	            httpClient.execute(httpPost);
+	            if(httpClient.execute(httpPost).getStatusLine().getStatusCode()==200)
+	            	return 1;
+	            else return 0;
 	        }catch(Exception e){
-	        	
+	        	return 0;
 	        }
 	}
 	//用户发表发现言论
 	//向服务器发送，利用post
-	public void updateComment(Comment comment, CommentDetailInformation commentDetailInfo){
+	public int updateComment(Comment comment, CommentDetailInformation commentDetailInfo){
 		// 参数   	commentJson  commentDetailInfoJson
 		//发送到数据库中
 		Gson gson = new Gson();
@@ -208,9 +227,12 @@ public class HttpGetCommentJson {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair,HTTP.UTF_8));
             System.out.println(commentJson);
             System.out.println(commentDetailInfoJson);
-            httpClient.execute(httpPost);
+            if(httpClient.execute(httpPost).getStatusLine().getStatusCode()==200)
+            	return 1;
+            else return 0;
         }catch(Exception e){
             System.out.println("操作失败");
+            return 0;
         }
 }			
 	//获取网络请求的方法，

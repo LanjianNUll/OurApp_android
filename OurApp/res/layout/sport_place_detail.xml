@@ -331,12 +331,11 @@
              android:textSize="18sp"
             android:text="点     评"/>
     </RelativeLayout>   
-       	<ListView
+     <ListView
          android:id="@+id/dianping_for_sport_place"
          android:layout_width="match_parent"
          android:layout_height="match_parent"
          android:layout_below="@id/scrollview" >
- 
      </ListView> 
        
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.httpunit;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,13 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.bean.SportPlace;
 import com.example.bean.User;
 import com.example.bean.UserDetailInfo;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class HttpDoUserMsg {
 
@@ -44,9 +48,9 @@ public class HttpDoUserMsg {
 		// 参数   UserResigterUserDeinfo  
 		//返回值
 		// 0 注册失败   1注册成功  2用户名已存在
-		//String url = "http://xiafucheng.duapp.com/webAdroid/server/registered";
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/registered";
 		
-		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/registered";
+		//String url = "http://xiafucheng.6655.la:20128/webAdroid/server/registered";
 		String postStr = null;
 		try {
 			postStr = new Gson().toJson(UDInfo);
@@ -97,44 +101,89 @@ public class HttpDoUserMsg {
 		
 		// 参数    当前用户Id    cuUserId 
 		//     添加friendId  cuUserId
-		return 1;
+		//参数：userId,friendId  返回码 :(添加成功 1 添加失败 0  好友已经存在-1)
+		
+		//http://xiafucheng.duapp.com/webAdroid/server/addFriends
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/addFriends?"
+					+"userId="+cuUserId
+					+"&friendId="+UserId;
+		String result = getInternetConnectAndGetDateGet(url);
+		int returncode ;
+		try {
+			returncode = Integer.parseInt(result);
+			return returncode;
+		} catch (Exception e) {
+			return 0;
+		}
+		
 	}
 
 	public UserDetailInfo getUserDetail(int userId) {
 		//获取用户详情
 		//参数  userId
-		String url = "http://xiafucheng.duapp.com/webAdroid/server/servlet01?" ;
-		String result = getInternetConnectAndGetDateGet(url+userId);
+		//String url = "http://xiafucheng.duapp.com/webAdroid/server/getUserDetail";
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/getUserDetail?userId="
+				+userId;
+		Log.e("55555555555555555", userId+"");
+		String result = getInternetConnectAndGetDateGet(url);
 		try {
 			UserDetailInfo de = new Gson().fromJson(result, UserDetailInfo.class);
 			return de;
 		} catch (Exception e) {
 			return null;
 		}
-		
 	}
 
-	public List<User> getMyFriend_Group(int userId) {
+	public List<UserDetailInfo> getMyFriend_Group(int userId) {
 		// 获取用户的好友列表    
 		//参数  userid
-		List<User> s = new ArrayList<User>();
-		for(int i = 0; i<1; i++){
-			User d = new User();
-			d.setUserId(5);
-			d.setMy_user_sign("运动让世界变成一个朋友圈");
-			d.setUsername("运动圈");
-			s.add(d);
-		}		
-		return s;
+		List<UserDetailInfo> s = new ArrayList<UserDetailInfo>();
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/getUserFriends?userId="+userId;
+		String userDetailInfoStr = getInternetConnectAndGetDateGet(url);	
+		try {
+			s = new Gson().fromJson(userDetailInfoStr,
+					new TypeToken<ArrayList<UserDetailInfo>>() {}.getType());
+			return s;
+		} catch (Exception e) {
+			return null;
+		}
 	}
-
-	public void afterDeteFriendGroup(List<User> tempMyFriendGroup) {
+	public void afterDeteFriendGroup(List<UserDetailInfo> tempMyFriendGroup) {
 		//现有的userID
 		if(tempMyFriendGroup!=null)
-			for (User user : tempMyFriendGroup) {
+			for (UserDetailInfo user : tempMyFriendGroup) {
 				Log.v("现好友数",""+user.getUserId());
 			}
 	}
+	//用户签到
+	public Integer userSign(Integer userId) {
+		//http://xiafucheng.6655.la:20128/webAdroid/server/addSignIn
+		String url = "http://xiafucheng.duapp.com/webAdroid/server/addSignIn?userId="+userId;
+		String result = getInternetConnectAndGetDateGet(url);
+		
+		int i = 0;
+		try {
+			i = Integer.parseInt(result);
+			return i;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+	//删除好友的网络请求
+		public Integer deleteFriendHttp(Integer userId, Integer friendId) {
+			String url = "http://xiafucheng.duapp.com/webAdroid/server/deleteFriend"+
+					"?userId="+userId+
+					"&friendId="+friendId;
+			String result = getInternetConnectAndGetDateGet(url);
+			Log.e("111111115",result);
+			int i = 0;
+			try {
+				i = Integer.parseInt(result);
+				return i;
+			} catch (Exception e) {
+				return 0;
+			}
+		}
 	//get的方式提交
 	private String getInternetConnectAndGetDateGet(String url){
 		HttpGet httpRequest = new HttpGet(url); 
@@ -174,4 +223,6 @@ public class HttpDoUserMsg {
 	     }
 		return strResult;
 	}
+	
+
 }

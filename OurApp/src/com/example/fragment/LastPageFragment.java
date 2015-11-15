@@ -3,6 +3,8 @@ package com.example.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +23,8 @@ import com.example.activity.MyfirendActivity;
 import com.example.activity.ScanAndAddfriendActivity;
 import com.example.activity.UserDetailInfoActivity;
 import com.example.activity.UserLoginActivity;
-import com.example.bean.User;
-import com.example.ourapp.MainActivity;
+import com.example.bean.UserDetailInfo;
+import com.example.httpunit.HttpDoUserMsg;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
@@ -36,7 +37,8 @@ public class LastPageFragment extends Fragment {
 	private RelativeLayout my_friend, my_setting, myerweima_card, scan_addFriend;
 	//如果当前用户没有登录则显示去登录按钮
 	private Button go_to_login;
-	private User user;
+	private UserDetailInfo userDe =null;
+	private int userId;
 		
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,11 +65,29 @@ public class LastPageFragment extends Fragment {
 		int x=1+(int)(Math.random()*20);
 		my_user_pic.setImageResource(defaultPacage.headpic[x]);
 		
-		SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-		String userJson=preferences.getString("userJson", "defaultname");
-		Gson gson = new Gson();
-		user = gson.fromJson(userJson, User.class);  
-        if(user.getUserId()==-1){
+		//拿到useid
+		Bundle bundle = getActivity().getIntent().getExtras();
+		if(bundle.getInt("fromLogin") == 1)
+			userId = bundle.getInt("userId");
+		else{
+			SharedPreferences file = getActivity().getSharedPreferences("userDetailFile",
+				Context.MODE_PRIVATE);
+			String s = file.getString("userDetail", null);
+			try {
+				userId = new Gson().fromJson(s, UserDetailInfo.class).getUserId();
+			} catch (Exception e) {
+		}
+		}
+		
+		//用户第一次进入是么有从登录页面过来userId
+		//无网络或未登登录时
+		if(userId == -1){
+			SharedPreferences preferences = getActivity().getSharedPreferences("userDetailFile",
+					Context.MODE_PRIVATE);
+			my_user_name.setText(preferences.getString("UserName", "游客"));
+			my_user_sign.setText(preferences.getString("UserSign", "什么都没留下"));
+			
+			//显示登录按钮
         	go_to_login.setVisibility(View.VISIBLE);
         	go_to_login.setOnClickListener(new OnClickListener() {
 				
@@ -82,6 +102,7 @@ public class LastPageFragment extends Fragment {
 				}
 			});
         }else{
+        	new GetUserDetailTask().execute(userId);
         	//如果当前用户已经登录，则显示切换账号的按钮
         	go_to_login.setVisibility(View.VISIBLE);
         	go_to_login.setText("切换");
@@ -96,23 +117,16 @@ public class LastPageFragment extends Fragment {
 				}
 			});
         }
-		//麻烦 ，如果跳到其他的Activity中，跳回来是很容易发生空指针
-//		Bundle bundle = getActivity().getIntent().getExtras();
-//		user = (User) bundle.getSerializable("user");
-		
-		my_user_name.setText(user.getUsername());
-		my_user_sign.setText(user.getMy_user_sign());
-		
 		//这里跳转到用户详情页面
 		my_user.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
-				if(user.getUserId()!=-1){
+				if(userId!=-1){
 					Intent intent = new Intent(getActivity(), UserDetailInfoActivity.class);
 					//将用户的id传递过去
 					Bundle bundle = new Bundle();
-					bundle.putInt("userId", user.getUserId());
+					bundle.putInt("userId", userId);
 					bundle.putString("fromwhere", "LastPageFrament");
 					intent.putExtras(bundle);
 					startActivity(intent);
@@ -130,11 +144,11 @@ public class LastPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
-				if(user.getUserId()!=-1){
+				if(userId!=-1){
 					Intent intent = new Intent(getActivity(), MyfirendActivity.class);
 					//将用户的id传递过去
 					Bundle bundle = new Bundle();
-					bundle.putInt("userId", user.getUserId());
+					bundle.putInt("userId", userId);
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
@@ -151,11 +165,11 @@ public class LastPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
-				if(user.getUserId()!=-1){
+				if(userId!=-1){
 					Intent intent = new Intent(getActivity(), ErWeiMaActivity.class);
 					//将用户的id传递过去
 					Bundle bundle = new Bundle();
-					bundle.putInt("userId", user.getUserId());
+					bundle.putInt("userId", userId);
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
@@ -172,11 +186,11 @@ public class LastPageFragment extends Fragment {
 			
 			@Override
 			public void onClick(View arg0) {
-				if(user.getUserId()!=-1){
+				if(userId!=-1){
 					Intent intent = new Intent(getActivity(), ScanAndAddfriendActivity.class);
 					//将用户的id传递过去
 					Bundle bundle = new Bundle();
-					bundle.putInt("userId", user.getUserId());
+					bundle.putInt("userId", userId);
 					intent.putExtras(bundle);
 					startActivity(intent);
 					getActivity().finish();	
@@ -196,7 +210,39 @@ public class LastPageFragment extends Fragment {
 				// TODO Auto-generated method stub
 			}
 		});
+	}
+	class GetUserDetailTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			HttpDoUserMsg httpDoUserMsg = new HttpDoUserMsg();
+			userDe = httpDoUserMsg.getUserDetail(arg0[0]);
+			if(userDe == null){
+				return 0 ;
+			}
+			return 1;
+		}
 		
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				my_user_name.setText(userDe.getUsername());
+				my_user_sign.setText(userDe.getMy_user_sign());
+				SharedPreferences p = getActivity().getSharedPreferences("userDetailFile",
+						Context.MODE_PRIVATE);
+				Editor e = p.edit();
+				e.putString("UserName", userDe.getUsername());
+				e.putString("UserSign", userDe.getMy_user_sign());
+				e.commit();
+				//存取用户文件
+				SharedPreferences userFile = getActivity().getSharedPreferences("userDetailFile",
+						Context.MODE_PRIVATE);
+				Editor userF = userFile.edit();
+				userF.putString("userDetail", new Gson().toJson(userDe));
+				userF.commit();
+			}
+			super.onPostExecute(result);
+		}
 		
 	}
 }

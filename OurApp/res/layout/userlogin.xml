@@ -29,8 +29,8 @@
 
         <Button
             android:id="@+id/user_login"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="65dp"
+            android:layout_height="35dp"
             android:layout_alignBaseline="@+id/textView1"
             android:layout_alignBottom="@+id/textView1"
             android:layout_alignParentRight="true"
@@ -52,14 +52,13 @@
         android:paddingTop="59dp"
         android:visibility="visible" >
 
-        <requestFocus />
-
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@+id/user_name"
             android:layout_toLeftOf="@+id/user_name"
-            android:src="@drawable/user_login_name" />
+            android:src="@drawable/user_login_name"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/user_name"
@@ -67,11 +66,13 @@
             android:layout_height="45dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="50dp"
+            android:drawableLeft="@drawable/user_login_name"
             android:background="@drawable/border"
             android:ems="10"
             android:hint="请输入用户名"
             android:paddingLeft="5dp" />
+            <requestFocus />
 
         <TextView
             android:id="@+id/userNameError"
@@ -88,7 +89,8 @@
             android:layout_height="45dp"
             android:layout_alignTop="@+id/password"
             android:layout_toLeftOf="@+id/password"
-            android:src="@drawable/user_password" />
+            android:src="@drawable/user_password" 
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/password"
@@ -96,8 +98,10 @@
             android:layout_height="45dp"
             android:layout_alignLeft="@+id/user_name"
             android:layout_below="@+id/user_name"
+            android:drawableLeft="@drawable/user_password"
             android:layout_marginTop="25dp"
             android:background="@drawable/border"
+            android:paddingLeft="5dp"
             android:ems="10"
             android:hint="请输入密码"
             android:password="true" />
@@ -118,7 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/password"
             android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
             android:text="忘记密码"
             android:textColor="#8b8682"
             android:layout_alignLeft="@id/password"
@@ -131,7 +136,8 @@
             android:layout_below="@id/password"
             android:layout_centerHorizontal="true"
             android:layout_alignRight="@id/password"
-            android:layout_margin="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"
             android:text="注   册"
             android:textColor="#000"
             android:textSize="15sp"/>

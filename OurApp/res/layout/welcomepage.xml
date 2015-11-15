@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/welcome_bg"
-    android:background="@drawable/welcome"
-    android:orientation="vertical" >
-
+    android:orientation="vertical">
+     
+    <ImageView android:id="@+id/fristWelcomeImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/welcome"/>
     <Button
         android:id="@+id/welcome_btn"
         android:layout_width="120dp"
@@ -15,5 +17,4 @@
         android:layout_marginBottom="51dp"
         android:background="#55ffffff"
         android:text="开启运动之路" />
-
 </RelativeLayout>

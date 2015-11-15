@@ -28,6 +28,7 @@ import com.example.MessagePush.OurAppMsgPushReceiver.onNewMessageListener;
 import com.example.adapter.ChattingAdapter;
 import com.example.bean.ChatMessage;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.dao.ChattMessageDB;
 import com.example.ourapp.R;
 import com.example.unti.NetUtil;
@@ -65,10 +66,11 @@ public class ChattingActivity extends Activity implements onNewMessageListener {
 		friendUsername = bundle.getString("userName");
 		friendUserId = bundle.getInt("userId");
 		//获取自己的id
-		SharedPreferences sh = getSharedPreferences("user", Context.MODE_PRIVATE);
-		String gstr = sh.getString("userJson", null);
+		SharedPreferences sh = getSharedPreferences("userDetailFile", 
+				Context.MODE_PRIVATE);
+		String gstr = sh.getString("userDetail", null);
 		Gson gson = new Gson();
-		User user = gson.fromJson(gstr, User.class);
+		UserDetailInfo user = gson.fromJson(gstr, UserDetailInfo.class);
 		myUserId = user.getUserId();
 		myName = user.getUsername();
 		//initView
@@ -82,7 +84,8 @@ public class ChattingActivity extends Activity implements onNewMessageListener {
 		//加载历史聊天记录
 		new AddChatMessageListTask().execute();
 		
-		chatting_listView.setAdapter(adapter = new ChattingAdapter(ChattingActivity.this, chatMsgList));
+		chatting_listView.setAdapter(adapter = 
+				new ChattingAdapter(ChattingActivity.this, chatMsgList));
 		//当前聊天对象
 		chatting_username.setText(friendUsername);
 		
@@ -91,7 +94,8 @@ public class ChattingActivity extends Activity implements onNewMessageListener {
 			
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(ChattingActivity.this, MyfirendActivity.class);
+				Intent intent = new Intent(ChattingActivity.this, 
+						MyfirendActivity.class);
 				ChattingActivity.this.startActivity(intent);
 				ChattingActivity.this.finish();
 				overridePendingTransition(R.drawable.interface_jump_in,

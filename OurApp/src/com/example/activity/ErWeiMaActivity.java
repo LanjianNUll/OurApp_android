@@ -2,6 +2,7 @@ package com.example.activity;
 
 import com.example.CircleImageView.CircleImageView;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
@@ -29,7 +30,7 @@ public class ErWeiMaActivity extends Activity {
 	private ImageView MyErweimaComeback;
 	private CircleImageView userPic;
 	private SharedPreferences sharedpreferences;
-	private User user;
+	private UserDetailInfo user;
 	private int userId;
 	private String erWeiMaMsg = null;
 	@Override
@@ -45,11 +46,11 @@ public class ErWeiMaActivity extends Activity {
 		userPic = (CircleImageView) findViewById(R.id.userPic);
 		
 		//获取用户信息
-		sharedpreferences = getSharedPreferences("user",Context.MODE_PRIVATE);
-		String userJson=sharedpreferences.getString("userJson", null);
+		sharedpreferences = getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
+		String userJson=sharedpreferences.getString("userDetail", null);
 		erWeiMaMsg = userJson;
 		Gson gson = new Gson();
-		user = gson.fromJson(userJson, User.class);
+		user = gson.fromJson(userJson, UserDetailInfo.class);
 		//获取用户id
 		Bundle bund = getIntent().getExtras();
 		userId = bund.getInt("userId");

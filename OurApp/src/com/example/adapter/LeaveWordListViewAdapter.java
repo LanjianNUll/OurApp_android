@@ -27,7 +27,7 @@ public class LeaveWordListViewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return leaveWord.length;
+		return 0;
 	}
 
 	@Override

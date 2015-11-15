@@ -36,6 +36,7 @@ import com.example.adapter.SPCommentListAdapter;
 import com.example.bean.SportPlaceComment;
 import com.example.bean.SportPlaceDetailInformation;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.httpunit.HttpGetSportPlaceJson;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
@@ -70,7 +71,7 @@ public class SportsPlaceDetail extends Activity {
 	private RatingBar ratingBar;
 	private Button cancel_sent, sent_comment;
 	//用户类
-	private User user = new User();
+	private UserDetailInfo user = new UserDetailInfo();
 	//评论类
 	private SportPlaceComment sPC = new SportPlaceComment();
 	@Override
@@ -159,15 +160,15 @@ public class SportsPlaceDetail extends Activity {
 			@Override
 			public void onClick(View v) {
 				//取到用户的id和name
-				SharedPreferences preferences = SportsPlaceDetail.this.getSharedPreferences("user", Context.MODE_PRIVATE);
-				String userJson=preferences.getString("userJson", null);
+				SharedPreferences preferences = SportsPlaceDetail.this
+						.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				String userJson=preferences.getString("userDetail", null);
 				Gson gson = new Gson();
-				user = gson.fromJson(userJson, User.class);
+				user = gson.fromJson(userJson, UserDetailInfo.class);
 				sPC.setSportPlaceId(SportPlaceId);
 				sPC.setUserId(user.getUserId());
 				sPC.setUserName(user.getUsername());
 				displayDailog();
-				
 			}
 		});
 	}

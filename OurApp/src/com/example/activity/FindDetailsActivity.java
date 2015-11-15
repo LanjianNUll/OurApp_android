@@ -10,6 +10,7 @@ import com.example.adapter.ImageListViewAdapter;
 import com.example.bean.CommentDetailInformation;
 import com.example.bean.OtherPeopleComment;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
 import com.example.httpunit.HttpGetCommentJson;
 import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
@@ -67,7 +68,8 @@ public class FindDetailsActivity extends Activity {
 	//适配
 	private FindDetaiListViewAdapter otherPCadapter;
 	//评论详情
-	private CommentDetailInformation CDInfoData = new CommentDetailInformation();
+	private CommentDetailInformation CDInfoData;
+	private CommentDetailInformation cd ;
 	//请求一个网络连接的对象
 	private HttpGetCommentJson httpGetCommentJson = new HttpGetCommentJson();
 	//定义一个booleal记录用户是否点击了赞
@@ -81,7 +83,7 @@ public class FindDetailsActivity extends Activity {
 	private ScrollView scrollview;
 	//从文件中获取用户信息
 	private SharedPreferences sharedpreferences;
-	private User user;
+	private UserDetailInfo user;
 	//网络异常
 	private RelativeLayout errorpage;
 	//布局
@@ -97,10 +99,10 @@ public class FindDetailsActivity extends Activity {
 	}
 
 	private void initview() {//获取用户信息
-		sharedpreferences = getSharedPreferences("user",Context.MODE_PRIVATE);
-		String userJson=sharedpreferences.getString("userJson", null);
+		sharedpreferences = getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
+		String userJson=sharedpreferences.getString("userDetail", null);
 		Gson gson = new Gson();
-		user = gson.fromJson(userJson, User.class);
+		user = gson.fromJson(userJson, UserDetailInfo.class);
 		//获取评论id
 		Bundle bund = getIntent().getExtras();
 		commentId = bund.getInt("commentId");
@@ -200,16 +202,17 @@ public class FindDetailsActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				//判断用户是否已经点赞
-				if(isClickParse)
+				if(isClickParse){
 					Toast.makeText(FindDetailsActivity.this, "你已经赞过了", 1000).show();
-				else{				
-					parseNow.setText("已赞");
-					;
-					find_detail_parse_count.setText(Integer.parseInt(find_detail_parse_count.getText().toString())+1+"");
-					isClickParse = true;
-					new SentParseAddOneTask();	
 				}
-			}
+				else{
+					isClickParse = true;
+					parseNow.setText("已赞");
+					find_detail_parse_count.setText(
+							Integer.parseInt(find_detail_parse_count.getText().toString())+1+"");
+					new SentParseAddOneTask();
+				}
+			}	
 		});			
 	}
 	protected void displayCommentDailog() {
@@ -256,7 +259,8 @@ public class FindDetailsActivity extends Activity {
 				oPc.setCommentComtent(edit_find_comment_content.getText().toString().trim());
 				//开启一个网络线程来发送
 				new SetFindCommentTask().execute(oPc);
-				find_detail_comment_count_de.setText(Integer.parseInt(find_detail_comment_count_de.getText().toString())+1+"");
+				find_detail_comment_count_de.setText(
+						Integer.parseInt(find_detail_comment_count_de.getText().toString())+1+"");
 				dialog.cancel();
 			}
 		});
@@ -274,12 +278,29 @@ public class FindDetailsActivity extends Activity {
 		setListViewHeight(find_detail_pic_listView, picAdapter);
 		
 		//显示用户评论find_detail_comment_list_view的处理\
-		find_detail_comment_list_view.setAdapter(otherPCadapter = new FindDetaiListViewAdapter(FindDetailsActivity.this, CDInfoData.getOtherPc()));
-		//setListViewHeight(find_detail_comment_list_view, otherPCadapter);
+		find_detail_comment_list_view.setAdapter(otherPCadapter = 
+				new FindDetaiListViewAdapter(FindDetailsActivity.this,
+						CDInfoData.getOtherPc()));
+		setListViewHeight(find_detail_comment_list_view, otherPCadapter);
 		//显示用户头像
 		//Random 随机数
 		int x=1+(int)(Math.random()*21);
 		find_detail_user_define_pic.setImageResource(defaultPacage.headpic[x]);
+		find_detail_user_define_pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(FindDetailsActivity.this, UserDetailInfoActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("userId", CDInfoData.getComment_from_user_id());
+				bundle.putString("fromwhere", "findDetailListView");
+				intent.putExtras(bundle);
+				FindDetailsActivity.this.startActivity(intent);
+				FindDetailsActivity.this.finish();
+				FindDetailsActivity.this.overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
+			}
+		});
 		find_detail_user_name.setText(CDInfoData.getComment_from_user_name());
 		String stateStr = null;
 		if(CDInfoData.getUser_state() == User.state_运动达人)
@@ -307,6 +328,121 @@ public class FindDetailsActivity extends Activity {
 		scrollview.scrollTo(0, 0);
 		
 	}	
+    
+	//加载异步的数据
+	class CDInfoDataTask extends AsyncTask<String, Integer, Integer>{
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+		@Override
+		protected Integer doInBackground(String... arg0) {
+			httpGetCommentJson = new HttpGetCommentJson();
+			CDInfoData = httpGetCommentJson.getCommentDetalInfoData(commentId);
+			if(CDInfoData == null )
+				return -1;
+			else 
+				return 1;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				afterDo();
+				//看过加一
+				new SeeCommentDetailTaskt().execute();
+			}
+			else{
+				errorpage.setVisibility(View.VISIBLE);
+				user_name_about.setVisibility(View.GONE);
+				find_detail_pic_layout.setVisibility(View.GONE); 
+				find_detail_parse_comment.setVisibility(View.GONE);
+				commentabout.setVisibility(View.GONE);
+			}
+			super.onPostExecute(result);
+		}	
+	}
+	
+	//看过加一的异步提交
+	class SeeCommentDetailTaskt extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			httpGetCommentJson = new HttpGetCommentJson();
+			httpGetCommentJson.seeCommentCountAddOne(commentId);
+			return null;
+		}
+	}
+	//点赞加一的操作
+	class SentParseAddOneTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			httpGetCommentJson = new HttpGetCommentJson();
+			return httpGetCommentJson.sentParseAddOne(commentId);
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			//是否点赞成功
+			if(result == 1){
+			}
+			if(result == 0){
+				find_detail_parse_count.setText(
+						Integer.parseInt(find_detail_parse_count.getText().toString())-1+"");
+				parseNow.setText("赞");
+				isClickParse = false;
+				Toast.makeText(FindDetailsActivity.this, "~啊哦，点赞失败，网络出错啦", Toast.LENGTH_SHORT).show();
+			}
+			super.onPostExecute(result);
+		}	
+	}
+	//评论  评论的
+	class SetFindCommentTask extends AsyncTask<OtherPeopleComment, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(OtherPeopleComment... arg0) {
+			httpGetCommentJson = new HttpGetCommentJson();
+			CDInfoData = httpGetCommentJson.getCommentDetalInfoData(commentId);
+			if(CDInfoData == null)
+				return 0;
+			return httpGetCommentJson.sentOPCToInternet(arg0[0]);
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			//是否评论成功
+			if(result == 1){
+				//显示用户评论find_detail_comment_list_view的处理\
+				find_detail_comment_list_view.setAdapter(otherPCadapter = 
+						new FindDetaiListViewAdapter(FindDetailsActivity.this,
+								CDInfoData.getOtherPc()));
+				setListViewHeight(find_detail_comment_list_view, otherPCadapter);
+				Toast.makeText(FindDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+			}
+			if(result == 0){
+				find_detail_comment_count_de.setText(
+						Integer.parseInt(find_detail_comment_count_de.getText().toString())-1+"");
+				Toast.makeText(FindDetailsActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
+				super.onPostExecute(result);
+			}
+		}
+				
+	}
+	//屏蔽返回键
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK){
+			Intent intent1 = new Intent(FindDetailsActivity.this, MainActivity.class);
+			Bundle bundle_comeback = new Bundle();
+			bundle_comeback.putInt("CurrentItem", 2);
+			intent1.putExtras(bundle_comeback);
+			FindDetailsActivity.this.startActivity(intent1);
+			FindDetailsActivity.this.finish();
+			overridePendingTransition(R.drawable.interface_jump_in,
+					R.drawable.interface_jump_out);
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 	private CharSequence formatTime(Date commentTime) {
 		//格式化时间的处理
 		
@@ -348,73 +484,6 @@ public class FindDetailsActivity extends Activity {
 	        ViewGroup.LayoutParams params = listView.getLayoutParams();    
 	        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));    
 	        listView.setLayoutParams(params);
-	}    
-	class CDInfoDataTask extends AsyncTask<String, Integer, Integer>{
-		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
-		@Override
-		protected Integer doInBackground(String... arg0) {
-			
-			CDInfoData = httpGetCommentJson.getCommentDetalInfoData(commentId);
-			if(CDInfoData == null )
-				return -1;
-			else 
-				return 1;
-		}
-		@Override
-		protected void onPostExecute(Integer result) {
-			if(result == 1)
-				afterDo();
-			else{
-				errorpage.setVisibility(View.VISIBLE);
-				user_name_about.setVisibility(View.GONE);
-				find_detail_pic_layout.setVisibility(View.GONE); 
-				find_detail_parse_comment.setVisibility(View.GONE);
-				commentabout.setVisibility(View.GONE);
-			}
-			super.onPostExecute(result);
-		}	
 	}
-	class SentParseAddOneTask extends AsyncTask<String, Integer, String>{
-
-		@Override
-		protected String doInBackground(String... arg0) {
-			httpGetCommentJson.sentParseAddOne(commentId);
-			return null;
-		}	
-	}
-	class SetFindCommentTask extends AsyncTask<OtherPeopleComment, Integer, Integer>{
-
-		@Override
-		protected Integer doInBackground(OtherPeopleComment... arg0) {
-			httpGetCommentJson.sentOPCToInternet(arg0[0]);
-			return 1;
-		}
-		@Override
-		protected void onPostExecute(Integer result) {
-			Toast.makeText(FindDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-			super.onPostExecute(result);
-		}
-	}
-	
-	//屏蔽返回键
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if(keyCode == KeyEvent.KEYCODE_BACK){
-			Intent intent1 = new Intent(FindDetailsActivity.this, MainActivity.class);
-			Bundle bundle_comeback = new Bundle();
-			bundle_comeback.putInt("CurrentItem", 2);
-			intent1.putExtras(bundle_comeback);
-			FindDetailsActivity.this.startActivity(intent1);
-			FindDetailsActivity.this.finish();
-			overridePendingTransition(R.drawable.interface_jump_in,
-					R.drawable.interface_jump_out);
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 }
 

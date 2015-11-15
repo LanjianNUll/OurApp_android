@@ -1,45 +1,45 @@
 package com.example.fragment;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.Refresh.RefreshableView;
-import com.example.Refresh.RefreshableView.PullToRefreshListener;
+import com.example.CircleImageView.CircleImageView;
 import com.example.activity.FindDetailsActivity;
 import com.example.activity.UserLoginActivity;
 import com.example.activity.WriteCommentActivity;
 import com.example.adapter.FindSortListViewAdapter;
 import com.example.bean.Comment;
 import com.example.bean.User;
+import com.example.bean.UserDetailInfo;
+import com.example.httpunit.HttpDoUserMsg;
 import com.example.httpunit.HttpGetCommentJson;
-import com.example.httpunit.HttpGetSportPlaceJson;
-import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
-import android.R.layout;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract.Contacts.Data;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -47,7 +47,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("NewApi")
 public class ThirdPageFragment extends Fragment {
+	
+	//设置一个回调提供未读消息更新的回调
+	public interface OnUnReadMessageUpdateListener
+	{
+		void unReadMessageUpdate(int count);
+	}
+	//设置未读的消息数
+	private int unReadMsgCount;
 	private View view;
 	private View footView;
 	//find sort  最新和最热的分类
@@ -74,12 +83,42 @@ public class ThirdPageFragment extends Fragment {
 	private ArrayList<Comment> Data = new ArrayList<Comment>();
 	//发表的imagaview
 	private ImageView write_comment;
-	//下拉刷新的View
-	private RefreshableView refreshView;
 	//加载更多listview的条数
 	private int addMoreCount = 10;
 	private Handler handler;
 	private int commentId;
+	private ImageView refresh_pic;
+	private TextView refreshTip;
+	private RelativeLayout refreshloading;
+	private ImageView refreshing_pic;
+	//浮动按钮是否显示
+	private boolean isdisplayFloat = false;
+	//浮动按钮
+	private  LinearLayout floatRefreshLin, floatSignalLin, FloatWordLin;
+	//浮动的动画
+	private ObjectAnimator floatRefreshLinanim;
+	private ObjectAnimator floatSignalLinanim;
+	private ObjectAnimator FloatWordLinanim;
+	private ObjectAnimator refresh_picanim;
+	private ObjectAnimator floatRefreshLinanimalpha;
+	private ObjectAnimator floatSignalLinanimalpha;
+	private ObjectAnimator FloatWordLinalpha;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+//		//模拟网络耗时
+//		try {
+//			Thread.sleep(3000);
+//			unReadMsgCount = 4;
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+
+		super.onCreate(savedInstanceState);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -88,11 +127,22 @@ public class ThirdPageFragment extends Fragment {
 		jiazai_pic = (ImageView) view.findViewById(R.id.jiazai_pic);
 		jiazai_text = (TextView) view.findViewById(R.id.jiazai_text);
 		loading = (RelativeLayout) view.findViewById(R.id.loading);
+		//refresh anim
+		refreshloading = (RelativeLayout) view.findViewById(R.id.refreshloading);
+		refreshing_pic = (ImageView) view.findViewById(R.id.refreshing_pic);
+		refreshloading.setVisibility(View.GONE);
 		//网络异常
 		errorpage = (RelativeLayout) view.findViewById(R.id.errorpage);
-		//下拉的View
-		refreshView = (RefreshableView) view.findViewById(R.id.refreshView);
-		refreshView.setVisibility(View.GONE);
+		loading.setVisibility(View.VISIBLE);
+		//find_sort_listview
+		find_sort_listView = (ListView) view.findViewById(R.id.find_sort_listViewT);
+		refreshTip = (TextView) view.findViewById(R.id.refreshTip);
+		//浮动
+		floatRefreshLin = (LinearLayout) view.findViewById(R.id.floatRefreshLin);
+		floatSignalLin = (LinearLayout) view.findViewById(R.id.floatSignalLin);
+		FloatWordLin = (LinearLayout) view.findViewById(R.id.FloatWordLin);
+		
+		find_sort_listView.setVisibility(View.GONE);
 		handler = new Handler(){
 			int i = 0 ;
 			public void handleMessage(Message msg) {
@@ -100,7 +150,7 @@ public class ThirdPageFragment extends Fragment {
 				switch (msg.what) {
 				case 1:
 					loading.setVisibility(View.GONE);
-					refreshView.setVisibility(View.VISIBLE);
+					find_sort_listView.setVisibility(View.VISIBLE);
 					find_sort_listView.setAdapter(adapter = new FindSortListViewAdapter(getActivity(), Data));
 					break;
 				case 2 :
@@ -126,7 +176,14 @@ public class ThirdPageFragment extends Fragment {
 					break;
 				case 4 :
 					loading.setVisibility(View.GONE);
+					find_sort_listView.setVisibility(View.GONE);
 					errorpage.setVisibility(View.VISIBLE);
+					break;
+				case 5 :
+					refreshing_pic.setImageResource(R.drawable.jiazai00+i%6);
+					i++;
+					if(i==100)
+						i=0;
 					break;
 				}
 			}       	
@@ -147,7 +204,6 @@ public class ThirdPageFragment extends Fragment {
 						Data = httpgetcommentjson.getNewData(302);
 						addMoreCount=addMoreCount+10;
 					}
-						
 					//判断从网络获取的Data是否为空，
 					if(Data == null)
 						handler.sendEmptyMessage(4);
@@ -163,22 +219,48 @@ public class ThirdPageFragment extends Fragment {
 		new Timer().schedule(new TimerTask() {            
 			public void run() {  
 				Message msg = new Message();
-				msg.what = 2;            	
+				msg.what = 2;           	
 				handler.sendMessage(msg);
 			}  
 		}, 0,100); //两个参数第一个是延时多久才执行，第二个是隔多久执行一次  
+		
+		//定时线程
+				new Timer().schedule(new TimerTask() {            
+					public void run() {  
+						Message msg = new Message();
+						msg.what = 5;           	
+						handler.sendMessage(msg);
+					}  
+				}, 0,100); //两个参数第一个是延时多久才执行，第二个是隔多久执行一次  
+				
+		notifyUnReadedMsg();
 		initview();
+		//浮动消失
+		FloatAnimation();
 		return view;
 	}
 
+	//回调未读消息
+	private void notifyUnReadedMsg(){
+		if (getActivity() instanceof OnUnReadMessageUpdateListener){
+			OnUnReadMessageUpdateListener listener = (OnUnReadMessageUpdateListener) getActivity();
+			listener.unReadMessageUpdate(unReadMsgCount);
+		}
+	}
+
+
 	private void initview() {
-		
+		//刷新按钮
+		refresh_pic = (ImageView) view.findViewById(R.id.refresh_pic);
+		//隐藏刷新按钮
+		//refresh_pic.setVisibility(View.GONE);
 		//给ListView末尾添加一个记载更多的布局
 		footView = LayoutInflater.from(getActivity()).inflate(R.layout.add_more_layout, null, false); 
 		TextView addMoreView = (TextView) footView.findViewById(R.id.addMoreView);
 		addMoreView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				
 				if(!onHotPage){//加载更多的最热数据的调用
 					//301 为最热的调用
 					addMoreData(301, addMoreCount);
@@ -204,10 +286,10 @@ public class ThirdPageFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				SharedPreferences sharedpreferences = getActivity().getSharedPreferences("user",Context.MODE_PRIVATE);
-				String userJson=sharedpreferences.getString("userJson", null);
+				SharedPreferences sharedpreferences = getActivity().getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
+				String userJson=sharedpreferences.getString("userDetail", null);
 				Gson gson = new Gson();
-				User user = gson.fromJson(userJson, User.class);
+				UserDetailInfo user = gson.fromJson(userJson, UserDetailInfo.class);
 				if(user.getUserId()==-1){//用户没登录，
 					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
 					ab.setTitle("");
@@ -245,8 +327,7 @@ public class ThirdPageFragment extends Fragment {
 		});						
 		find_sort_hotest.setOnClickListener(new FindSortListener());
 		find_sort_newest.setOnClickListener(new FindSortListener());
-		//find_sort_listview
-		find_sort_listView = (ListView) view.findViewById(R.id.find_sort_listView);
+		
 		//将加载更多的布局加载进来
 		find_sort_listView.addFooterView(footView);
 		//初始化最新的背景
@@ -254,6 +335,27 @@ public class ThirdPageFragment extends Fragment {
 		find_sort_newest_text.setTextColor(Color.WHITE);
 		//适配
 		//find_sort_listView.setAdapter(adapter = new FindSortListViewAdapter(getActivity(), Data));
+		//监听listView滑动的事件
+		find_sort_listView.setOnScrollListener(new OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView arg0, int arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onScroll(AbsListView v, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				//当滑动到顶部是显示显示refresh按钮
+//				if(firstVisibleItem == 0 ){
+//					refresh_pic.setVisibility(View.VISIBLE);
+//				}else
+//					refresh_pic.setVisibility(View.GONE);
+//				
+			}
+		});
+
 		find_sort_listView.setOnItemClickListener(new OnItemClickListener() {
 		
 			@Override
@@ -273,37 +375,193 @@ public class ThirdPageFragment extends Fragment {
 				new seeCommentDetilAddOneTask();
 			}
 		});
-		//下拉刷新的监听
-		refreshView.setOnRefreshListener(new PullToRefreshListener() {
+		refresh_pic.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onRefresh() {
-				try {
-					Thread.sleep(3000);
-					//刷新重置显示条数
-					addMoreCount = 10;
-					if(onHotPage){
-						//302 为最新的调用//301 为最热的调用
-						ArrayList<Comment> NewData = new ArrayList<Comment>();
-						NewData = httpgetcommentjson.getHotData(301);
-						if(NewData != null){
-							Data = NewData;
-							adapter.notifyDataSetChanged();
-						}
-					}else{
-						ArrayList<Comment> HotData = new ArrayList<Comment>();
-						HotData = httpgetcommentjson.getHotData(301);
-						if(HotData != null){
-							Data = HotData;
-							adapter.notifyDataSetChanged();
-						}
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				refreshView.finishRefreshing();
+			public void onClick(View arg0) {
+				FloatAnimation();
 			}
-		},0);
+		});
+		//发表文字按钮
+		FloatWordLin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				//Toast.makeText(getActivity(), "FloatWordLin", 1000).show();
+				//浮动消失
+				FloatAnimation();
+				SharedPreferences sharedpreferences = getActivity().getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
+				String userJson=sharedpreferences.getString("userDetail", null);
+				Gson gson = new Gson();
+				UserDetailInfo user = gson.fromJson(userJson, UserDetailInfo.class);
+				if(user.getUserId()==-1){//用户没登录，
+					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+					ab.setTitle("");
+					ab.setMessage("亲，你还没登录~");
+					ab.setPositiveButton("去登录", new DialogInterface.OnClickListener() {						
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+							startActivity(intent);
+							getActivity().finish();
+							//界面跳转的动画
+							getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
+						}
+					});
+					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = ab.create();
+					// show it
+					alertDialog.show();
+				}else{
+					//用户登录了并评论
+					Intent intent = new Intent(getActivity(), WriteCommentActivity.class);
+					startActivity(intent);
+					getActivity().finish();
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+				}
+				
+				
+			}
+		});
+		//签到按钮
+		floatSignalLin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				//Toast.makeText(getActivity(), "floatSignalLin", 1000).show();
+				//浮动消失
+				FloatAnimation();
+				//获取用户信息  userId
+				SharedPreferences shp = getActivity()
+						.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				String userDetailJson = shp.getString("userDetail", null);
+				Gson gson = new Gson();
+				UserDetailInfo user = gson.fromJson(userDetailJson, UserDetailInfo.class); 
+				if(user == null)
+					Toast.makeText(getActivity(), "签到失败", 1000).show();
+				if(user.getUserId() == -1){//显示用户未登录
+					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+					ab.setTitle("");
+					ab.setMessage("亲，你还没登录~");
+					ab.setPositiveButton("去登录", new DialogInterface.OnClickListener() {						
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+							startActivity(intent);
+							getActivity().finish();
+							//界面跳转的动画
+							getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
+						}
+					});
+					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = ab.create();
+					// show it
+					alertDialog.show();
+				}
+				//获取用户上传签到的时间
+				SharedPreferences sf = getActivity()
+						.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				long time = sf.getLong("userLastTimeSiginTime", 0);
+				if(time == 0 || System.currentTimeMillis() - time > 24*60*60){
+						new UserSignTask().execute(user.getUserId());
+						//记录用户签到时间
+						Editor e = sf.edit();
+						e.putLong("userLastTimeSiginTime", System.currentTimeMillis());
+						e.commit();
+				}else
+					Toast.makeText(getActivity(), "你今天已经签过到，明天再来哦~",
+								Toast.LENGTH_LONG).show();
+					
+				
+			}
+		});
+		//刷新按钮
+		floatRefreshLin.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				//浮动消失
+				FloatAnimation();
+				//刷新动画
+				//Startrefreshanim();
+				//302 为最新的调用//301 为最热的调用
+				addMoreCount = 10;
+				if(onHotPage){
+					new RefreshNewTask().execute();//刷新最新的异步
+				}else{
+					new RefreshHotTask().execute();//刷新最热的异步
+				}
+			}
+		});	
+	}
+	protected void FloatAnimation() {
+		if(isdisplayFloat){
+			disPlayFLoatAnim();
+			isdisplayFloat = false;
+		}
+		else{
+			hideFloatAnim();
+			isdisplayFloat = true;
+		}
+			
+		//播放动画
+		AnimatorSet animSet = new AnimatorSet();
+		animSet.play(refresh_picanim);
+		animSet.play(floatRefreshLinanim).with(floatRefreshLinanimalpha);
+		animSet.play(floatSignalLinanim).with(floatSignalLinanimalpha);
+		animSet.play(FloatWordLinanim).with(FloatWordLinalpha);
+		animSet.setDuration(500);
+		animSet.start();
+		
+	}
+
+	protected void hideFloatAnim()  {
+		refresh_picanim = ObjectAnimator.ofFloat(refresh_pic, 
+				"rotation",  45f, 0);
+		floatRefreshLinanim = ObjectAnimator.ofFloat(floatRefreshLin, 
+				"translationX", 0.5f, 500f);
+		floatRefreshLinanimalpha =ObjectAnimator.ofFloat(floatRefreshLin,
+				"alpha", 1f, 0);
+		floatSignalLinanim = ObjectAnimator.ofFloat(floatSignalLin, 
+				"translationX", 0.5f, 500f);
+		floatSignalLinanimalpha =ObjectAnimator.ofFloat(floatSignalLin,
+				"alpha", 1f, 0);
+		FloatWordLinanim = ObjectAnimator.ofFloat(FloatWordLin,
+				"translationX", 0.5f, 500f);
+		FloatWordLinalpha =ObjectAnimator.ofFloat(FloatWordLin,
+				"alpha", 1f, 0);
+	}
+
+	protected void disPlayFLoatAnim() {
+		refresh_picanim = ObjectAnimator.ofFloat(refresh_pic, 
+				"rotation",  0, 45f);
+		floatRefreshLinanim = ObjectAnimator.ofFloat(floatRefreshLin, 
+				"translationX", 500f, 0.5f);
+		floatRefreshLinanimalpha =ObjectAnimator.ofFloat(floatRefreshLin,
+				"alpha", 0 ,1f);
+		floatSignalLinanim = ObjectAnimator.ofFloat(floatSignalLin, 
+				"translationX", 500f, 0.5f);
+		floatSignalLinanimalpha =ObjectAnimator.ofFloat(floatSignalLin,
+				"alpha", 0 ,1f);
+		FloatWordLinanim = ObjectAnimator.ofFloat(FloatWordLin,
+				"translationX", 500f, 0.5f);
+		FloatWordLinalpha =ObjectAnimator.ofFloat(FloatWordLin,
+				"alpha", 0 ,1f);
+		
 	}
 
 	protected void addMoreData(final int onwhichPage, final int addMoreCount2) {
@@ -351,14 +609,92 @@ public class ThirdPageFragment extends Fragment {
 			}
 		}
 	}
-
+	//最热刷新的异步加载
+	class RefreshHotTask extends AsyncTask<Integer, Integer, Integer>{
+		
+		@Override
+		protected void onPreExecute() {
+			//display refreshloading Layout
+			refreshloading.setVisibility(View.VISIBLE);
+			errorpage.setVisibility(View.GONE);
+			super.onPreExecute();
+		}
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			Data = httpgetcommentjson.getHotData(302);
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(Data == null){
+				return 0;
+			}
+			return 1;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1 ){
+				find_sort_listView.setAdapter(adapter = 
+						new FindSortListViewAdapter(getActivity(), Data));
+				errorpage.setVisibility(View.GONE);
+				}
+			else{
+				Toast.makeText(getActivity(), "刷新失败", 1000).show();
+			}
+			refreshloading.setVisibility(View.GONE);
+			//刷新完回到第一行  无论刷新失败还是成功
+			find_sort_listView.setSelection(0);
+			//Stoptrefreshanim();
+			super.onPostExecute(result);
+		}
+	}
+	//最新刷新的异步加载
+	class RefreshNewTask extends AsyncTask<Integer, Integer, Integer>{
+		@Override
+		protected void onPreExecute() {
+			//display refreshloading Layout
+			refreshloading.setVisibility(View.VISIBLE);
+			errorpage.setVisibility(View.GONE);
+			super.onPreExecute();
+		}
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			Data = httpgetcommentjson.getNewData(302);
+			try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(Data == null){
+				return 0;
+			}
+			return 1;
+		}
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1 ){
+				find_sort_listView.setAdapter(adapter = 
+						new FindSortListViewAdapter(getActivity(), Data));
+			}
+			else{
+				Toast.makeText(getActivity(), "刷新失败", 1000).show();
+			}
+			refreshloading.setVisibility(View.GONE);
+			//刷新完回到第一行  无论刷新失败还是成功
+			find_sort_listView.setSelection(0);
+			super.onPostExecute(result);
+		}
+	}
+    //获取最热的异步加载
 	class GetHotCommentTask extends AsyncTask<String , Integer, Integer>{
 
 		@Override
 		protected void onPreExecute() {
 			//启动时的过渡动画
 			loading.setVisibility(View.VISIBLE);
-			refreshView.setVisibility(View.GONE);
 			super.onPreExecute();
 		}
 
@@ -376,7 +712,6 @@ public class ThirdPageFragment extends Fragment {
 		protected void onPostExecute(Integer result) {
 			if(result == 1){
 				loading.setVisibility(View.GONE);
-				refreshView.setVisibility(View.VISIBLE);
 				find_sort_listView.setAdapter(adapter = 
 						new FindSortListViewAdapter(getActivity(), Data));
 				//adapter.notifyDataSetChanged();
@@ -391,12 +726,10 @@ public class ThirdPageFragment extends Fragment {
 	//最新的异步
 	class GetNewCommentTask extends AsyncTask<String , Integer, Integer>{
 
-
 		@Override
 		protected void onPreExecute() {
 			//启动时的过渡动画
 			loading.setVisibility(View.VISIBLE);
-			refreshView.setVisibility(View.GONE);
 			super.onPreExecute();
 		}
 
@@ -413,7 +746,6 @@ public class ThirdPageFragment extends Fragment {
 		protected void onPostExecute(Integer result) {
 			if(result == 1){
 				loading.setVisibility(View.GONE);
-				refreshView.setVisibility(View.VISIBLE);
 				//adapter.notifyDataSetChanged();
 				find_sort_listView.setAdapter(adapter = 
 						new FindSortListViewAdapter(getActivity(), Data));
@@ -432,5 +764,46 @@ public class ThirdPageFragment extends Fragment {
 			httpgetcommentjson.seeCommentCountAddOne(commentId);
 			return null;
 		}
+	}
+	class UserSignTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			HttpDoUserMsg httpDoUserMsg = new HttpDoUserMsg();
+			return httpDoUserMsg.userSign(arg0[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				
+				Toast.makeText(getActivity(), "签到成功", 1000).show();
+			}else{
+				Toast.makeText(getActivity(), "签到失败", 1000).show();
+			}
+			super.onPostExecute(result);
+		}
+		
+	}
+	private void Startrefreshanim(){
+		Toast.makeText(getActivity(), "start", 1000).show();
+		 ObjectAnimator animator = ObjectAnimator.ofFloat(refresh_pic,
+		    		"rotation", 0.0F, 360.0F);  
+		    animator.setDuration(1000);
+		    animator.start();
+		    animator.setRepeatCount(1000);
+		    refreshTip.setVisibility(View.VISIBLE);
+		    refreshTip.setTextColor(Color.parseColor("#000000"));
+	}
+	
+	@SuppressLint("NewApi")
+	private void Stoptrefreshanim(){
+		Toast.makeText(getActivity(), "stop", 1000).show();
+		 ObjectAnimator animator = ObjectAnimator.ofFloat(refresh_pic,
+		    		"rotation",0.0F, 0.0F);  
+		    animator.setDuration(100);
+		    animator.setRepeatCount(1000);
+		    animator.start();
+		    refreshTip.setVisibility(View.GONE);
 	}
 }
