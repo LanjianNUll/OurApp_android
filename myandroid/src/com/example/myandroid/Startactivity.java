@@ -109,7 +109,8 @@ public class Startactivity extends Activity {
 		float curr = btn1.getTranslationX();
 //		btn1.setVisibility(View.VISIBLE);
 		btn1.setTranslationX(-1000f);
-	    ObjectAnimator animator = ObjectAnimator.ofFloat(btn1, "translationX",-500f, curr,curr-10f,curr);  
+	    ObjectAnimator animator = ObjectAnimator.ofFloat(btn1,
+	    		"translationX",-500f, curr,curr-10f,curr);  
 	    animator.setDuration(500);
 	    animator.setStartDelay(5000);
 	    animator.start();
