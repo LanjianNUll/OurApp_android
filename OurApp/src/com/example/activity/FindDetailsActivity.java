@@ -62,7 +62,7 @@ public class FindDetailsActivity extends Activity {
 	private ListView find_detail_pic_listView;
 	//评论的一些相关属性
 	private TextView commentNow, find_detail_comment_count_de, parseNow,
-	find_detail_parse_count, find_detail_time;
+	find_detail_parse_count, find_detail_time, commentAdress;
 	//其他用户评论组
 	private ListView find_detail_comment_list_view;
 	//适配
@@ -120,6 +120,7 @@ public class FindDetailsActivity extends Activity {
 		find_detail_time = (TextView) findViewById(R.id.find_detail_time);
 		find_detail_comment_list_view = (ListView) findViewById(R.id.find_detail_comment_list_view);
 		scrollview = (ScrollView) findViewById(R.id.scrollview);
+		commentAdress = (TextView) findViewById(R.id.commentAdress);
 		
 		user_name_about = (RelativeLayout) findViewById(R.id.user_name_about);
 		find_detail_pic_layout = (RelativeLayout) 
@@ -210,7 +211,7 @@ public class FindDetailsActivity extends Activity {
 					parseNow.setText("已赞");
 					find_detail_parse_count.setText(
 							Integer.parseInt(find_detail_parse_count.getText().toString())+1+"");
-					new SentParseAddOneTask();
+					new SentParseAddOneTask().execute();
 				}
 			}	
 		});			
@@ -319,7 +320,12 @@ public class FindDetailsActivity extends Activity {
 			find_detail_user_state.setText("无状态");
 		else
 			find_detail_user_state.setText(stateStr);
-		find_detail_content.setText(CDInfoData.getComment_content());
+		
+		String[] commentContent = CDInfoData.getComment_content().split("&&@@");
+		
+		find_detail_content.setText(commentContent[0]);
+		if(commentContent.length > 1)
+			commentAdress.setText(commentContent[1]);
 		find_detail_time.setText(formatTime(CDInfoData.getComment_from_time()));
 		Log.v("dfsdfds",CDInfoData.getHow_many_people_comment()+"");
 		find_detail_comment_count_de.setText(""+CDInfoData.getHow_many_people_comment());
@@ -386,6 +392,7 @@ public class FindDetailsActivity extends Activity {
 		protected void onPostExecute(Integer result) {
 			//是否点赞成功
 			if(result == 1){
+				
 			}
 			if(result == 0){
 				find_detail_parse_count.setText(

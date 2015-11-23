@@ -57,20 +57,99 @@
 		    android:layout_centerHorizontal="true"
 		    android:layout_centerVertical="true"
 		    android:text="在这里总能找到你想要的"
-		    android:textSize="14sp" />
+		    android:textSize="14sp" 
+		    android:visibility="gone"/>
  
 	</RelativeLayout>	
 	<!--在这里设置主页的布局  -->
 	<!-- 第二套布局fym -->
-	<ListView
-	    android:id="@+id/fym_listView"
-	    android:layout_width="match_parent"
-	  	android:layout_below="@id/say_hello"
-	    android:layout_height="match_parent"
-	    android:paddingTop="15dp"
-	    android:background="#fff"
-	    android:divider="#00000000">
-	</ListView>
+	
+ 	     <RelativeLayout 
+ 	         android:id="@+id/nihao"
+ 	         android:layout_width="match_parent"
+ 	         android:layout_height="60dp"
+ 	         android:layout_below="@id/say_hello"
+ 	         android:background="#c9c9c9">
+ 	         <com.example.CircleImageView.CircleImageView
+ 	             android:id="@+id/changguan"
+ 	             android:layout_width="50dp"
+ 	             android:layout_height="50dp"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="40dp"
+ 	             android:src="@drawable/changguan"/>
+ 	         <com.example.CircleImageView.CircleImageView
+ 	             android:id="@+id/hotcomment"
+ 	             android:layout_width="50dp"
+ 	             android:layout_height="50dp"
+ 	             android:layout_toRightOf="@id/changguan"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_marginLeft="20dp"
+ 	             android:src="@drawable/hotcomment"/>
+ 	         <com.example.CircleImageView.CircleImageView
+ 	             android:id="@+id/qiandao"
+ 	             android:layout_width="50dp"
+ 	             android:layout_height="50dp"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_toRightOf="@id/hotcomment"
+ 	             android:layout_marginLeft="20dp"
+ 	             android:src="@drawable/qiandao"/>
+ 	         <com.example.CircleImageView.CircleImageView
+ 	             android:id="@+id/Smyfriend"
+ 	             android:layout_width="50dp"
+ 	             android:layout_height="50dp"
+ 	             android:layout_centerVertical="true"
+ 	             android:layout_toRightOf="@id/qiandao"
+ 	             android:layout_marginLeft="20dp"
+ 	             android:src="@drawable/f_myfriend"/>
+ 	        
+ 	     </RelativeLayout>
+	
+	<ScrollView android:id="@+id/scrollview"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+			android:layout_below="@id/nihao">
+ 	 <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#ffffff">  
+         
+ 	     
+ 	     
+ 	     <TextView android:layout_width="match_parent"
+ 	         android:layout_height="wrap_content"
+ 	         android:gravity="center_horizontal"
+ 	          android:background="#c9c9c9"
+ 	          android:layout_marginTop="5dp"
+ 	         android:text="热门"/>
+ 	     <ListView
+		    android:id="@+id/hotcomment_listView"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_marginTop="19dp"
+		    android:layout_marginBottom="15dp"
+		    android:background="#fff"
+		    android:divider="#00000000">
+		</ListView>
+		
+ 	     <TextView android:layout_width="match_parent"
+ 	         android:layout_height="wrap_content"
+ 	         android:gravity="center_horizontal"
+ 	          android:background="#c9c9c9"
+ 	         android:text="场地"/>
+ 	     <ListView
+		    android:id="@+id/fym_listView"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_marginTop="19dp"
+		    android:layout_marginBottom="15dp"
+		    android:background="#fff"
+		    android:divider="#00000000">
+		</ListView>
+ 	     
+	</LinearLayout>
+	</ScrollView>
+	
 	<!-- 第一套布局已经被干掉了 -->
 	<ScrollView
 		    android:layout_width="match_parent"

@@ -39,6 +39,8 @@ public class FindDetaiListViewAdapter extends BaseAdapter {
 	}
 	@Override
 	public int getCount() {
+		if(otherPeopleComments == null)
+			return 0;
 		return otherPeopleComments.length;
 	}
 

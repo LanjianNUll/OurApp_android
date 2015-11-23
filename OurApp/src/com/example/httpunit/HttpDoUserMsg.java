@@ -21,10 +21,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.bean.SportPlace;
-import com.example.bean.User;
 import com.example.bean.UserDetailInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -48,9 +45,9 @@ public class HttpDoUserMsg {
 		// 参数   UserResigterUserDeinfo  
 		//返回值
 		// 0 注册失败   1注册成功  2用户名已存在
-		String url = "http://xiafucheng.duapp.com/webAdroid/server/registered";
+		String url = "http://xiafucheng.6655.la:20128/webAdroid/server/registered";
 		
-		//String url = "http://xiafucheng.6655.la:20128/webAdroid/server/registered";
+		//String url = "http://xiafucheng.duapp.com/webAdroid/server/registered";
 		String postStr = null;
 		try {
 			postStr = new Gson().toJson(UDInfo);

@@ -19,6 +19,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import android.util.Log;
+
 import com.example.bean.Comment;
 import com.example.bean.CommentDetailInformation;
 import com.example.bean.OtherPeopleComment;
@@ -160,10 +162,10 @@ public class HttpGetCommentJson {
 	    //	   onwhichAddOne
 		//加一的地址
 		//String url = "http://xiafucheng.duapp.com/webAdroid/server/addPraise?commentId="+commentId;
-		
+		Log.e("iiiiiiiiiiiiiiiii",i+"");
 		String url = "http://xiafucheng.duapp.com/webAdroid/server/addPraise?commentId="
 				+commentId
-				+"&onwhichAddOne="+commentId;
+				+"&onwhichAddOne="+i;
 		HttpResponse httpResponse = null;
 		HttpGet httpRequest = new HttpGet(url); 
 		HttpClient httpClient = getHttpClient();

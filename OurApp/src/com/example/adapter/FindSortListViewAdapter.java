@@ -68,6 +68,7 @@ public class FindSortListViewAdapter extends BaseAdapter {
 				holder.view_counts = (TextView) convertView.findViewById(R.id.view_counts);
 				holder.user_define_pic = (CircleImageView) convertView.findViewById(R.id.user_define_pic);
 				holder.comment_from_time = (TextView) convertView.findViewById(R.id.comment_from_time);
+				holder.comment_address = (TextView) convertView.findViewById(R.id.comment_address);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -86,8 +87,11 @@ public class FindSortListViewAdapter extends BaseAdapter {
 			if(find_list.get(positon).getUser_state() == User.state_活跃)
 				stateStr = "活跃";
 			holder.user_state.setText(stateStr);
-			
-			holder.user_advice.setText(find_list.get(positon).getComment_content());
+			//将地点放在评论内容后面取出来
+			String commentContent[] = find_list.get(positon).getComment_content().split("&&@@");
+			holder.user_advice.setText(commentContent[0]);
+			if(commentContent.length>1)
+				holder.comment_address.setText(commentContent[1]);
 			holder.advic_counts.setText(find_list.get(positon).getHow_many_people_comment()+"");
 			holder.view_counts.setText(find_list.get(positon).getHow_many_people_see()+"");
 			holder.comment_from_time.setText(formatTime(find_list.get(positon).getComment_from_time()));
@@ -124,7 +128,8 @@ public class FindSortListViewAdapter extends BaseAdapter {
 		private final class ViewHolder {
 			ImageView sport_place_pic;
 			CircleImageView user_define_pic;
-			TextView user_name, user_state, user_advice, advic_counts, view_counts, comment_from_time;
+			TextView user_name, user_state, user_advice, advic_counts,
+			view_counts, comment_from_time, comment_address;
 			
 			
 		}

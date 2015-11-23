@@ -1,42 +1,63 @@
 package com.example.fragment;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.example.activity.CityFindnear;
+import com.example.activity.MyfirendActivity;
 import com.example.activity.SubsSortActivity;
+import com.example.activity.UserLoginActivity;
+import com.example.adapter.FindSortListViewAdapter;
 import com.example.adapter.FymMainFrammentAdapter;
+import com.example.bean.Comment;
 import com.example.bean.User;
 import com.example.bean.UserDetailInfo;
+import com.example.fragment.ThirdPageFragment.UserSignTask;
+import com.example.httpunit.HttpDoUserMsg;
+import com.example.httpunit.HttpGetCommentJson;
+import com.example.ourapp.MainActivity;
 import com.example.ourapp.R;
 import com.google.gson.Gson;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainPageFragment extends Fragment {
-
+	
+	 private ImageView changguan,hotcomment,qiandao,Smyfriend;
+	 private  FindSortListViewAdapter hotCommentadapter;
+	 private ArrayList<Comment> hotComment = new ArrayList<Comment>();
 	 private View view;
 	 //top上面的view
 	 private LinearLayout main_activity_top_lin_layout;
@@ -60,7 +81,7 @@ public class MainPageFragment extends Fragment {
 	 private LocationClient mLocationClient = null;
 	 private MyLocationListenner myListener = new MyLocationListenner();
 	 //第二套布局
-	 private ListView fym_listView;
+	 private ListView fym_listView,hotcomment_listView;
 	 private FymMainFrammentAdapter adapter;
 	 private String[] name = {"篮球","跑步","羽毛球","足球","游泳","健身房","乒乓球","公园休闲"
 				,"排球","爬山","骑行","其他"};
@@ -68,7 +89,8 @@ public class MainPageFragment extends Fragment {
 			 R.drawable.fym_footvall,R.drawable.fym_swimming, R.drawable.fym_gym,
 			 R.drawable.fym_table_tennis,R.drawable.fym_park, R.drawable.fym_volleyball,
 			 R.drawable.fym_climb_mountain, R.drawable.fym_ride,R.drawable.fym_baseball};
-	 
+	 private ScrollView scrollview;
+	 private int userId = -1;
 //	 //判断是否首次进入，开始定位
 //	 private boolean isstartloaction = true;
 	
@@ -98,9 +120,154 @@ public class MainPageFragment extends Fragment {
 	}
 	private void initview() {
 		
+		SharedPreferences file = getActivity().getSharedPreferences("userDetailFile",
+				Context.MODE_PRIVATE);
+			String s = file.getString("userDetail", null);
+			try {
+				userId = new Gson().fromJson(s, UserDetailInfo.class).getUserId();
+			} catch (Exception e) {
+		}
+		
+		changguan = (ImageView) view.findViewById(R.id.changguan);
+		hotcomment = (ImageView) view.findViewById(R.id.hotcomment);
+		qiandao = (ImageView) view.findViewById(R.id.qiandao);
+		Smyfriend = (ImageView) view.findViewById(R.id.Smyfriend);
+		
+		changguan.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getActivity(), MainActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putInt("CurrentItem", 1);
+				intent.putExtras(bundle);
+				startActivity(intent);
+				getActivity().finish();
+				//界面跳转的动画
+				getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+						R.drawable.interface_jump_out);
+			}
+		});
+		
+		hotcomment.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						Intent intent = new Intent(getActivity(), MainActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putInt("CurrentItem", 2);
+						intent.putExtras(bundle);
+						startActivity(intent);
+						getActivity().finish();
+						//界面跳转的动画
+						getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+								R.drawable.interface_jump_out);
+					}
+				});
+		
+		//qian dao 
+		qiandao.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				if(userId == -1){//显示用户未登录
+					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+					ab.setTitle("");
+					ab.setMessage("亲，你还没登录~");
+					ab.setPositiveButton("去登录", new DialogInterface.OnClickListener() {						
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+							startActivity(intent);
+							getActivity().finish();
+							//界面跳转的动画
+							getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
+						}
+					});
+					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = ab.create();
+					// show it
+					alertDialog.show();
+				}
+				//获取用户上传签到的时间
+				SharedPreferences sf = getActivity()
+						.getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+				long time = sf.getLong("userLastTimeSiginTime", 0);
+				if(time == 0 || System.currentTimeMillis() - time > 24*60*60){
+						new UserSignTask().execute(userId);
+						//记录用户签到时间
+						Editor e = sf.edit();
+						e.putLong("userLastTimeSiginTime", System.currentTimeMillis());
+						e.commit();
+				}else
+					Toast.makeText(getActivity(), "你今天已经签过到，明天再来哦~",
+								Toast.LENGTH_LONG).show();
+				
+			}
+		});
+		// wo de pengy liebiao 
+		Smyfriend.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				if(userId!=-1){
+					Intent intent = new Intent(getActivity(), MyfirendActivity.class);
+					//将用户的id传递过去
+					Bundle bundle = new Bundle();
+					bundle.putInt("userId", userId);
+					intent.putExtras(bundle);
+					startActivity(intent);
+					getActivity().finish();	
+					//界面跳转的动画
+					getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+							R.drawable.interface_jump_out);
+				}else{
+					AlertDialog.Builder ab = new AlertDialog.Builder(getActivity());
+					ab.setTitle("");
+					ab.setMessage("亲，你还没登录~");
+					ab.setPositiveButton("去登录", new DialogInterface.OnClickListener() {						
+						public void onClick(DialogInterface arg0, int arg1) {
+							Intent intent = new Intent(getActivity(), UserLoginActivity.class);
+							startActivity(intent);
+							getActivity().finish();
+							//界面跳转的动画
+							getActivity().overridePendingTransition(R.drawable.interface_jump_in,
+									R.drawable.interface_jump_out);
+						}
+					});
+					ab.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							arg0.cancel();
+						}
+					});
+					// create alert dialog
+					AlertDialog alertDialog = ab.create();
+					// show it
+					alertDialog.show();
+				}
+			}
+		});
+		
 		//fym
 		fym_listView = (ListView) view.findViewById(R.id.fym_listView);
-		fym_listView.setAdapter(adapter = new FymMainFrammentAdapter(getActivity(), Data));
+		hotcomment_listView = (ListView) view.findViewById(R.id.hotcomment_listView);
+		
+		new HotCommentTask().execute();
+		
+		scrollview = (ScrollView) view.findViewById(R.id.scrollview);
+		
+		fym_listView.setAdapter(adapter =
+				new FymMainFrammentAdapter(getActivity(), Data));
+		//设置fym_listView的高度
+		setListViewHeight(fym_listView, adapter);
 		fym_listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -109,7 +276,7 @@ public class MainPageFragment extends Fragment {
 				senttitle(name[arg2], 101+arg2);
 			}
 		});
-		
+		scrollview.scrollTo(0, 0);
 		
 		//sayhello
 		main_say_hello = (TextView) view.findViewById(R.id.main_say_hello);
@@ -174,6 +341,7 @@ public class MainPageFragment extends Fragment {
 			Log.v("城市Id",""+findcity_id(city));
 		}
 		Log.v("城市Id",""+findcity_id(city));
+		//to first line
 		
 	}
 	class mainClickListener implements View.OnClickListener{
@@ -347,5 +515,70 @@ public class MainPageFragment extends Fragment {
 				return i;
 		}
 		return -1;
+	}
+	
+	
+	private void setListViewHeight(ListView listView, BaseAdapter adapter) {
+		adapter = (BaseAdapter) listView.getAdapter();    
+        if (adapter == null) {    
+            return;    
+        }    
+        int totalHeight = 0;    
+        for (int i = 0, len = adapter.getCount(); i < len; i++) { // listAdapter.getCount()返回数据项的数目    
+            View listItem = adapter.getView(i, null, listView);    
+            listItem.measure(0, 0); // 计算子项View 的宽高    
+            totalHeight += listItem.getMeasuredHeight(); // 统计所有子项的总高度    
+	        }    
+	        
+	        ViewGroup.LayoutParams params = listView.getLayoutParams();    
+	        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));    
+	        listView.setLayoutParams(params);
+	}
+	class HotCommentTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			HttpGetCommentJson http = new HttpGetCommentJson();
+			ArrayList<Comment> Comment = new ArrayList<Comment>();
+			 Comment = http.getHotData(301);
+			 if(Comment != null){
+				 int lenth = 3;
+				 if(Comment.size() < 3)
+					 lenth = Comment.size();
+				 for(int i = 0; i < lenth; i++)
+					hotComment.add(Comment.get(i));
+				 return 1;
+			 }
+			return 0;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1)
+				hotcomment_listView.setAdapter(hotCommentadapter = 
+				new FindSortListViewAdapter(getActivity(), hotComment));
+			setListViewHeight(hotcomment_listView, hotCommentadapter);
+			
+			super.onPostExecute(result);
+		}
+	}
+	class UserSignTask extends AsyncTask<Integer, Integer, Integer>{
+
+		@Override
+		protected Integer doInBackground(Integer... arg0) {
+			HttpDoUserMsg httpDoUserMsg = new HttpDoUserMsg();
+			return httpDoUserMsg.userSign(arg0[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == 1){
+				Toast.makeText(getActivity(), "签到成功", 1000).show();
+			}else{
+				Toast.makeText(getActivity(), "签到失败", 1000).show();
+			}
+			super.onPostExecute(result);
+		}
+		
 	}
 }

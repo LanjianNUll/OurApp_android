@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dialog_show"
     android:orientation="vertical"
-    android:background="@drawable/dialog_bg" >
+    android:background="@drawable/dialog1_bg" >
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,7 +25,6 @@
 			        android:layout_height="50dp"
 			        android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="紧 张 激 烈"/>
 			    
@@ -41,7 +40,6 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="安	静 闲 时"/>
 	
@@ -57,7 +55,6 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			         android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="年 轻 专 属"/>
 			     
@@ -73,7 +70,6 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			         android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="强 身 健 体"/>
 			    
@@ -89,7 +85,6 @@
 			        android:layout_height="50dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			         android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="野 外 探 索"/>
 			    

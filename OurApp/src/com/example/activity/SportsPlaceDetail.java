@@ -221,10 +221,31 @@ public class SportsPlaceDetail extends Activity {
 	}
 
 	protected void filldatatoview() {
-		
-		detail_sport_place_pic_one.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[0]);
-		detail_sport_place_pic_two.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[1]);
-		detail_sport_place_pic_three.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[2]);
+		if(spd.getMoreImageUrl().length == 0){
+			detail_sport_place_pic_one.setVisibility(View.GONE);
+			detail_sport_place_pic_two.setVisibility(View.GONE);
+			detail_sport_place_pic_three.setVisibility(View.GONE);
+
+		}
+		if(spd.getMoreImageUrl().length == 1){
+			detail_sport_place_pic_one.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[0]);
+			detail_sport_place_pic_two.setVisibility(View.GONE);
+			detail_sport_place_pic_three.setVisibility(View.GONE);
+		}
+			
+		if(spd.getMoreImageUrl().length == 2){
+			detail_sport_place_pic_three.setVisibility(View.GONE);
+			detail_sport_place_pic_one.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[0]);
+			detail_sport_place_pic_two.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[1]);
+
+		}
+		if(spd.getMoreImageUrl().length == 3){
+			detail_sport_place_pic_one.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[0]);
+			detail_sport_place_pic_two.setVisibility(View.GONE);
+			detail_sport_place_pic_two.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[1]);
+			detail_sport_place_pic_three.setImageUrl(HttpGetSportPlaceJson.RootURL+spd.getMoreImageUrl()[2]);
+		}
+			
 		
 		detail_sport_place_name.setText(spd.getSportplace_name());
 		detail_sport_value.setText(spd.getSportplace_value());
@@ -237,9 +258,31 @@ public class SportsPlaceDetail extends Activity {
 		suitPeople.setText(spd.getPeopleLimit());
 		makeFriendsIndex.setText(""+spd.getMakeFriendIndex());
 		deviceinfo.setText(""+spd.getDeivceRequest());
-		shopone.setText(spd.getSurrondingShop()[0]);
-		shoptwo.setText(spd.getSurrondingShop()[1]);
-		shopthree.setText(spd.getSurrondingShop()[2]);
+		
+		if(spd.getSurrondingShop().length == 0){
+			shopone.setVisibility(View.GONE);
+			shoptwo.setVisibility(View.GONE);
+			shopthree.setVisibility(View.GONE);
+		}
+		if(spd.getSurrondingShop().length == 1){
+			shopone.setText(spd.getSurrondingShop()[0]);
+			shoptwo.setVisibility(View.GONE);
+			shopthree.setVisibility(View.GONE);
+		}
+			
+		if(spd.getSurrondingShop().length == 2){
+			shopone.setText(spd.getSurrondingShop()[0]);
+			shoptwo.setText(spd.getSurrondingShop()[1]);
+			shopthree.setVisibility(View.GONE);
+		}
+			
+		if(spd.getSurrondingShop().length == 3){
+			shopone.setText(spd.getSurrondingShop()[0]);
+			shoptwo.setText(spd.getSurrondingShop()[1]);
+			shopthree.setText(spd.getSurrondingShop()[2]);
+		}
+			
+		
 		//加载完将scrollview置于页面开始状态
 		scrollview.scrollTo(0, 0);  
 		scrollview.smoothScrollTo(0, 0);  

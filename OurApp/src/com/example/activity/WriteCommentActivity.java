@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -19,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,6 +41,7 @@ public class WriteCommentActivity extends Activity{
 	private Button sent_comment, cancle_sent;
 	private EditText write_comment_comment;
 	private CheckBox pullToOther;
+	private ImageView add_pic,commentPic;
 	//user类
 	private UserDetailInfo user;
 	//comment类
@@ -74,6 +78,17 @@ public class WriteCommentActivity extends Activity{
 		cancle_sent = (Button) findViewById(R.id.cancle_comment);
 		write_comment_comment = (EditText) findViewById(R.id.write_comment_comment);
 		pullToOther = (CheckBox)findViewById(R.id.pullToOther);
+		add_pic = (ImageView) findViewById(R.id.add_pic);
+		commentPic = (ImageView) findViewById(R.id.commentPic);
+		//添加图片
+		add_pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				getImageFromAlbum();
+				
+			}
+		});
 		//是否发送个周围的人
 		pullToOther.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -124,7 +139,10 @@ public class WriteCommentActivity extends Activity{
 //						comment.setHow_many_people_comment(0);
 //						comment.setHow_many_people_see(0);
 //						comment.setHow_many_people_praise(0);
-						//评论详情类
+						//取到发送评论的地点
+						SharedPreferences sf = getSharedPreferences("userDetailFile", Context.MODE_PRIVATE);
+						String comment_adress = sf.getString("LocationDetail", "");
+					    //评论详情类
 						//后期要做图片上传等异步操作，图片地址设置等
 						commentDInfo = new CommentDetailInformation();
 						commentDInfo.setComment_from_user_id(user.getUserId());
@@ -132,7 +150,8 @@ public class WriteCommentActivity extends Activity{
 						commentDInfo.setUser_state(user.getUser_state());
 						commentDInfo.setComment_type(comment_type);
 						commentDInfo.setComment_from_time(new Date());
-						commentDInfo.setComment_content(write_comment_comment.getText().toString().trim());
+						commentDInfo.setComment_content(write_comment_comment.getText()
+								.toString().trim()+"&&@@"+comment_adress);
 						commentDInfo.setComment_from_user_name(user.getUsername());
 						commentDInfo.setHow_many_people_comment(0);
 						commentDInfo.setHow_many_people_see(0);
@@ -216,6 +235,35 @@ public class WriteCommentActivity extends Activity{
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-	
+
+    protected void getImageFromAlbum() {  
+           Intent intent = new Intent(Intent.ACTION_PICK);  
+           intent.setType("image/*");//相片类型  
+           startActivityForResult(intent, 1);  
+       }  
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+     if (requestCode == 1 ) {           
+        Uri uri = data.getData();
+        if(uri == null){
+            //use bundle to get data
+            Bundle bundle = data.getExtras();  
+                if (bundle != null) {               
+                Bitmap  photo = (Bitmap) bundle.get("data"); //get bitmap
+                //spath :生成图片取个名字和路径包含类型                            
+                commentPic.setImageBitmap(photo);
+                } else {         
+                    Toast.makeText(getApplicationContext(), "获取失败",
+                    		Toast.LENGTH_LONG).show();         
+                 return;      
+                 }  
+        }else{
+        	 Toast.makeText(getApplicationContext(), "uri不为空",
+             		Toast.LENGTH_LONG).show(); 
+        } 
+    }else 
+    	 Toast.makeText(WriteCommentActivity.this, "返回码为不是1",
+         		Toast.LENGTH_LONG).show(); 
+ }
 	
 }

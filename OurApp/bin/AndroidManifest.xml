@@ -34,7 +34,7 @@
         android:name="com.example.Application.Application"
         android:allowBackup="true"
         android:icon="@drawable/ourapp_logo"
-        android:label="Just Do It"
+        android:label="运动圈"
         android:theme="@style/AppTheme">
         
          <service android:name="com.baidu.location.f" 

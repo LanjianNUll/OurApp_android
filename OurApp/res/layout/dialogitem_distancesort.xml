@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:id="@+id/dialog_show"
     android:orientation="vertical"
-    android:background="@drawable/dialog_bg" >
+    android:background="@drawable/dialog1_bg" >
     <ScrollView 
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,7 +25,6 @@
 			        android:layout_height="45dp"
 			        android:gravity="center"
 			        android:textSize="18sp"
-			        android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="全   城"/>
 			    
@@ -41,7 +40,6 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="500m"/>
 	
@@ -57,7 +55,6 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			         android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="3Km"/>
 			     
@@ -73,7 +70,6 @@
 			        android:layout_height="45dp"
 			       	android:gravity="center"
 			        android:textSize="20sp"
-			        android:background="#60000000"
 			        android:textColor="#fff500"
 			        android:text="5Km"/>
 			    

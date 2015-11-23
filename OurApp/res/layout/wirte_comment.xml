@@ -71,16 +71,7 @@
          android:layout_centerHorizontal="true"
          android:textSize="22sp"
          android:text="言论" />
-
-     <ImageView
-         android:id="@+id/add_pic"
-         android:layout_width="100dp"
-         android:layout_height="100dp"
-         android:layout_below="@+id/write_comment_type_spinner"
-         android:layout_marginTop="20dp"
-         android:layout_centerHorizontal="true"
-         android:src="@drawable/add_pic" />
-
+	
      <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
@@ -88,5 +79,20 @@
          android:layout_alignBottom="@id/pullToOther"
          android:layout_toLeftOf="@id/pullToOther"
          android:text="发送给周围的人" />
+
+     <ImageView
+         android:id="@+id/add_pic"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:layout_alignLeft="@+id/write_comment_comment"
+         android:layout_alignTop="@+id/commentPic"
+         android:src="@drawable/add_pic" />
+
+     <ImageView
+         android:id="@+id/commentPic"
+         android:layout_width="100dp"
+         android:layout_height="100dp"
+         android:layout_below="@+id/write_comment_type_spinner"
+         android:layout_toRightOf="@+id/add_pic" />
      
 </RelativeLayout>

@@ -100,7 +100,16 @@
                android:layout_toRightOf="@+id/find_detail_user_define_pic"
                android:text="我是用户名"
                android:textSize="15sp" />
-           
+           	<TextView
+			    android:id="@+id/find_detail_time"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_below="@id/find_detail_user_name"
+			    android:layout_alignLeft="@id/find_detail_user_name"
+			    android:layout_margin="2dp"
+			    android:layout_marginRight="8dp"
+			    android:text="一天以前"
+			    android:textSize="10sp" />
       </RelativeLayout>
 
     <RelativeLayout
@@ -133,14 +142,14 @@
         android:id="@+id/find_detail_parse_comment"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="30dp">
 
         <TextView
             android:id="@+id/find_detail_comment_count_de"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="15dp"
+           	android:layout_centerVertical="true"
             android:text="30"
             android:textSize="12sp" />
 
@@ -150,6 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
 			android:layout_toRightOf="@id/find_detail_comment_count_de"
+			android:layout_centerVertical="true"
             android:text="人评论"
             android:textSize="12sp" />
         
@@ -160,6 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
           	android:layout_toRightOf="@id/find_detail_comment"
+          	android:layout_centerVertical="true"
             android:text="15"
             android:textSize="12sp" />
         
@@ -169,17 +180,17 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/find_detail_parse_count"
+            android:layout_centerVertical="true"
             android:text="人赞"
             android:textSize="12sp" />
-
-		<TextView
-		    android:id="@+id/find_detail_time"
+		<TextView android:id="@+id/commentAdress"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
-		    android:layout_marginRight="8dp"
-		    android:text="一天以前"
-		    android:textSize="10sp" />
+		    android:layout_marginRight="15dp"
+		    android:layout_centerVertical="true"
+		    android:text="地点"/>
+	
          
     </RelativeLayout>
     

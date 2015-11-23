@@ -133,7 +133,7 @@ public class userResigterActivity extends Activity {
 							!username_reg.equals("")&& allowResgiter){
 						clear();
 						//用户详细信息
-						userDInfo.setUser_state(User.state_冒泡);
+						userDInfo.setUser_state(User.state_宅客);
 						userDInfo.setSexId(userSexId);
 						userDInfo.setConnectPhone(user_register_connectphone.getText()+"");
 						userDInfo.setRegisteTime(new Date());
@@ -224,9 +224,9 @@ public class userResigterActivity extends Activity {
 				user.setMy_user_sign(userDInfo.getMy_user_sign());
 				Gson gson = new Gson();
 				String userJson = gson.toJson(user);
-				SharedPreferences preferences=getSharedPreferences("user",Context.MODE_PRIVATE);
+				SharedPreferences preferences=getSharedPreferences("userDetailFile",Context.MODE_PRIVATE);
 				Editor editor=preferences.edit();
-				editor.putString("userJson", userJson);
+				editor.putString("userDetail", userJson);
 				editor.commit();
 				
 				Intent intent = new Intent(userResigterActivity.this, MainActivity.class);

@@ -485,8 +485,6 @@ public class ThirdPageFragment extends Fragment {
 				}else
 					Toast.makeText(getActivity(), "你今天已经签过到，明天再来哦~",
 								Toast.LENGTH_LONG).show();
-					
-				
 			}
 		});
 		//刷新按钮
